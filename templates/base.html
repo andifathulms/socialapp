@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang=en>
+<head>
+	<!-- Required meta tags -->
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+	
+	<!-- Cropperjs -->
+	<link rel="stylesheet" href="{% static 'cropperjs/dist/cropper.min.css' %}">
+	
+	<link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+
+	{% include 'snippets/base_css.html' %}
+	{% include 'snippets/base_js.html' %}
+	{% include 'snippets/header.html' %}
+
+	<div class="container" id="id_loading_spinner" style="display: none">
+		<div class="d-flex flex-row mx-auto flex-grow-1 justify-content-center">
+			<div class="spinner-border text-primary" role="status">
+				<span class="sr-only">Loading...</span>
+			</div>
+		</div>
+	</div>
+
+	<!-- Body -->
+	<style type="text/css">
+		.main{
+			min-height: 100vh;
+			height: 100%;
+		}
+	</style>
+	<div class="main">
+		{% block content %}
+
+		{% endblock content %}
+	</div>
+	<!-- End Body -->
+
+	{% include 'snippets/footer.html' %}
+	<script src="{% static 'bootstrap/js/jquery-3.6.0.js' %}"></script>
+	<script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+	<script type="module" src="{% static 'cropperjs/dist/cropper.min.js' %}"></script>
+	<script type="text/javascript">
+		function displayLoadingSpinner(isDisplayed){
+			var spinner = document.getElementById("id_loading_spinner")
+			if(isDisplayed){
+				spinner.style.display = "block"
+			}
+			else{
+				spinner.style.display = "none"
+			}
+		}
+	</script>
+</body>
+</html>
