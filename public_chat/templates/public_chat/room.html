@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+
+	<!-- MEDIUM+ SCREENS -->
+	<div class="main d-none d-md-flex flex-column">
+		{% include 'public_chat/snippets/public_chat_room.html' with room_id=room_id %}
+	</div>
+	<!-- END MEDIUM+ SCREENS -->
+	
+	<!-- SMALL SCREENS -->
+	<div class="d-flex d-md-none p-2">
+		<p>This site is not meant to be viewed on a mobile device. Please download the <a href="#">app</a>.</p>
+	</div>
+	<!-- END SMALL SCREENS -->
+</div>
+
+
+{% endblock content %}
+
+
+
+
+

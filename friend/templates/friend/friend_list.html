@@ -9,7 +9,8 @@
 		max-width: 100px;
 	}
 	.profile-image{
-		border-radius: 12px;
+		width: 77px;
+		height: 77px;
 	}
 	.card{
 		border-radius: 12px;
@@ -38,6 +39,15 @@
 	.cancel-icon{
 		color: red;
 	}
+	.card-friend-sign{
+		background-color: #587af5;
+	}
+	.card-not-friend-sign{
+		background-color: #f07171;
+	}
+	.card-yourself-sign{
+		background-color: #f2c53d;
+	}
 	
 </style>
 
@@ -50,7 +60,7 @@
 		<div class="card flex-row flex-grow-1 p-2 mx-2 my-2 align-items-center">
 			<a class="profile-link" href="{% url 'account:view' user_id=friend.0.pk %}">
 				<div class="card-image m-2">
-					<img class="img-fluid profile-image" src="{{friend.0.profile_image.url}}" alt="">
+					<img class="img-fluid profile-image rounded-circle" src="{{friend.0.profile_image.url}}" alt="">
 				</div>
 			</a>
 			
@@ -66,7 +76,7 @@
 			
 			<div class="d-flex flex-row card-right flex-grow-1 justify-content-end mx-2">
 				{% if friend.1 %}
-					<div class="d-flex flex-row friends-text-container p-3">
+					<div class="d-flex flex-row friends-text-container p-3 card-friend-sign">
 						<p class="friends-text m-auto">
 							Friends 
 						</p>
@@ -76,7 +86,7 @@
 					</div>
 				{% else %}
 					{% if friend.0 !=  request.user %}
-						<div class="d-flex flex-row friends-text-container p-3">
+						<div class="d-flex flex-row friends-text-container p-3 card-not-friend-sign">
 							<p class="friends-text m-auto">
 								Not Friends 
 							</p>
@@ -85,7 +95,7 @@
 					{% endif %}
 				{% endif %}
 				{% if friend.0 == request.user %}
-					<div class="d-flex flex-row friends-text-container p-3">
+					<div class="d-flex flex-row friends-text-container p-3 card-yourself-sign">
 						<p class="friends-text m-auto">
 							This is you 
 						</p>

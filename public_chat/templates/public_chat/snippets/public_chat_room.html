@@ -7,8 +7,10 @@
 	overflow-y: auto;
 	padding: 10px;
 	background-color: #fff;
-	font-size: 0.9em;
+	font-size: 1rem;
+	color: black;
 	flex-direction: column-reverse;
+	font-family: "Poppins", Arial, sans-serif;
 }
 .profile-image{
 	width: 33px;
@@ -354,6 +356,7 @@ PUBLIC CHAT
 	function setConnectedUsersCount(count){
 		element = document.getElementById("id_connected_users")
 		element.innerHTML = count
+		console.log(count);
 	}
 </script>
 

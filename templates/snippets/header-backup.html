@@ -1,0 +1,85 @@
+{% load static %}
+
+    <style type="text/css">
+        .chat-dropdown-header:hover{
+            cursor: pointer;
+            background: var(--main-background-color);
+        }
+        .chat-dropdown-header{
+            color: var(--light-primary-text-color);
+        }
+
+        .notifications-icon-container:hover{
+            cursor: pointer;
+        }
+    </style>
+
+	<div class="wrapper d-flex align-items-stretch">
+		<nav id="sidebar" style="background-color: #1a2957;font-weight: 600;">
+			<div class="p-4 pt-5 mb-5">
+	  		
+            <img class="account-image rounded-circle m-auto d-block" id="id_profile_links" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" src="{{request.user.profile_image.url}}" alt="logo" width="140" height="140">       
+           
+        <ul class="list-unstyled components mb-5 mt-5">
+          <li class="active">
+            <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
+            <ul class="collapse list-unstyled" id="homeSubmenu">
+            <li>
+                <a href="#">Home 1</a>
+            </li>
+            <li>
+                <a href="#">Home 2</a>
+            </li>
+            <li>
+                <a href="#">Home 3</a>
+            </li>
+            </ul>
+          </li>
+          <li>
+          <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Chat</a>
+          <ul class="collapse list-unstyled" id="pageSubmenu">
+            <li>
+                <a href="#" onclick="chatRedirect({% url 'public_chat:public_chat_room' %})">Public Chat</a>
+            </li>
+            <li>
+                <a href="#" >Group Chat</a>
+            </li>
+            <li>
+                <a href="#" onclick="chatRedirect({% url 'chat:private-chat-room' %})">Private Chat</a>
+            </li>
+          </ul>
+          </li>
+          <li>
+            <a href="{% url 'account:view' user_id=request.user.id %}">Account</a>
+          </li>
+          <li>
+              <a href="#">Polls</a>
+          </li>
+          <li>
+              <a href="#">About</a>
+          </li>
+          <li>
+            <a href="#">Setting</a>
+          </li>
+        </ul>
+      </div>
+	</nav>
+
+<script type="text/javascript">
+    function executeQuery() {
+        var query = ""
+        query = document.getElementById('id_q_small').value;
+        if (query == ""){
+            query = document.getElementById('id_q_large').value;
+        }
+        window.location.replace("{% url 'search' %}?q=" + query)
+        return false
+    }
+
+    function chatRedirect(url){
+        window.location.href = url
+    }
+
+
+</script>
+

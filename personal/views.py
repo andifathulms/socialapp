@@ -9,3 +9,4 @@ def home_screen_view(request):
 	context['debug'] = DEBUG
 	context['room_id'] = "1"
 	return render(request, "personal/home.html", context)
+	#return render(request, "snippets/header-backup.html", context)

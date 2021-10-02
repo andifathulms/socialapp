@@ -3,11 +3,11 @@ from django.core.paginator import Paginator
 from django.core.serializers import serialize
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from channels.db import database_sync_to_async
+
 import json
-#from django.contrib.auth import get_user_model
-#from django.contrib.humanize.templatetags.humanize import naturaltime, naturalday
+
 from django.utils import timezone
-#from datetime import datetime
+
 from asgiref.sync import sync_to_async
 
 from public_chat.constants import *
@@ -15,7 +15,6 @@ from public_chat.models import PublicChatRoom, PublicRoomChatMessage
 
 from chat.exceptions import ClientError
 from chat.utils import calculate_timestamp
-#User = get_user_model()
 
 # Example taken from:
 # https://github.com/andrewgodwin/channels-examples/blob/master/multichat/chat/consumers.py
@@ -153,7 +152,8 @@ class PublicChatConsumer(AsyncJsonWebsocketConsumer):
 		await self.send_json({
 			"join": str(room.id)
 		})
-		""" FIX LATER
+		
+		"""
 		# send the new user count to the room
 		num_connected_users = get_num_connected_users(room)
 		await self.channel_layer.group_send(
@@ -255,7 +255,6 @@ def is_authenticated(user):
 		return True
 	return False
 
-@sync_to_async
 def get_num_connected_users(room):
 	if room.users:
 		return len(room.users.all())

@@ -37,6 +37,7 @@ urlpatterns = [
     path('account/', include('account.urls', namespace='account')),
     path('friend/', include('friend.urls', namespace='friend')),
     path('chat/', include('chat.urls', namespace='chat')),
+    path('public_chat/', include('public_chat.urls', namespace='public-chat')),
 
     path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(template_name='password_reset/password_change_done.html'), 
     name='password_change_done'),

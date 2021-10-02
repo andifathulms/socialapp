@@ -6,7 +6,11 @@
 
 {% block content %}
 
-<script src="{% static 'bootstrap/js/jquery-3.6.0.js' %}"></script>
+<!--<script src="{% static 'bootstrap/js/jquery-3.6.0.js' %}"></script>-->
+<script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
 
 <style type="text/css">
 	.chat-log {
@@ -15,7 +19,8 @@
 		overflow-y: auto;
 		padding: 10px;
 		background-color: #fff;
-		font-size: 0.9em;
+		font-size: 1rem;
+		color: black;
 		flex-direction: column-reverse;
 	}
 	.chat-message-input-container{
@@ -105,6 +110,8 @@
 	.friends-list-container{
 		max-height: 500px;
 		overflow-y: scroll;
+		font-size: 1.2rem;
+		color: black;
 	}
 </style>
 
@@ -430,7 +437,7 @@
 		profileImage.classList.add("profile-image")
 		profileImage.classList.add("rounded-circle")
 		profileImage.classList.add("img-fluid")
-		profileImage.src = "{% static 'codingwithmitch/dummy_image.png' %}"
+		profileImage.src = "{% static 'img/dummy_image.png' %}"
 		var profile_image_id = "id_profile_image_" + msg_id
 		profileImage.id = profile_image_id
 		newMessageDiv.appendChild(profileImage)

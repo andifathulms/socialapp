@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'friend',
     'public_chat',
     'chat',
+    'notification',
 ]
 
 MIDDLEWARE = [
@@ -80,7 +81,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'socialapp.wsgi.application'
 ASGI_APPLICATION = 'socialapp.routing.application'
 
-AUTH_USER_MODEL = 'account.Account' # TODO: ADD THIS LINE.
+AUTH_USER_MODEL = 'account.Account'
 AUTHENTICATION_BACKENDS = ( 
     'django.contrib.auth.backends.AllowAllUsersModelBackend', 
     'account.backends.CaseInsensitiveModelBackend',
