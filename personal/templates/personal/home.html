@@ -1,18 +1,15 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 <div class="container">
 
 	<!-- MEDIUM+ SCREENS -->
 	<div class="main d-none d-md-flex flex-column">
-		<div class="card p-4 mt-4 align-items-start">
-
-			<h3 class="pb-4">This is home view. Nothing to see here yet...</h3>
-			<a class="btn btn-info d-flex flex-row align-items-start" href="#" target="_blank">
-				<span class="d-flex material-icons pr-2">build</span>
-				<span class="d-flex">Settings</span>
-			</a>
-		</div>
+		<!--<div class="card p-4 mt-4 align-items-start">-->
+		{% block post %}
+		{% endblock post %}
+		<!--</div>-->
 
 		{#% include 'public_chat/snippets/public_chat_room.html' with room_id=room_id %#}
 

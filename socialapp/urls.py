@@ -24,10 +24,11 @@ from django.conf.urls.static import static
 from django.urls import path
 
 from personal.views import home_screen_view
+from post.views import PostListView
 from account.views import register_view, login_view, logout_view, account_search_view
 
 urlpatterns = [
-    path('', home_screen_view, name='home'),
+    path('', PostListView.as_view(), name='home'),
     path('admin/', admin.site.urls),
     path('register/', register_view, name="register"),
     path('login/', login_view, name="login"),
@@ -38,6 +39,7 @@ urlpatterns = [
     path('friend/', include('friend.urls', namespace='friend')),
     path('chat/', include('chat.urls', namespace='chat')),
     path('public_chat/', include('public_chat.urls', namespace='public-chat')),
+    path('post/', include('post.urls', namespace='post')),
 
     path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(template_name='password_reset/password_change_done.html'), 
     name='password_change_done'),

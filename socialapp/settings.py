@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
 
     'channels',
+    'crispy_forms',
 
     'personal',
     'account',
@@ -48,6 +49,7 @@ INSTALLED_APPS = [
     'public_chat',
     'chat',
     'notification',
+    'post',
 ]
 
 MIDDLEWARE = [

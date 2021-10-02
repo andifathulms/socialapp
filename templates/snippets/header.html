@@ -24,11 +24,11 @@
 	.notifications-icon-container{
 		width: 40px;
 		height: 40px;
-		background-color: #1a2957;
+		background-color: #c2c3c4;
 	}
 	.notifications-icon-container:hover {
 		cursor: pointer;
-		background-color: #FFA500;
+		background-color: #343a40;
 	}
 	.notify-badge{
 		position: absolute;
@@ -53,7 +53,7 @@
 </style>
 
 <!-- Header -->
-<div class="d-flex flex-column flex-lg-row p-3 px-md-4 shadow-sm" style="background-color: #1a2957;">
+<div class="d-flex flex-column flex-lg-row p-3 px-md-4 shadow-sm bg-light">
 
 	<!-- MEDIUM+ SCREENS -->
 	<div class="d-none d-md-flex flex-row my-auto flex-grow-1 align-items-center" >
@@ -62,7 +62,7 @@
 	          <span class="sr-only">Toggle Menu</span>
 	    </button><br>
 		<h5 class="mr-3 ml-3 font-weight-normal justify-content-start">
-			<a class="p-2 text-light lead" style="font-weight: 600;" href="{% url 'home' %}">Home</a>
+			<a class="p-2 text-dark lead" style="font-weight: 600;" href="{% url 'home' %}">Home</a>
 		</h5>
 		<form class="search-bar justify-content-start" onsubmit="return executeQuery();">
 			<input type="text" class="form-control" name="q" id="id_q_large" placeholder="Search...">
