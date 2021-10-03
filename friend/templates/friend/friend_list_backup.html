@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    @charset "utf-8";
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800,900|Open Sans:400,600,800');
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+div,
+input,
+p,
+a {
+    font-family: "Open Sans";
+    margin: 0px;
+}
+
+a,
+a:hover,
+a:focus {
+    color: inherit;
+}
+
+body {
+    background-color: #F1F2F3;
+}
+
+.container-fluid,
+.container {
+    max-width: 1200px;
+}
+
+.card-container {
+    padding: 100px 0px;
+    -webkit-perspective: 1000;
+    perspective: 1000;
+}
+
+.profile-card-4 {
+    max-width: 300px;
+    background-color: #FFF;
+    border-radius: 5px;
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    position: relative;
+    margin: 10px auto;
+    cursor: pointer;
+}
+
+.profile-card-4 img {
+    transition: all 0.25s linear;
+}
+
+.profile-card-4 .profile-content {
+    position: relative;
+    padding: 15px;
+    background-color: #FFF;
+}
+
+.profile-card-4 .profile-name {
+    font-weight: bold;
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: -70px;
+    color: #FFF;
+    font-size: 17px;
+}
+
+.profile-card-4 .profile-name p {
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+}
+
+.profile-card-4 .profile-description {
+    color: #777;
+    font-size: 12px;
+    padding: 10px;
+}
+
+.profile-card-4 .profile-overview {
+    padding: 15px 0px;
+}
+
+.profile-card-4 .profile-overview p {
+    font-size: 10px;
+    font-weight: 600;
+    color: #777;
+}
+
+.profile-card-4 .profile-overview h4 {
+    color: #273751;
+    font-weight: bold;
+}
+
+.profile-card-4 .profile-content::before {
+    content: "";
+    position: absolute;
+    height: 20px;
+    top: -10px;
+    left: 0px;
+    right: 0px;
+    background-color: #FFF;
+    z-index: 0;
+    transform: skewY(3deg);
+}
+
+.profile-card-4:hover img {
+    transform: rotate(5deg) scale(1.1, 1.1);
+    filter: brightness(60%);
+}
+
+</style>
+
+<div class="container">
+    <div class="row">
+      {% if friends %}
+      {% for account in friends %}
+
+      <div class="col-md-4">
+        <a class="profile-link" href="{% url 'account:view' user_id=account.0.id %}">
+        <div class="profile-card-4 text-center">
+            <img src="{{account.0.profile_image.url}}" width="300" height="300" class="img img-responsive">
+            <div class="profile-content">
+                <div class="profile-name text-warning">
+                    {{account.0.username}}
+                    <p>{{account.0.email}}</p>
+                </div>
+                <div class="profile-description">{{account.2.bio}}
+                    <div class="card-center px-2">
+                        {% if account.1 %}
+                        <p class="card-text"><a href="#" onclick="createOrReturnPrivateChat('{{account.0.id}}')">Send a Message</a></p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-4">
+                        <div class="profile-overview">
+                            <p>Friends</p>
+                            <h4>{{account.3|length}}</h4>
+                        </div>
+                    </div>
+                    <div class="col-xl-4">
+                        <div class="profile-overview">
+                            <p>Followers</p>
+                            <h4>0</h4>
+                        </div>
+                    </div>
+                    <div class="col-xl-4">
+                        <div class="profile-overview">
+                            <p>Following</p>
+                            <h4>0</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </a>
+      </div>
+      {% endfor %}
+      {% else %} <!-- If no friends -->
+        <div class="d-flex flex-row flex-grow-1 justify-content-center align-items-center p-4">
+            <p>No results</p>
+        </div>
+      {% endif %}
+    </div>
+</div>
+
+
+
+</div>
+{%  include 'chat/snippets/create_or_return_private_chat.html' %}
+
+{% endblock content %}

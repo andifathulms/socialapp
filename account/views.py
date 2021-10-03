@@ -16,6 +16,9 @@ import requests
 from account.forms import RegistrationForm, AccountAuthenticationForm, AccountUpdateForm
 from account.models import Account
 
+from account_profile.models import UserProfile
+from account_profile.forms import ProfileUpdateForm
+
 from friend.utils import get_friend_request_or_false
 from friend.friend_request_status import FriendRequestStatus
 from friend.models import FriendList, FriendRequest
@@ -49,6 +52,7 @@ def register_view(request, *args, **kwargs):
 	return render(request, 'account/register.html', context)
 
 def logout_view(request):
+	print(request)
 	logout(request)
 	return redirect("home")
 
@@ -104,6 +108,7 @@ def account_view(request, *args, **kwargs):
 	user_id = kwargs.get("user_id")
 	try:
 		account = Account.objects.get(pk=user_id)
+		profile = UserProfile.objects.get(account=account)
 	except:
 		return HttpResponse("Something went wrong.")
 	if account:
@@ -112,6 +117,27 @@ def account_view(request, *args, **kwargs):
 		context['email'] = account.email
 		context['profile_image'] = account.profile_image.url
 		context['hide_email'] = account.hide_email
+		context['date_joined'] = account.date_joined
+		context['last_login'] = account.last_login
+
+		context['fullname'] = profile.fullname
+		context['bio'] = profile.bio
+		context['phone'] = profile.phone
+		context['hobby'] = profile.hobby
+		context['birth_date'] = profile.birth_date
+		context['birth_place'] = profile.birth_place
+		context['location'] = profile.location
+		context['accWebsite'] = profile.accWebsite
+		context['accGithub'] = profile.accGithub
+		context['accTwitter'] = profile.accTwitter
+		context['accInsta'] = profile.accInsta
+		context['accFacebook'] = profile.accFacebook
+		context['schoolSD'] = profile.schoolSD
+		context['schoolSMP'] = profile.schoolSMP
+		context['schoolSMA'] = profile.schoolSMA
+		context['status'] = profile.status
+		context['nobp'] = profile.nobp
+		context['prodi'] = profile.prodi
 
 		try:
 			friend_list = FriendList.objects.get(user=account)
@@ -157,7 +183,7 @@ def account_view(request, *args, **kwargs):
 		context['request_sent'] = request_sent
 		context['friend_requests'] = friend_requests
 		context['BASE_URL'] = settings.BASE_URL
-		return render(request, "account/account.html", context)
+		return render(request, "account/account_backup.html", context)
 
 def account_search_view(request, *args, **kwargs):
 	context = {}
@@ -171,25 +197,42 @@ def account_search_view(request, *args, **kwargs):
 				# get the authenticated users friend list
 				auth_user_friend_list = FriendList.objects.get(user=user)
 				for account in search_results:
-					accounts.append((account, auth_user_friend_list.is_mutual_friend(account)))
+					profile = UserProfile.objects.get(account=account)
+					try:
+						friend_list = FriendList.objects.get(user=account)
+					except FriendList.DoesNotExist:
+						friend_list = FriendList(user=account)
+						friend_list.save()
+					friends = friend_list.friends.all()
+					accounts.append((account, auth_user_friend_list.is_mutual_friend(account),profile,friends))
 				context['accounts'] = accounts
 			else:
 				for account in search_results:
-					accounts.append((account, False))
+					profile = UserProfile.objects.get(account=account)
+					try:
+						friend_list = FriendList.objects.get(user=account)
+					except FriendList.DoesNotExist:
+						friend_list = FriendList(user=account)
+						friend_list.save()
+					friends = friend_list.friends.all()
+					accounts.append((account, False, profile,friends))
 				context['accounts'] = accounts
 				
-	return render(request, "account/search_results.html", context)
+	return render(request, "account/search_results_backup.html", context)
 
 def edit_account_view(request, *args, **kwargs):
 	if not request.user.is_authenticated:
 		return redirect("login")
 	user_id = kwargs.get("user_id")
 	account = Account.objects.get(pk=user_id)
+	profile = UserProfile.objects.get(account=account)
+
 	if account.pk != request.user.pk:
 		return HttpResponse("You cannot edit someone elses profile.")
 	context = {}
-	if request.POST:
+	if request.POST and 'btn-account' in request.POST:
 		form = AccountUpdateForm(request.POST, request.FILES, instance=request.user)
+		
 		if form.is_valid():
 			account.profile_image.delete()
 			form.save()
@@ -206,6 +249,33 @@ def edit_account_view(request, *args, **kwargs):
 				}
 			)
 			context['form'] = form
+
+			context['fullname'] = profile.fullname
+			context['bio'] = profile.bio
+			context['phone'] = profile.phone
+			context['hobby'] = profile.hobby
+			context['birth_date'] = profile.birth_date
+			context['birth_place'] = profile.birth_place
+			context['location'] = profile.location
+			context['accWebsite'] = profile.accWebsite
+			context['accGithub'] = profile.accGithub
+			context['accTwitter'] = profile.accTwitter
+			context['accInsta'] = profile.accInsta
+			context['accFacebook'] = profile.accFacebook
+			context['schoolSD'] = profile.schoolSD
+			context['schoolSMP'] = profile.schoolSMP
+			context['schoolSMA'] = profile.schoolSMA
+			context['status'] = profile.status
+			context['nobp'] = profile.nobp
+			context['prodi'] = profile.prodi
+
+	elif request.POST and 'btn-profile' in request.POST:
+		form = ProfileUpdateForm(request.POST, instance=profile)
+		print(form.errors)
+		if form.is_valid():
+			form.save()
+
+			return redirect("account:view", user_id=account.pk)
 	else:
 		form = AccountUpdateForm(
 			initial={
@@ -217,8 +287,27 @@ def edit_account_view(request, *args, **kwargs):
 				}
 			)
 		context['form'] = form
+
+		context['fullname'] = profile.fullname
+		context['bio'] = profile.bio
+		context['phone'] = profile.phone
+		context['hobby'] = profile.hobby
+		context['birth_date'] = profile.birth_date
+		context['birth_place'] = profile.birth_place
+		context['location'] = profile.location
+		context['accWebsite'] = profile.accWebsite
+		context['accGithub'] = profile.accGithub
+		context['accTwitter'] = profile.accTwitter
+		context['accInsta'] = profile.accInsta
+		context['accFacebook'] = profile.accFacebook
+		context['schoolSD'] = profile.schoolSD
+		context['schoolSMP'] = profile.schoolSMP
+		context['schoolSMA'] = profile.schoolSMA
+		context['status'] = profile.status
+		context['nobp'] = profile.nobp
+		context['prodi'] = profile.prodi
 	context['DATA_UPLOAD_MAX_MEMORY_SIZE'] = settings.DATA_UPLOAD_MAX_MEMORY_SIZE
-	return render(request, "account/edit_account.html", context)
+	return render(request, "account/edit_account_backup.html", context)
 
 def save_temp_profile_image_from_base64String(imageString, user):
 	INCORRECT_PADDING_EXCEPTION = "Incorrect padding"
