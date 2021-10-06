@@ -186,8 +186,10 @@ def account_view(request, *args, **kwargs):
 		return render(request, "account/account_backup.html", context)
 
 def account_search_view(request, *args, **kwargs):
+	print("View")
 	context = {}
 	if request.method == "GET":
+		print("View")
 		search_query = request.GET.get("q")
 		if len(search_query) > 0:
 			search_results = Account.objects.filter(email__icontains=search_query).filter(username__icontains=search_query).distinct()

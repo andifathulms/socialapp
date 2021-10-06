@@ -5,7 +5,7 @@ from account.models import Account
 class UserProfile(models.Model):
 	account 	= models.OneToOneField(Account, primary_key=True, verbose_name='user', related_name='profile', on_delete=models.CASCADE)
 	fullname	= models.CharField(max_length=100, blank=True, null=True)
-	bio 		= models.TextField(max_length=500, blank=True, null=True)
+	bio 		= models.TextField(max_length=500,default="Apparently, this user prefers to keep an air of mystery about them.", blank=True, null=True)
 	phone		= models.CharField(max_length=15, blank=True, null=True)
 	hobby 		= models.CharField(max_length=100, blank=True, null=True)
 	birth_date	= models.DateField(null=True, blank=True)

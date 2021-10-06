@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'layout-blank.html' %}
 {% load static %}
 
 {% block content %}
@@ -116,6 +116,11 @@ body {
     filter: brightness(60%);
 }
 
+.img-responsive-special{
+    width: 100%;
+    display: inline-block;
+}
+
 </style>
 
 <div class="container">
@@ -126,7 +131,7 @@ body {
       <div class="col-md-4">
         <a class="profile-link" href="{% url 'account:view' user_id=account.0.id %}">
         <div class="profile-card-4 text-center">
-            <img src="{{account.0.profile_image.url}}" width="300" height="300" class="img img-responsive">
+            <img src="{{account.0.profile_image.url}}" width="300" height="300" class="img img-responsive-special">
             <div class="profile-content">
                 <div class="profile-name text-warning">
                     {{account.0.username}}

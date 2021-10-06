@@ -159,6 +159,7 @@
 </div>
 
 {% include 'snippets/general_notifications.html' %}
+{% include 'snippets/chat_notifications.html' %}
 
 <!-- Setup SOCKET for NOTIFICATIONS -->
 <script type="text/javascript">
@@ -240,41 +241,6 @@
 	    window.location.replace("{% url 'search' %}?q=" + query)
 	    return false
 	}
-	
-	function setupChatDropdownHeader(){
-		var notificationContainer = document.getElementById("id_chat_notifications_container")
-
-		if(notificationContainer != null){
-
-			var div = document.createElement("div")
-			div.classList.add("chat-dropdown-header", "d-flex", "flex-row", "justify-content-end", "m-auto", "align-items-end")
-			div.addEventListener("click", function(e){
-				var url = "{% url 'chat:private-chat-room' %}"
-				chatRedirect(url)
-			})
-
-			span1 = document.createElement("span")
-			span1.classList.add("mr-2")
-			span1.innerHTML = "Go to chat"
-			div.appendChild(span1)
-			
-			span2 = document.createElement("span")
-			span2.classList.add("material-icons", "mr-2")
-			span2.classList.add("mr-2")
-			span2.innerHTML = "open_with"
-			div.appendChild(span2)
-			notificationContainer.appendChild(div)
-			/*
-			var a = document.createElement("a")
-			a.classList.add("dropdown-item")
-			a.innerHTML = "Private Chat"*/
-		}
-	}
-
-	function chatRedirect(url){
-		window.location.href = url
-	}
-
 
 </script>
 

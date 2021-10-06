@@ -28,6 +28,7 @@ class PostListView(LoginRequiredMixin, View):
 		context['room_id'] = "1"
 
 		return render(request, 'post/post_list.html', context)
+		#return render(request, 'layout-blank.html', context)
 
 	def post(self, request, *args, **kwargs):
 		logged_in_user = request.user
