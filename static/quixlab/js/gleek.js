@@ -12,7 +12,8 @@
         sidebarPosition: "static", //have two options, "static" and "fixed"
         headerPosition: "static", //have two options, "static" and "fixed"
         containerLayout: "wide",  //"boxed" and  "wide". If layout "vertical" and containerLayout "boxed", sidebarStyle will automatically turn into "overlay".
-        direction: "ltr" //"ltr" = Left to Right; "rtl" = Right to Left
+        direction: "ltr", //"ltr" = Left to Right; "rtl" = Right to Left
+        headerPosition: "fixed"
     });
 
 
