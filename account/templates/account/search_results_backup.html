@@ -134,13 +134,13 @@ body {
             <img src="{{account.0.profile_image.url}}" width="300" height="300" class="img img-responsive-special ">
             <div class="profile-content">
                 <div class="profile-name text-warning">
-                    {{account.0.username}}
-                    <p>{{account.0.email}}</p>
+                    {{account.2.fullname}}
+                    <p>@{{account.0.username}}</p>
                 </div>
                 <div class="profile-description">{{account.2.bio}}
                     <div class="card-center px-2">
                         {% if account.1 %}
-                        <p class="card-text"><a href="#" onclick="createOrReturnPrivateChat('{{account.0.id}}')">Send a Message</a></p>
+                        <p class="card-text text-info"><a href="#" onclick="createOrReturnPrivateChat('{{account.0.id}}')">Send a Message</a></p>
                         {% endif %}
                     </div>
                 </div>

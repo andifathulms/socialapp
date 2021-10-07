@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from account.models import Account
 
@@ -22,3 +24,12 @@ class UserProfile(models.Model):
 	status		= models.CharField(max_length=50, blank=True, null=True)
 	nobp		= models.CharField(max_length=20, blank=True, null=True)
 	prodi		= models.CharField(max_length=50, blank=True, null=True)
+
+@receiver(post_save, sender=Account)
+def create_user_profile(sender, instance, created, **kwargs):
+	if created:
+		UserProfile.objects.create(account=instance)
+
+@receiver(post_save, sender=Account)
+def save_user_profile(sender, instance, **kwargs):
+	instance.profile.save() 

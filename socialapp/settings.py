@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'notification',
     'post',
     'account_profile',
+    'follower',
 ]
 
 MIDDLEWARE = [

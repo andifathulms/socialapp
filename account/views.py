@@ -20,9 +20,13 @@ from account.models import Account
 from account_profile.models import UserProfile
 from account_profile.forms import ProfileUpdateForm
 
+from post.models import Post
+
 from friend.utils import get_friend_request_or_false
 from friend.friend_request_status import FriendRequestStatus
 from friend.models import FriendList, FriendRequest
+
+from follower.models import FollowerList
 
 TEMP_PROFILE_IMAGE_NAME = "temp_profile_image.png"
 
@@ -137,6 +141,8 @@ def account_view(request, *args, **kwargs):
 	try:
 		account = Account.objects.get(pk=user_id)
 		profile = UserProfile.objects.get(account=account)
+		posts   = Post.objects.filter(author=account).order_by('-created_on')
+
 	except:
 		return HttpResponse("Something went wrong.")
 	if account:
@@ -166,6 +172,7 @@ def account_view(request, *args, **kwargs):
 		context['status'] = profile.status
 		context['nobp'] = profile.nobp
 		context['prodi'] = profile.prodi
+		context['posts'] = posts
 
 		try:
 			friend_list = FriendList.objects.get(user=account)
@@ -174,6 +181,27 @@ def account_view(request, *args, **kwargs):
 			friend_list.save()
 		friends = friend_list.friends.all()
 		context['friends'] = friends
+
+		try:
+			follower_list = FollowerList.objects.get(user=account)
+		except FollowerList.DoesNotExist:
+			follower_list = FollowerList(user=account)
+			follower_list.save()
+		followers = follower_list.followers.all()
+		context['followers'] = followers
+		context['follower_list'] = follower_list
+
+		if len(followers) == 0:
+			is_following = False
+
+		for follower in followers:
+			if follower == request.user:
+				is_following = True
+				break
+			else:
+				is_following = False
+
+		context['is_following'] = is_following
 
 		# Define template variables
 		is_self = True
