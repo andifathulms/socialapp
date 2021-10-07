@@ -10,10 +10,6 @@ class AddFollower(LoginRequiredMixin, View):
 	redirect_field_name = 'redirect_to'
 	
 	def post(self, request, pk, *args, **kwargs):
-		for x in FollowerList.objects.all():
-			print(x.pk)
-			print(x.user.username)
-			print(x.user.pk)
 		follower_list = FollowerList.objects.get(pk=pk)
 		follower_list.followers.add(request.user)
 
@@ -26,10 +22,6 @@ class RemoveFollower(LoginRequiredMixin, View):
 	redirect_field_name = 'redirect_to'
 	
 	def post(self, request, pk, *args, **kwargs):
-		for x in FollowerList.objects.all():
-			print(x.pk)
-			print(x.user.username)
-			print(x.user.pk)
 		follower_list = FollowerList.objects.get(pk=pk)
 		follower_list.followers.remove(request.user)
 
