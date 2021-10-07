@@ -25,7 +25,7 @@ from django.urls import path
 
 from personal.views import home_screen_view
 from post.views import PostListView
-from account.views import register_view, login_view, logout_view, account_search_view
+from account.views import register_view, login_view, logout_view, account_search_view, lock_view
 
 urlpatterns = [
     path('', PostListView.as_view(), name='home'),
@@ -34,6 +34,7 @@ urlpatterns = [
     path('login/', login_view, name="login"),
     path('logout/', logout_view, name="logout"),
     path('search/', account_search_view, name="search"),
+    path('lock/', lock_view, name="lock"),
 
     path('account/', include('account.urls', namespace='account')),
     path('friend/', include('friend.urls', namespace='friend')),

@@ -4,6 +4,8 @@ from django.conf import settings
 from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
+
 from urllib.parse import urlencode
 import json
 from itertools import chain
@@ -19,7 +21,7 @@ from chat.utils import find_or_create_private_chat
 
 DEBUG = False
 
-
+@login_required
 def private_chat_room_view(request, *args, **kwargs):
 	room_id = request.GET.get("room_id")
 	user = request.user
@@ -39,7 +41,6 @@ def private_chat_room_view(request, *args, **kwargs):
 	context['debug'] = DEBUG
 	context['debug_mode'] = settings.DEBUG
 	return render(request, "chat/room.html", context)
-
 
 def get_recent_chatroom_messages(user):
 	"""
@@ -80,7 +81,7 @@ def get_recent_chatroom_messages(user):
 					hour=1,
 					minute=1,
 					second=1,
-					tzinfo=pytz.UTC
+					tzinfo=pytz.timezone('Asia/Jakarta')
 				)
 				message = RoomChatMessage(
 					user=friend,
@@ -97,6 +98,7 @@ def get_recent_chatroom_messages(user):
 
 
 # Ajax call to return a private chatroom or create one if does not exist
+@login_required
 def create_or_return_private_chat(request, *args, **kwargs):
 	user1 = request.user
 	payload = {}

@@ -80,6 +80,16 @@
             margin-top: 20px;
             margin-bottom: 20px;
         }
+        .app-logo{
+            padding: 0px !important;
+        }
+        .nav-header{
+            /*background-color: #ff7803 !important;*/
+            background-color: #000 !important;
+        }
+        .logo-small{
+            max-width: 3rem !important;
+        }
     </style>
 
 </head>
@@ -112,11 +122,11 @@
         ***********************************-->
         <div class="nav-header">
             <div class="brand-logo">
-                <a href="{% url 'home' %}">
-                    <b class="logo-abbr"><img src="images/logo.png" alt=""> </b>
-                    <span class="logo-compact"><img src="./images/logo-compact.png" alt=""></span>
+                <a href="{% url 'home' %}" class="app-logo">
+                    <b class="logo-abbr"><img src="{% static 'img/logo-pnp-social-2.png' %}" alt="" class="logo-small"> </b>
+                    <span class="logo-compact"><img src="#" alt=""></span>
                     <span class="brand-title">
-                        <img src="images/logo-text.png" alt="">
+                        <img src="{% static 'img/logo-pnp-social-4.png' %}" alt="">
                     </span>
                 </a>
             </div>
@@ -313,7 +323,8 @@
                                         
                                         <hr class="my-2">
                                         <li>
-                                            <a href="page-lock.html"><i class="icon-lock"></i> <span>Lock Screen</span></a>
+                                            <!-- BIG WARNING, EDIT IN PRODUCTION -->
+                                            <a href="http://127.0.0.1:8000/lock/?next={{request.path}}"><i class="icon-lock"></i> <span>Lock Screen</span></a>
                                         </li>
                                         <li><a href="{% url 'logout' %}"><i class="icon-key"></i> <span>Logout</span></a></li>
                                     </ul>
@@ -367,7 +378,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#}" aria-expanded="false">
+                        <a href="#" aria-expanded="false">
                             <i class="fas fa-cogs"></i><span class="nav-text">Setting</span>
                         </a>
                     </li>
@@ -410,7 +421,7 @@
         ***********************************-->
         <div class="footer">
             <div class="copyright">
-                <p>Copyright &copy; Designed & Developed by <a href="https://themeforest.net/user/quixlab">Quixlab</a> 2018</p>
+                <p>Copyright &copy;</p>
             </div>
         </div>
         <!--**********************************

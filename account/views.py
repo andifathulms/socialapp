@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
 from django.conf import settings
 
 from django.core.files.storage import default_storage
@@ -52,7 +53,7 @@ def register_view(request, *args, **kwargs):
 	return render(request, 'account/register.html', context)
 
 def logout_view(request):
-	print(request)
+	print(request.user.email)
 	logout(request)
 	return redirect("home")
 
@@ -87,6 +88,32 @@ def login_view(request, *args, **kwargs):
 
 	return render(request, "account/login.html", context)
 
+def lock_view(request):
+	context = {}
+	redirect_to = request.GET.get('next', '')
+
+	try:
+		response = render(request, "page-lock.html", context)
+		response.set_cookie('email',request.user.email)
+		response.set_cookie('username',request.user.username)
+		
+		logout(request)
+	except:
+		response = render(request, "page-lock.html", context)
+
+	if request.POST:
+		form = AccountAuthenticationForm(request.POST)
+		print(form.errors)
+		if form.is_valid():
+			email = request.POST['email']
+			password = request.POST['password']
+			user = authenticate(email=email, password=password)
+
+			if user:
+				login(request, user)
+				return HttpResponseRedirect(redirect_to)
+
+	return response
 
 def get_redirect_if_exists(request):
 	redirect = None
@@ -95,6 +122,7 @@ def get_redirect_if_exists(request):
 			redirect = str(request.GET.get("next"))
 	return redirect
 
+@login_required
 def account_view(request, *args, **kwargs):
 	"""
 	- Logic here is kind of tricky
@@ -185,6 +213,7 @@ def account_view(request, *args, **kwargs):
 		context['BASE_URL'] = settings.BASE_URL
 		return render(request, "account/account_backup.html", context)
 
+@login_required
 def account_search_view(request, *args, **kwargs):
 	print("View")
 	context = {}
@@ -222,6 +251,7 @@ def account_search_view(request, *args, **kwargs):
 				
 	return render(request, "account/search_results_backup.html", context)
 
+@login_required
 def edit_account_view(request, *args, **kwargs):
 	if not request.user.is_authenticated:
 		return redirect("login")
