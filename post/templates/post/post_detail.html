@@ -7,6 +7,9 @@
     .child-comment{
         margin-left: 2rem;
     }
+    .body-post a {
+        text-decoration: none;
+    }
 </style>
 <div class="container">
     <div class="row mt-5">
@@ -37,7 +40,9 @@
                     {% endfor %}
                   </div>
                 {% endif %}
-            <p>{{ post.body }}</p>
+            <div class="body-post">
+                <p>{{ post.body }}</p>
+            </div>
             <div class="d-flex flex-row">
                 <form method="POST" action="{% url 'post:post-like' post.pk %}">
                     {% csrf_token %}

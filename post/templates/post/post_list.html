@@ -15,6 +15,10 @@
     .shared-post {
         margin-left: 30px;
     }
+
+    .body-post a {
+        text-decoration: none;
+    }
 </style>
 <div class="row justify-content-center mt-3">
     <div class="col-md-5 col-sm-12 border-bottom">
@@ -64,7 +68,7 @@
             </div>
         </form>
         {% if post.shared_body %}
-        <div class="position-relative border-bottom mb-3"> 
+        <div class="position-relative border-bottom mb-3 body-post"> 
             <p>{{ post.shared_body }}</p>
         </div>  <!-- UNTIL THIS-->
         <div class="shared-post"> <!--THIS-->
@@ -86,7 +90,9 @@
                 {% endfor %}
               </div>
             {% endif %}
-            <p>{{ post.body }}</p>
+            <div class="body-post">
+                <p>{{ post.body }}</p>
+            </div>
             <a href="{% url 'post:post-detail' post.pk %}" class="stretched-link"></a>
         </div>
         <div class="d-flex flex-row">
@@ -108,6 +114,7 @@
         </div>
     </div>
 </div>
+{% endfor %}
 <script>
     function shareToggle(parent_id) {
         const row = document.getElementById(parent_id);
@@ -118,6 +125,7 @@
             row.classList.add('d-none');
         }
     }
+
 </script>
-{% endfor %}
+
 {% endblock post %}

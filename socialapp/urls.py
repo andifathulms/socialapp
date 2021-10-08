@@ -24,7 +24,7 @@ from django.conf.urls.static import static
 from django.urls import path
 
 from personal.views import home_screen_view
-from post.views import PostListView
+from post.views import PostListView, Explore
 from account.views import register_view, login_view, logout_view, account_search_view, lock_view
 
 urlpatterns = [
@@ -34,6 +34,7 @@ urlpatterns = [
     path('login/', login_view, name="login"),
     path('logout/', logout_view, name="logout"),
     path('search/', account_search_view, name="search"),
+    path('explore/', Explore.as_view(), name='explore'),
     path('lock/', lock_view, name="lock"),
 
     path('account/', include('account.urls', namespace='account')),

@@ -7,8 +7,8 @@ from django.views.generic.edit import UpdateView, DeleteView
 from django.http import HttpResponseRedirect
 from django.utils import timezone
 
-from .models import Post, Comment, Image
-from .forms import PostForm, CommentForm, ShareForm
+from .models import Post, Comment, Image, Tag
+from .forms import PostForm, CommentForm, ShareForm, ExploreForm
 
 DEBUG = False
 
@@ -49,6 +49,8 @@ class PostListView(LoginRequiredMixin, View):
 			new_post.author = request.user
 			new_post.save()
 
+			new_post.create_tags()
+
 			for f in files:
 				img = Image(image=f)
 				img.save()
@@ -88,6 +90,8 @@ class PostDetailView(LoginRequiredMixin, View):
 			new_comment.author = request.user
 			new_comment.post = post
 			new_comment.save()
+
+			new_comment.create_tags()
 
 		comments = Comment.objects.filter(post=post).order_by('-created_on')
 
@@ -290,3 +294,47 @@ class SharedPostView(View):
             new_post.save()
 
        return redirect('home')
+
+class Explore(View):
+    def get(self, request, *args, **kwargs):
+        explore_form = ExploreForm()
+        query = self.request.GET.get('query')
+        tag = Tag.objects.filter(name=query).first()
+        #print(tag.name)
+
+        if tag:
+            posts = Post.objects.filter(tags__in=[tag])
+        else:
+            posts = Post.objects.all()
+
+        context = {
+            'tag': tag,
+            'posts': posts,
+            'explore_form': explore_form,
+        }
+
+        #print(context['posts'])
+
+        return render(request, 'post/explore.html', context)
+
+    def post(self, request, *args, **kwargs):
+        explore_form = ExploreForm(request.POST)
+        if explore_form.is_valid():
+            query = explore_form.cleaned_data['query']
+            tag = Tag.objects.filter(name=query).first()
+
+            posts = None
+            if tag:
+                posts = Post.objects.filter(tags__in=[tag])
+
+            if posts:
+                context = {
+                    'tag': tag,
+                    'posts': posts,
+                }
+            else:
+                context = {
+                    'tag': tag,
+                }
+            return HttpResponseRedirect(f'/explore?query={query}')
+        return HttpResponseRedirect('/explore')
