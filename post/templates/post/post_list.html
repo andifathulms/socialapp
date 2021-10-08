@@ -1,6 +1,21 @@
 {% extends 'personal/home.html' %}
 {% load crispy_forms_tags %}
 {% block post %}
+<style>
+    .post-image {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+        margin-bottom: 10px;
+    }
+    .share-btn {
+        cursor: pointer;
+    }
+
+    .shared-post {
+        margin-left: 30px;
+    }
+</style>
 <div class="row justify-content-center mt-3">
     <div class="col-md-5 col-sm-12 border-bottom">
         <h5>Add a Post!</h5>
@@ -21,12 +36,38 @@
 {% for post in post_list %}
 <div class="row justify-content-center mt-3">
     <div class="col-md-5 col-sm-12 border-bottom position-relative">
-        <!--
-        <p><strong>{{ post.author }}</strong> {{ post.created_on }}</p>
-        <p>{{ post.body }}</p>
-        <a class="stretched-link" href="{% url 'post:post-detail' post.pk %}"></a>
-        <p><a style="text-decoration: none" class="text-primary" href="{% url 'account:view' user_id=post.author.profile.pk %}">@{{ post.author }}</a> {{ post.created_on }}</p>-->
+        {% if post.shared_user %} <!-- FROM THIS-->
         <div>
+            <a href="{% url 'account:view' user_id=post.shared_user.profile.pk %}">
+                <img class="round-circle post-img" style="float: left;margin-right: 1rem;" height="30" width="30" src="{{ post.shared_user.profile_image.url }}" />
+            </a>
+            <p class="post-text">
+                <a class="text-primary post-link" href="{% url 'account:view' user_id=post.shared_user.profile.pk %}">@{{ post.shared_user }}</a> shared a post on {{ post.shared_on }}
+            </p>
+        </div>
+        {% else %}
+        <div>
+            <a href="{% url 'account:view' user_id=post.author.profile.pk %}">
+                <img class="round-circle post-img" style="float: left;margin-right: 1rem;" height="30" width="30" src="{{ post.author.profile_image.url }}" />
+            </a>
+            <p class="post-text">
+                <a class="text-primary post-link" href="{% url 'account:view' user_id=post.author.profile.pk %}">@{{ post.author }}</a> {{ post.created_on }}
+                <span onclick="shareToggle('{{ post.pk }}')"><i class="far fa-share-square share-btn"></i></span>
+            </p>
+        </div>
+        {% endif %}
+        <form method="POST" action="{% url 'post:share-post' post.pk %}" class="d-none" id="{{ post.pk }}">
+            {% csrf_token %}
+            {{ shareform | crispy }}
+            <div class="d-grid gap-2">
+                <button class="btn btn-success mt-3">share the post</button>
+            </div>
+        </form>
+        {% if post.shared_body %}
+        <div class="position-relative border-bottom mb-3"> 
+            <p>{{ post.shared_body }}</p>
+        </div>  <!-- UNTIL THIS-->
+        <div class="shared-post"> <!--THIS-->
             <a href="{% url 'account:view' user_id=post.author.profile.pk %}">
                 <img class="round-circle " style="float: left;margin-right: 1rem;" height="30" width="30" src="{{ post.author.profile_image.url }}" />
             </a>
@@ -34,7 +75,17 @@
                 <a class="text-primary" style="text-decoration: none;" href="{% url 'account:view' user_id=post.author.profile.pk %}">@{{ post.author }}</a> {{ post.created_on }}
             </p>
         </div>
-        <div class="position-relative">
+        {% endif %} <!--THIS-->
+        <div class="shared-post position-relative pt-3"><!--THIS-->
+            {% if post.image.count > 0 %}
+              <div class="row">
+                {% for img in post.image.all %}
+                    <div class="col-md-4 col-xs-12">
+                        <img src="{{ img.image.url }}" class="post-image" />
+                    </div>
+                {% endfor %}
+              </div>
+            {% endif %}
             <p>{{ post.body }}</p>
             <a href="{% url 'post:post-detail' post.pk %}" class="stretched-link"></a>
         </div>
@@ -57,5 +108,16 @@
         </div>
     </div>
 </div>
+<script>
+    function shareToggle(parent_id) {
+        const row = document.getElementById(parent_id);
+
+        if (row.classList.contains('d-none')) {
+            row.classList.remove('d-none');
+        } else {
+            row.classList.add('d-none');
+        }
+    }
+</script>
 {% endfor %}
 {% endblock post %}

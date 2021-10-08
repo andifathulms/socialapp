@@ -1,13 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.conf import settings
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.views import View
 from django.views.generic.edit import UpdateView, DeleteView
 from django.http import HttpResponseRedirect
+from django.utils import timezone
 
-from .models import Post, Comment
-from .forms import PostForm, CommentForm
+from .models import Post, Comment, Image
+from .forms import PostForm, CommentForm, ShareForm
 
 DEBUG = False
 
@@ -18,12 +19,14 @@ class PostListView(LoginRequiredMixin, View):
 		logged_in_user = request.user
 
 		posts = Post.objects.filter(
-            author__userfollow__followers__in=[logged_in_user.id]
-        ).order_by('-created_on')
-		form = PostForm()
+            author__userfollow__followers__in=[logged_in_user.id] #Fix later
+        )
+		form = PostForm(request.POST, request.FILES)
+		share_form = ShareForm()
 
 		context = {
 			'post_list': posts,
+			'shareform': share_form,
 			'form': form,
 		}
 		context['debug_mode'] = settings.DEBUG
@@ -36,15 +39,26 @@ class PostListView(LoginRequiredMixin, View):
 	def post(self, request, *args, **kwargs):
 		logged_in_user = request.user
 		
-		posts = Post.objects.all().order_by('-created_on')
+		posts = Post.objects.all().order_by('-created_on') #Fix later
 		form = PostForm(request.POST, request.FILES)
+		files = request.FILES.getlist('image')
+		share_form = ShareForm()
+
 		if form.is_valid():
 			new_post = form.save(commit=False)
 			new_post.author = request.user
 			new_post.save()
 
+			for f in files:
+				img = Image(image=f)
+				img.save()
+				new_post.image.add(img)
+
+			new_post.save()
+
 		context = {
 			'post_list': posts,
+			'shareform': share_form,
 			'form': form,
 		}
 		context['debug_mode'] = settings.DEBUG
@@ -178,3 +192,101 @@ class AddDislike(LoginRequiredMixin, View):
 
         next = request.POST.get('next', '/')
         return HttpResponseRedirect(next)
+
+class AddCommentLike(LoginRequiredMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        comment = Comment.objects.get(pk=pk)
+
+        is_dislike = False
+
+        for dislike in comment.dislikes.all():
+            if dislike == request.user:
+                is_dislike = True
+                break
+
+        if is_dislike:
+            comment.dislikes.remove(request.user)
+
+        is_like = False
+
+        for like in comment.likes.all():
+            if like == request.user:
+                is_like = True
+                break
+
+        if not is_like:
+            comment.likes.add(request.user)
+
+        if is_like:
+            comment.likes.remove(request.user)
+
+        next = request.POST.get('next', '/')
+        return HttpResponseRedirect(next)
+
+class AddCommentDislike(LoginRequiredMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        comment = Comment.objects.get(pk=pk)
+
+        is_like = False
+
+        for like in comment.likes.all():
+            if like == request.user:
+                is_like = True
+                break
+
+        if is_like:
+            comment.likes.remove(request.user)
+
+        is_dislike = False
+
+        for dislike in comment.dislikes.all():
+            if dislike == request.user:
+                is_dislike = True
+                break
+
+        if not is_dislike:
+            comment.dislikes.add(request.user)
+
+        if is_dislike:
+            comment.dislikes.remove(request.user)
+
+        next = request.POST.get('next', '/')
+        return HttpResponseRedirect(next)
+
+class CommentReplyView(LoginRequiredMixin, View):
+    def post(self, request, post_pk, pk, *args, **kwargs):
+        post = Post.objects.get(pk=post_pk)
+        parent_comment = Comment.objects.get(pk=pk)
+        form = CommentForm(request.POST)
+
+        if form.is_valid():
+            new_comment = form.save(commit=False)
+            new_comment.author = request.user
+            new_comment.post = post
+            new_comment.parent = parent_comment
+            new_comment.save()
+
+        return redirect('post:post-detail', pk=post_pk)
+
+class SharedPostView(View):
+    def post(self, request, pk, *args, **kwargs):
+       original_post = Post.objects.get(pk=pk)
+       form = ShareForm(request.POST)
+
+       if form.is_valid():
+            new_post = Post(
+                shared_body=self.request.POST.get('body'),
+                body=original_post.body,
+                author=original_post.author,
+                created_on=original_post.created_on,
+                shared_user=request.user,
+                shared_on=timezone.now(),
+            )
+            new_post.save()
+
+            for img in original_post.image.all():
+                new_post.image.add(img)
+
+            new_post.save()
+
+       return redirect('home')
