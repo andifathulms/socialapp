@@ -26,7 +26,7 @@ from friend.utils import get_friend_request_or_false
 from friend.friend_request_status import FriendRequestStatus
 from friend.models import FriendList, FriendRequest
 
-from follower.models import FollowerList
+from follower.models import FollowerList, FollowingList
 
 TEMP_PROFILE_IMAGE_NAME = "temp_profile_image.png"
 
@@ -191,6 +191,15 @@ def account_view(request, *args, **kwargs):
 		context['followers'] = followers
 		context['follower_list'] = follower_list
 
+		try:
+			following_list = FollowingList.objects.get(user=account)
+		except FollowingList.DoesNotExist:
+			following_list = FollowingList(user=account)
+			following_list.save()
+		followings = following_list.following.all()
+		context['followings'] = followings
+		context['followings_list'] = following_list
+
 		if len(followers) == 0:
 			is_following = False
 
@@ -257,13 +266,32 @@ def account_search_view(request, *args, **kwargs):
 				auth_user_friend_list = FriendList.objects.get(user=user)
 				for account in search_results:
 					profile = UserProfile.objects.get(account=account)
+
+					#get all of the follower friends
 					try:
 						friend_list = FriendList.objects.get(user=account)
 					except FriendList.DoesNotExist:
 						friend_list = FriendList(user=account)
 						friend_list.save()
 					friends = friend_list.friends.all()
-					accounts.append((account, auth_user_friend_list.is_mutual_friend(account),profile,friends))
+
+					#get all of the follower followers
+					try:
+						followers_list_sec = FollowerList.objects.get(user=account)
+					except FollowerList.DoesNotExist:
+						followers_list_sec = FollowerList(user=account)
+						followers_list_sec.save()
+					followers_sec = followers_list_sec.followers.all()
+
+					#get all of the follower followings
+					try:
+						following_list_sec = FollowingList.objects.get(user=account)
+					except FollowingList.DoesNotExist:
+						following_list_sec = FollowingList(user=account)
+						following_list_sec.save()
+					followings_sec = following_list_sec.following.all()
+					
+					accounts.append((account, auth_user_friend_list.is_mutual_friend(account),profile,friends, followers_sec, followings_sec))
 				context['accounts'] = accounts
 			else:
 				for account in search_results:

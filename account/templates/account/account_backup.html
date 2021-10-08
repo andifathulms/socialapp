@@ -74,18 +74,22 @@ body{
                   <p class="text-muted font-size-sm">{{bio}}</p>
                   <div class="row mb-5">
                       <div class="col">
+                        <a href="{% url 'follower:follower-list' user_id=id %}">
                           <div class="card card-profile text-center">
                               <span class="mb-1 text-primary"><i class="icon-people"></i></span>
                               <h3 class="mb-0">{{ followers|length }}</h3>
                               <p class="text-muted px-4">Followers</p>
                           </div>
+                        </a>
                       </div>
                       <div class="col">
+                        <a href="{% url 'follower:following-list' user_id=id %}">
                           <div class="card card-profile text-center">
                               <span class="mb-1 text-warning"><i class="icon-user-follow"></i></span>
-                              <h3 class="mb-0">263</h3>
+                              <h3 class="mb-0">{{ followings|length }}</h3>
                               <p class="text-muted">Following</p>
                           </div>
+                        </a>
                       </div>
                       
                       <div class="col">

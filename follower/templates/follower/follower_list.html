@@ -124,14 +124,17 @@ body {
 </style>
 
 <div class="container">
+    <div class="d-flex flex-row flex-grow-1 justify-content-center align-items-center p-4">
+        <h3>@{{this_user}} followers : {{friends|length}}</h3>
+    </div>
     <div class="row">
-      {% if accounts %}
-      {% for account in accounts %}
+      {% if friends %}
+      {% for account in friends %}
 
       <div class="col-md-4">
         <a class="profile-link" href="{% url 'account:view' user_id=account.0.id %}">
         <div class="profile-card-4 text-center">
-            <img src="{{account.0.profile_image.url}}" width="300" height="300" class="img img-responsive-special ">
+            <img src="{{account.0.profile_image.url}}" width="300" height="300" class="img img-responsive-special">
             <div class="profile-content">
                 <div class="profile-name text-warning">
                     {{account.2.fullname}}

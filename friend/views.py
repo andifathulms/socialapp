@@ -6,6 +6,7 @@ import json
 from friend.models import FriendRequest, FriendList
 from account.models import Account
 from account_profile.models import UserProfile
+from follower.models import FollowerList, FollowingList
 
 def remove_friend(request, *args, **kwargs):
 	user = request.user
@@ -179,14 +180,33 @@ def friends_list_view(request, *args, **kwargs):
 			auth_user_friend_list = FriendList.objects.get(user=user)
 			for friend in friend_list.friends.all():
 				profile = UserProfile.objects.get(account=friend)
+
+				#get all of the friend friends
 				try:
 					friend_list_sec = FriendList.objects.get(user=friend)
 				except FriendList.DoesNotExist:
 					friend_list_sec = FriendList(user=friend)
 					friend_list_sec.save()
 				friends_sec = friend_list_sec.friends.all()
-				friends.append((friend, auth_user_friend_list.is_mutual_friend(friend),profile, friends_sec))
+
+				#get all of the friend followers
+				try:
+					followers_list_sec = FollowerList.objects.get(user=friend)
+				except FollowerList.DoesNotExist:
+					followers_list_sec = FollowerList(user=friend)
+					followers_list_sec.save()
+				followers_sec = followers_list_sec.followers.all()
+
+				#get all of the friend followings
+				try:
+					following_list_sec = FollowingList.objects.get(user=friend)
+				except FollowingList.DoesNotExist:
+					following_list_sec = FollowingList(user=friend)
+					following_list_sec.save()
+				followings_sec = following_list_sec.following.all()
+				friends.append((friend, auth_user_friend_list.is_mutual_friend(friend),profile, friends_sec, followers_sec, followings_sec))
 			context['friends'] = friends
+			context['this_user'] = this_user
 	else:		
 		return HttpResponse("You must be friends to view their friends list.")
 	return render(request, "friend/friend_list_backup.html", context)
