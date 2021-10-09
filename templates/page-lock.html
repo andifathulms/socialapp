@@ -78,7 +78,7 @@
         const username = document.getElementById("username");
         const email = document.getElementById("email");
         window.onload = function (){
-            username.innerHTML = getCookie("username").substr(1, getCookie("username").length-2);
+            username.innerHTML = getCookie("username").substr(0, getCookie("username").length);
             email.value = getCookie("email").substr(1, getCookie("email").length-2);
         }
         
