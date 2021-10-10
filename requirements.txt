@@ -17,6 +17,7 @@ daphne==3.0.2
 Django==3.2.7
 django-crispy-forms==1.13.0
 django-environ==0.7.0
+django-heroku==0.3.1
 django-storages==1.12
 gunicorn==20.1.0
 hiredis==2.0.0
