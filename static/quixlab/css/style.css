@@ -11354,13 +11354,13 @@ table.dataTable thead .sorting::after {
   left: 30px; }
 
 .card-bg-img-1 {
-  background: url(../../assets/images/big/img6.jpg);
+  
   background-position: center;
   background-size: cover;
   min-height: 300px; }
 
 .card-bg-img-2 {
-  background: url(../../assets/images/big/img6.jpg);
+  
   background-position: center;
   background-size: cover;
   min-height: 400px; }
@@ -11801,7 +11801,7 @@ table.dataTable thead .sorting::after {
   margin-bottom: 0 !important; }
 
 .comming-soon-wrapper {
-  background-image: url("../../assets/images/big/comming-soon-bg.png");
+  
   height: 100%;
   background-position: center;
   background-repeat: no-repeat;
@@ -11890,7 +11890,7 @@ table.dataTable thead .sorting::after {
   color: #7571f9; }
 
 #password-page1 body {
-  background: url(../../assets/images/background/password-bg.jpg);
+  
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -12045,7 +12045,7 @@ table.dataTable thead .sorting::after {
       color: #ff5e5e; }
 
 #register-page1 body {
-  background: url(../../assets/images/background/register-bg.jpg);
+  
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -12053,7 +12053,7 @@ table.dataTable thead .sorting::after {
   position: relative; }
 
 #login-page2 body {
-  background: url(../../assets/images/background/login-register2.jpg);
+  
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -12070,7 +12070,7 @@ table.dataTable thead .sorting::after {
     z-index: -1; }
 
 #login-page1 body {
-  background: url(../../assets/images/background/login-bg.jpg);
+  
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -12084,7 +12084,7 @@ table.dataTable thead .sorting::after {
   flex-direction: column; }
 
 #userLock-page1 body {
-  background: url(../../assets/images/background/user-lock-bg.jpg);
+  
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
