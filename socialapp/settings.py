@@ -177,8 +177,8 @@ DATABASES = {
         'NAME': DB_NAME,
         'USER': DB_USER,
         'PASSWORD': DB_PASSWORD,
-        'HOST': 'localhost',
-        'PORT': '5432',
+        #'HOST': 'localhost',
+        #'PORT': '5432',
     }
 }
 
@@ -187,7 +187,8 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [('127.0.0.1', 6379)],
+            #"hosts": [('127.0.0.1', 6379)], #dev only
+            "hosts": [('www.pnptalk.herokuapp.com', 6379)],
         },
     },
 }
