@@ -167,6 +167,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "officialandifathul@gmail.com"
 EMAIL_HOST_PASSWORD = "RiemannConjecture"
 
+"""
 #Postgres config
 DB_NAME = "socialapp"
 DB_USER = "afms"
@@ -179,6 +180,13 @@ DATABASES = {
         'PASSWORD': DB_PASSWORD,
         'HOST': 'ec2-18-211-194-36.compute-1.amazonaws.com',
         'PORT': '5432',
+    }
+}
+"""
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
