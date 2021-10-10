@@ -32,14 +32,12 @@ SECRET_KEY = "django-insecure-4^52@bae=edb46jzqm2-h#%9_wh5acblz=x#v=ho(98k)8_ero
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['pnptalk.herokuapp.com']
+ALLOWED_HOSTS = ['pnptalk.herokuapp.com','127.0.0.1']
 
 #twisted-iocpsupport==1.0.2
 # Application definition
 
 INSTALLED_APPS = [
-    'channels',
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -50,6 +48,7 @@ INSTALLED_APPS = [
 
     'crispy_forms',
     'storages',
+    'channels',
 
     'personal',
     'account',
