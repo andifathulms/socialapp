@@ -34,7 +34,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['pnptalk.herokuapp.com']
 
-
+#twisted-iocpsupport==1.0.2
 # Application definition
 
 INSTALLED_APPS = [
