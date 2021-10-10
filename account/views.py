@@ -333,7 +333,7 @@ def edit_account_view(request, *args, **kwargs):
 					"email": account.email, 
 					"username": account.username,
 					"profile_image": account.profile_image,
-					"hide_email": account.hide_email,
+					#"hide_email": account.hide_email,
 				}
 			)
 			context['form'] = form
