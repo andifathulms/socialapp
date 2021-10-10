@@ -177,8 +177,8 @@ DATABASES = {
         'NAME': DB_NAME,
         'USER': DB_USER,
         'PASSWORD': DB_PASSWORD,
-        #'HOST': 'localhost',
-        #'PORT': '5432',
+        'HOST': 'www.pnptalk.herokuapp.com',
+        'PORT': '5432',
     }
 }
 
