@@ -32,7 +32,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-4^52@bae=edb46jzqm2-h#%9_wh5acblz=x#v=ho(98k)8_ero"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['pnptalk.herokuapp.com','127.0.0.1']
 
