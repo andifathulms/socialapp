@@ -361,6 +361,11 @@
                             <li><a href="{% url 'chat:private-chat-room' %}">Private Chat</a></li>
                         </ul>
                     </li>
+                    <li>
+                        <a href="{#% url 'home' %#}" aria-expanded="false">
+                            <i class="fas fa-layer-group"></i><span class="nav-text">Forum</span>
+                        </a>
+                    </li>
                     <li class="nav-label">Profile</li>
                     <li>
                         <a href="{% url 'account:view' user_id=request.user.id %}" aria-expanded="false">
@@ -484,8 +489,8 @@
     <script type="text/javascript">
         // Correctly decide between ws:// and wss://
         var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
-        var ws_path = ws_scheme + '://' + window.location.host + ":8001/"; // PRODUCTION
-        //var ws_path = ws_scheme + '://' + window.location.host + "/";
+        //var ws_path = ws_scheme + '://' + window.location.host + ":8001/"; // PRODUCTION
+        var ws_path = ws_scheme + '://' + window.location.host + "/";
         // console.log("Connecting to " + ws_path);
         var notificationSocket = new WebSocket(ws_path);
 

@@ -40,7 +40,7 @@ def private_chat_room_view(request, *args, **kwargs):
 		context["room_id"] = room_id
 	context['debug'] = DEBUG
 	context['debug_mode'] = settings.DEBUG
-	return render(request, "chat/room.html", context)
+	return render(request, "chat/room_backup.html", context)
 
 def get_recent_chatroom_messages(user):
 	"""

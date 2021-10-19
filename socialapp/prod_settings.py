@@ -141,15 +141,15 @@ USE_TZ = True
 #static config
 STATICFILES_DIRS = [
     BASE_DIR/"static",
-    BASE_DIR/"media", #DEV
+    #BASE_DIR/"media",
 ]
 STATIC_URL = '/static/'
-MEDIA_URL = '/media/' #DEV
-STATIC_ROOT = os.path.join(BASE_DIR, 'static_cdn')  #DEV
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media_cdn')  #DEV
+#MEDIA_URL = '/media/'
+#STATIC_ROOT = os.path.join(BASE_DIR, 'static_cdn')
+#MEDIA_ROOT = os.path.join(BASE_DIR, 'media_cdn')
 
-TEMP = os.path.join(BASE_DIR, 'media_cdn/temp')  #DEV
-#TEMP = os.path.join(BASE_DIR, 'temp')  #PROD
+#TEMP = os.path.join(BASE_DIR, 'media_cdn/temp')
+TEMP = os.path.join(BASE_DIR, 'temp')
 
 BASE_URL = "http://127.0.0.1:8000"
 
@@ -170,7 +170,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "officialandifathul@gmail.com"
 EMAIL_HOST_PASSWORD = "RiemannConjecture"
 
-
+"""
 #Postgres config
 DB_NAME = "socialapp"
 DB_USER = "afms"
@@ -181,8 +181,7 @@ DATABASES = {
         'NAME': DB_NAME,
         'USER': DB_USER,
         'PASSWORD': DB_PASSWORD,
-        'HOST': 'localhost',
-        #'HOST': 'ec2-18-211-194-36.compute-1.amazonaws.com',
+        'HOST': 'ec2-18-211-194-36.compute-1.amazonaws.com',
         'PORT': '5432',
     }
 }
@@ -193,14 +192,14 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-"""
+
 #chanel-redis config
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [('127.0.0.1', 6379)], #dev only
-            #"hosts": [('pnptalk.herokuapp.com', 6379)],
+            #"hosts": [('127.0.0.1', 6379)], #dev only
+            "hosts": [('pnptalk.herokuapp.com', 6379)],
         },
     },
 }
