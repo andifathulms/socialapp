@@ -18,7 +18,7 @@ class PostListView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         logged_in_user = request.user
 
-        postsx = Post.objects.filter(
+        posts = Post.objects.filter(
             author__userfollow__followers__in=[logged_in_user.id] #Fix later
         )
 
