@@ -59,6 +59,9 @@ class PostListView(LoginRequiredMixin, View):
 
             new_post.save()
 
+        else:
+            print(form.errors)
+            
         context = {
             'post_list': posts,
             'shareform': share_form,

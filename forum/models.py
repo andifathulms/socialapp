@@ -6,6 +6,7 @@ from account.models import Account
 class Subject(models.Model):
 
 	title = models.CharField(max_length=100)
+	type = models.CharField(max_length=20, blank=True, null=True)
 	created_on = models.DateTimeField(default=timezone.now)
 	description = models.TextField()
 	admin = models.ManyToManyField(Account, blank=True, related_name='forum_admin')
@@ -15,11 +16,12 @@ class ForumPost(models.Model):
 
 	title = models.CharField(max_length=200)
 	body = models.TextField()
+	subject = models.ForeignKey(Subject, on_delete=models.CASCADE, blank=True, null=True)
 	created_on = models.DateTimeField(default=timezone.now)
 	author = models.ForeignKey(Account, on_delete=models.CASCADE)
 	upvote = models.ManyToManyField(Account, blank=True, related_name='upvote')
 	downvote = models.ManyToManyField(Account, blank=True, related_name='downvote')
-	view = models.IntegerField(default=0)
+	view = models.IntegerField(default=1)
 
 class ForumReply(models.Model):
 
