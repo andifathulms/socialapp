@@ -1,5 +1,6 @@
 {% extends 'personal/home.html' %}
 {% load crispy_forms_tags %}
+{% load mathfilters %}
 {% block post %}
 <style type="text/css">
 body{
@@ -137,6 +138,33 @@ body{
   border-style: solid solid none;
   border-width: 1px 0;
 }
+
+.vote-wrap{
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 10px;
+  margin-right: 20px;
+  text-align:center;
+}
+.vote{
+  font-size:36px;
+  padding: 0;
+  margin: 0;
+}
+.up{
+  color:green;
+}
+.down{
+  color:red;
+}
+.inactive{
+  color:gray;
+}
+.score{
+  position: relative;
+  display:block;
+  padding: 2px 0;
+}
 </style>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="container">
@@ -208,6 +236,30 @@ body{
                 <div class="card mb-2">
                     <div class="card-body">
                         <div class="media forum-item">
+                            <div class="vote-wrap">
+                              <form method="POST" action="{% url 'forum:forum-upvote' post.pk %}">
+                                  {% csrf_token %}
+                                  <input type="hidden" name="next" value="{{ request.path }}">
+                                  <button class="btn btn-transparent p-0" type="submit">
+                                    <div class="vote {% if is_upvote %}up{% else %}inactive{% endif %}">
+                                      <i class="fas fa-chevron-circle-up"></i>
+                                    </div>
+                                  </button>
+                              </form>
+                              <div class="stat">
+                                <span class="score"><strong>{{post.upvote.all.count|sub:post.downvote.all.count}}</strong>
+                                </span>
+                              </div>
+                              <form method="POST" action="{% url 'forum:forum-downvote' post.pk %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="next" value="{{ request.path }}">
+                                <button class="btn btn-transparent p-0" type="submit">
+                                    <div class="vote {% if is_downvote %}down{% else %}inactive{% endif %}">
+                                        <i class="fas fa-chevron-circle-down"></i>
+                                    </div>
+                                </button>
+                              </form>
+                            </div>
                             <a href="{% url 'account:view' user_id=post.author.profile.pk %}" class="card-link">
                                 <img src="{{post.author.profile_image.url}}" class="mr-3 rounded-circle" width="50" height="50" alt="User" />
                                 <small class="d-block text-center text-muted">{{user_profile.status}}</small>
@@ -245,6 +297,30 @@ body{
                 <div class="card mb-2">
                     <div class="card-body">
                         <div class="media forum-item">
+                            <div class="vote-wrap">
+                              <form method="POST" action="{% url 'forum:reply-upvote' post.pk reply.0.pk %}">
+                                  {% csrf_token %}
+                                  <input type="hidden" name="next" value="{{ request.path }}">
+                                  <button class="btn btn-transparent p-0" type="submit">
+                                    <div class="vote {% if reply.3 %}up{% else %}inactive{% endif %}">
+                                      <i class="fas fa-chevron-circle-up"></i>
+                                    </div>
+                                  </button>
+                              </form>
+                              <div class="stat">
+                                <span class="score"><strong>{{reply.0.upvote.all.count|sub:reply.0.downvote.all.count}}</strong>
+                                </span>
+                              </div>
+                              <form method="POST" action="{% url 'forum:reply-downvote' post.pk reply.0.pk %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="next" value="{{ request.path }}">
+                                <button class="btn btn-transparent p-0" type="submit">
+                                    <div class="vote {% if reply.4 %}down{% else %}inactive{% endif %}">
+                                        <i class="fas fa-chevron-circle-down"></i>
+                                    </div>
+                                </button>
+                              </form>
+                            </div>
                             <a href="{% url 'account:view' user_id=reply.0.author.profile.pk %}" class="card-link">
                                 <img src="{{reply.0.author.profile_image.url}}" class="mr-3 rounded-circle" width="50" height="50" alt="User" />
                                 <small class="d-block text-center text-muted">{{reply.1.status}}</small>
@@ -257,14 +333,15 @@ body{
                                     <p>{{reply.0.reply}}</p>
                                     {% endautoescape %}
                                 </div>
+                                <!--
                                 <button class="btn btn-xs text-muted has-icon"><i class="fa fa-heart" aria-hidden="true"></i>1</button>
-                                <a href="javascript:void(0)" class="text-muted small">Reply</a>
+                                <a href="javascript:void(0)" class="text-muted small">Reply</a> -->
                             </div>
                         </div>
                     </div>
                 </div>
                 {% endfor %}
-
+                <!--
                 <ul class="pagination pagination-sm pagination-circle justify-content-center mb-0">
                     <li class="page-item disabled">
                         <span class="page-link has-icon"><i class="material-icons">chevron_left</i></span>
@@ -275,7 +352,7 @@ body{
                     <li class="page-item">
                         <a class="page-link has-icon" href="javascript:void(0)"><i class="material-icons">chevron_right</i></a>
                     </li>
-                </ul>
+                </ul> -->
             </div>
             <!-- /Forum List -->
 

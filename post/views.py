@@ -25,8 +25,14 @@ class PostListView(LoginRequiredMixin, View):
         form = PostForm(request.POST, request.FILES)
         share_form = ShareForm()
         posts = Post.objects.all().order_by('-created_on')
+
+        post_list = []
+        for post in posts:
+            comment = Comment.objects.filter(post=post).count()
+            post_list.append((post,comment))
+
         context = {
-            'post_list': posts,
+            'post_list': post_list,
             'shareform': share_form,
             'form': form,
         }
@@ -61,9 +67,14 @@ class PostListView(LoginRequiredMixin, View):
 
         else:
             print(form.errors)
-            
+        
+        post_list = []
+        for post in posts:
+            comment = Comment.objects.filter(post=post).count()
+            post_list.append((post,comment))
+
         context = {
-            'post_list': posts,
+            'post_list': post_list,
             'shareform': share_form,
             'form': form,
         }
@@ -84,7 +95,7 @@ class PostDetailView(LoginRequiredMixin, View):
             'form': form,
             'comments': comments,
         }        
-        return render(request, 'post/post_detail.html', context)
+        return render(request, 'post/post_detail_backup.html', context)
     def post(self, request, pk, *args, **kwargs):
         post = Post.objects.get(pk=pk)
         form = CommentForm(request.POST)
@@ -105,7 +116,7 @@ class PostDetailView(LoginRequiredMixin, View):
             'comments': comments,
         }
 
-        return render(request, 'post/post_detail.html', context)
+        return render(request, 'post/post_detail_backup.html', context)
 
 class PostEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post

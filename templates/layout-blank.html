@@ -26,6 +26,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
 
     <style type="text/css">
+        body{
+            background:#F3F3F9 !important;
+        }
         .chat-dropdown-header:hover{
             cursor: pointer;
             background: var(--main-background-color);
@@ -325,7 +328,7 @@
                                         <hr class="my-2">-->
                                         <li>
                                             <!-- BIG WARNING, EDIT IN PRODUCTION -->
-                                            <a href="https://pnptalk.herokuapp.com/lock/?next={{request.path}}"><i class="icon-lock"></i> <span>Lock Screen</span></a>
+                                            <a href="http://127.0.0.1:8000/lock/?next={{request.path}}"><i class="icon-lock"></i> <span>Lock Screen</span></a>
                                         </li>
                                         <li><a href="{% url 'logout' %}"><i class="icon-key"></i> <span>Logout</span></a></li>
                                     </ul>

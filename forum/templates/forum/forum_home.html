@@ -224,7 +224,7 @@ a.forum-item-title:hover {
 
                 <div class="forum-title">
                     <div class="pull-right forum-desc">
-                        <samll>Total posts: 320,800</samll>
+                        <samll>Total forum: {{general_subject|length}}</samll>
                     </div>
                     <h3>General forums</h3>
                 </div>
@@ -236,17 +236,22 @@ a.forum-item-title:hover {
                             <div class="forum-icon">
                                 <i class="fa fa-shield"></i>
                             </div>
-                            <a href="{% url 'forum:forum-content' forum.pk %}" class="forum-item-title">{{forum.title}}</a>
-                            <div class="forum-sub-title">{{forum.description}}</div>
+                            <a href="{% url 'forum:forum-content' forum.0.pk %}" class="forum-item-title">{{forum.0.title}}</a>
+                            <div class="forum-sub-title">{{forum.0.description}}</div>
                         </div>
                         <div class="col-md-1 forum-info">
                             <span class="views-number">
-                                1216
+                                {% if forum.2 > 0 %}
+                                    {{forum.2}}
+                                {% else %}
+                                    0
+                                {% endif %}
                             </span>
                             <div>
                                 <small>Views</small>
                             </div>
                         </div>
+                        <!--
                         <div class="col-md-1 forum-info">
                             <span class="views-number">
                                 368
@@ -254,10 +259,10 @@ a.forum-item-title:hover {
                             <div>
                                 <small>Topics</small>
                             </div>
-                        </div>
-                        <div class="col-md-1 forum-info">
+                        </div>-->
+                        <div class="col-md-2 forum-info"> <!-- md-1 -->
                             <span class="views-number">
-                                140
+                                {{forum.1}}
                             </span>
                             <div>
                                 <small>Posts</small>
@@ -270,7 +275,7 @@ a.forum-item-title:hover {
 
                 <div class="forum-title">
                     <div class="pull-right forum-desc">
-                        <samll>Total posts: 17,800,600</samll>
+                        <samll>Total forum: {{faculty_subject|length}}</samll>
                     </div>
                     <h3>Faculty forums</h3>
                 </div>
@@ -282,17 +287,21 @@ a.forum-item-title:hover {
                             <div class="forum-icon">
                                 <i class="fa fa-clock-o"></i>
                             </div>
-                            <a href="{% url 'forum:forum-content' forum.pk %}" class="forum-item-title">{{forum.title}}</a>
-                            <div class="forum-sub-title">{{forum.description}}</div>
+                            <a href="{% url 'forum:forum-content' forum.0.pk %}" class="forum-item-title">{{forum.0.title}}</a>
+                            <div class="forum-sub-title">{{forum.0.description}}</div>
                         </div>
                         <div class="col-md-1 forum-info">
                             <span class="views-number">
-                                1516
+                                {% if forum.2 > 0 %}
+                                    {{forum.2}}
+                                {% else %}
+                                    0
+                                {% endif %}
                             </span>
                             <div>
                                 <small>Views</small>
                             </div>
-                        </div>
+                        </div><!--
                         <div class="col-md-1 forum-info">
                             <span class="views-number">
                                 238
@@ -300,10 +309,10 @@ a.forum-item-title:hover {
                             <div>
                                 <small>Topics</small>
                             </div>
-                        </div>
-                        <div class="col-md-1 forum-info">
+                        </div>-->
+                        <div class="col-md-2 forum-info"> <!-- md-1 -->
                             <span class="views-number">
-                                180
+                                {{forum.1}}
                             </span>
                             <div>
                                 <small>Posts</small>

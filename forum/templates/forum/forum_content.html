@@ -1,5 +1,6 @@
 {% extends 'personal/home.html' %}
 {% load crispy_forms_tags %}
+{% load mathfilters %}
 {% block post %}
 <style type="text/css">
 body{
@@ -137,6 +138,32 @@ body{
   border-style: solid solid none;
   border-width: 1px 0;
 }
+.vote-wrap{
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 10px;
+  margin-right: 20px;
+  text-align:center;
+}
+.vote{
+  font-size:36px;
+  padding: 0;
+  margin: 0;
+}
+.up{
+  color:green;
+}
+.down{
+  color:red;
+}
+.inactive{
+  color:gray;
+}
+.score{
+  position: relative;
+  display:block;
+  padding: 2px 0;
+}
 </style>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="container">
@@ -215,19 +242,44 @@ body{
 
             <!-- Forum List -->
             <div class="inner-main-body p-2 p-sm-3 collapse forum-content show">
+                <a href="{% url 'forum:forum-topic' %}" class="btn btn-light btn-sm mb-3 has-icon"><i class="fa fa-arrow-left mr-2"></i>Back</a>
                 {% for post in posts %}
                 <div class="card mb-2">
-                    <div class="card-body p-2 p-sm-3">
+                    <div class="card-body p-1 p-sm-3">
                         <div class="media forum-item">
-                            <a href="{% url 'account:view' user_id=post.0.author.profile.pk %}"><img src="{{post.0.author.profile_image.url}}" class="mr-3 rounded-circle" width="50" height="50" alt="User" /></a>
-                            <div class="media-body">
-                                <h6><a href="{% url 'forum:forum-detail' post.0.pk %}"class="text-body">{{post.0.title}}</a></h6>
+                            <div class="vote-wrap">
+                              <form method="POST" action="{% url 'forum:forum-upvote' post.0.pk %}">
+                                  {% csrf_token %}
+                                  <input type="hidden" name="next" value="{{ request.path }}">
+                                  <button class="btn btn-transparent p-0" type="submit">
+                                    <div class="vote {% if post.2 %}up{% else %}inactive{% endif %}">
+                                      <i class="fas fa-chevron-circle-up"></i>
+                                    </div>
+                                  </button>
+                              </form>
+                              <div class="stat">
+                                <span class="score"><strong>{{post.0.upvote.all.count|sub:post.0.downvote.all.count}}</strong>
+                                </span>
+                              </div>
+                              <form method="POST" action="{% url 'forum:forum-downvote' post.0.pk %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="next" value="{{ request.path }}">
+                                <button class="btn btn-transparent p-0" type="submit">
+                                    <div class="vote {% if post.3 %}down{% else %}inactive{% endif %}">
+                                        <i class="fas fa-chevron-circle-down"></i>
+                                    </div>
+                                </button>
+                              </form>
+                            </div>
+                            <a href="{% url 'account:view' user_id=post.0.author.profile.pk %}"><img src="{{post.0.author.profile_image.url}}" class="mr-3 mt-3 rounded-circle" width="50" height="50" alt="User" /></a>
+                            <div class="media-body mt-3 mr-1">
+                                <h5><a href="{% url 'forum:forum-detail' post.0.pk %}"class="text-body"><strong>{{post.0.title}}</strong></a></h5>
                                 <p class="text-secondary">
                                     {% autoescape off %}
-                                    {{post.0.body|truncatechars:70}}
+                                    {{post.0.body|truncatechars:100}}
                                     {% endautoescape %}
                                 </p>
-                                <p class="text-muted"><a href="javascript:void(0)">drewdan</a> replied <span class="text-secondary font-weight-bold">13 minutes ago</span></p>
+                                <!--<p class="text-muted"><a href="javascript:void(0)">drewdan</a> replied <span class="text-secondary font-weight-bold">13 minutes ago</span></p>-->
                             </div>
                             <div class="text-muted medium text-center align-self-center">
                                 <span class="d-none d-sm-inline-block"><i class="far fa-eye"></i>{{post.0.view}}</span>
@@ -237,7 +289,7 @@ body{
                     </div>
                 </div>
                 {% endfor %}
-
+                <!--
                 <ul class="pagination pagination-sm pagination-circle justify-content-center mb-0">
                     <li class="page-item disabled">
                         <span class="page-link has-icon"><i class="material-icons">chevron_left</i></span>
@@ -248,7 +300,7 @@ body{
                     <li class="page-item">
                         <a class="page-link has-icon" href="javascript:void(0)"><i class="material-icons">chevron_right</i></a>
                     </li>
-                </ul>
+                </ul> -->
             </div>
             <!-- /Forum List -->
 
@@ -301,8 +353,8 @@ body{
     tinymce.init({
       selector: 'textarea',
       height: 500,
-      plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
-      toolbar: 'a11ycheck addcomment showcomments casechange checklist code export formatpainter pageembed permanentpen table',
+      plugins: 'emoticons a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
+      toolbar: 'emoticons a11ycheck addcomment showcomments casechange checklist code export formatpainter pageembed permanentpen table',
       toolbar_mode: 'floating',
       tinycomments_mode: 'embedded',
       tinycomments_author: 'Author name',
