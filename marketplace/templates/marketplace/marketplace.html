@@ -1,5 +1,6 @@
 {% extends 'personal/home.html' %}
 {% load crispy_forms_tags %}
+{% load humanize %}
 {% block post %}
 <style>
     body {
@@ -93,7 +94,7 @@
         bottom: 0;
         background: #FFFFFF;
         width: 100%;
-        padding: 30px;
+        padding: 15px;
         -webkti-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
@@ -118,30 +119,40 @@
 
     .post-module .post-content .title {
         margin: 0;
+        padding: 0 0 20px;
+        color: #333333;
+        font-size: 20px;
+        font-weight: 400;
+        float: left;
+    }
+
+    .post-module .post-content .price {
+        margin: 0;
         padding: 0 0 10px;
         color: #333333;
         font-size: 26px;
         font-weight: 700;
+        float: left;
     }
 
-    .post-module .post-content .sub_title {
+    .post-module .post-content .location {
         margin: 0;
         padding: 0 0 20px;
-        color: #e74c3c;
-        font-size: 20px;
-        font-weight: 400;
+        color: #666666;
+        font-size: 16px;
+        font-weight: 200;
     }
 
     .post-module .post-content .description {
         display: none;
         color: #666666;
-        font-size: 14px;
+        font-size: 16px;
         line-height: 1.8em;
     }
 
     .post-module .post-content .post-meta {
         margin: 30px 0 0;
-        color: #999999;
+        color: #666666;
     }
 
     .post-module .post-content .post-meta .timestamp {
@@ -213,35 +224,117 @@
     .container .info span .fa {
         color: #e74c3c;
     }
+
+    select {
+      /* Reset Select */
+      appearance: none;
+      outline: 0;
+      border: 0;
+      box-shadow: none;
+      /* Personalize */
+      flex: 1;
+      padding: 0 1em;
+      color: #fff;
+      background-color: #1565c0;
+      background-image: none;
+      cursor: pointer;
+    }
+    /* Remove IE arrow */
+    select::-ms-expand {
+      display: none;
+    }
+    /* Custom Select wrapper */
+    .select {
+      position: relative;
+      display: flex;
+      width: 20em;
+      height: 3em;
+      border-radius: .25em;
+      overflow: hidden;
+    }
+    .select-btn{
+      position: relative;
+      display: flex;
+      width: 10em;
+      height: 3em;
+      border-radius: .25em;
+      overflow: hidden;
+    }
+    /* Arrow */
+    .select::after {
+      content: '\25BC';
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 1em;
+      background-color: #34495e;
+      transition: .25s all ease;
+      pointer-events: none;
+    }
+    /* Transition */
+    .select:hover::after {
+      color: #f39c12;
+    }
 </style>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="container">
     <div class="row">
+        <!-- add form here -->
+        <div class="select ml-5 mb-5">
+          <select>
+            {% for category in categories %}
+            <option value="{{category.name}}">{{category.name}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="select ml-5 mb-5">
+          <select>
+            {% for condition in conditions %}
+            <option value="{{condition.name}}">{{condition.name}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="select-btn ml-5 mb-5">
+            <button type="button" class="btn btn-block btn-outline-primary">Apply Filter </button>
+        </div>
+    </div>
+    
+    <div class="row">
         {% for product in products %}
         <div class="post-module">
             <!-- Thumbnail-->
+            <a href="{% url 'marketplace:marketplace-detail' product.pk %}">
             <div class="thumbnail">
                 <div class="date">
-                    <div class="day">28</div>
-                    <div class="month">Mar</div>
+                    <div class="day">New</div>
                 </div>
+                <!--
                 {% for img in product.image.all %}
                     <img src="{{img.image.url}}" />
-                {% endfor %}
+                {% endfor %}-->
+                {% with product.image.all|first as first_image %}
+                    <img src="{{first_image.image.url}}" />
+                {% endwith %}
             </div><!-- Post Content-->
             <div class="post-content">
-                <div class="category"> {{product.category.category.name}} </div>
+                <div class="category"> {{product.category.category.name}} - {{product.category.name}} </div>
                 <!--<div class="category"> {{product.category.name}} </div>-->
-                <div style="display: flex; align-items: middle;">
+                <div style="display: flex; align-items: middle; flex-direction: column;">
+                    <li>
+                        <h2 class="price">Rp. {{ product.price|intcomma }}</h2>
+                    </li>
                     <li>
                         <h1 class="title">{{ product.title }}</h1>
-                        <h2 class="sub_title">Rp. {{ product.price }}</h2>
+                    </li>
+                    <li>
+                        <h2 class="location">{{ product.location }}</h2>
                     </li>
                     
                 </div>
                 <p class="description">{{ product.description }}</p>
-                <div class="post-meta"><span class="timestamp"><i class="fa fa-clock-">o</i> 6 mins ago</span><span class="comments"><i class="fa fa-comments"></i><a href="#"> 39 comments</a></span></div>
+                <div class="post-meta"><span class="timestamp"><i class="fa fa-clock"></i> {{ product.created_on|naturaltime }}</span><span class="comments" style="float: right;"><i class="far fa-eye"></i> {{ product.view }}</span></div>
             </div>
+            </a>
         </div>
         {% endfor %}
     </div>

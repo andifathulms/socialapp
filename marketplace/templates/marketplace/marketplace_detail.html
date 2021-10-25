@@ -1,0 +1,145 @@
+{% extends 'personal/home.html' %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+{% block post %}
+<style>
+
+    .card {
+        border: none;
+        overflow: hidden
+    }
+
+    .thumbnail_images ul {
+        list-style: none;
+        justify-content: center;
+        display: flex;
+        align-items: center;
+        margin-top: 10px
+    }
+
+    .thumbnail_images ul li {
+        margin: 5px;
+        padding: 10px;
+        border: 2px solid #eee;
+        cursor: pointer;
+        transition: all 0.5s
+    }
+
+    .thumbnail_images ul li:hover {
+        border: 2px solid #000
+    }
+
+    .main_image {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-bottom: 1px solid #eee;
+        height: 400px;
+        width: 100%;
+        overflow: hidden
+    }
+
+    .heart {
+        height: 29px;
+        width: 29px;
+        background-color: #eaeaea;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center
+    }
+
+    .ratings span {
+        font-size: 14px;
+        margin-left: 12px
+    }
+
+    .right-side {
+        position: relative
+    }
+
+    .buttons .btn {
+        height: 50px;
+        width: 150px;
+        border-radius: 0px !important
+    }
+</style>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" rel="stylesheet">
+<div class="container mt-3 mb-3">
+    <div class="card">
+        <div class="row g-0">
+            <div class="col-md-6 border-end">
+                <div class="d-flex flex-column justify-content-center">
+                    {% with product.image.all|first as first_image %}
+                        <div class="main_image"> <img src="{{first_image.image.url}}" id="main_product_image" width="350"> </div>
+                    {% endwith %}
+                    <div class="thumbnail_images">
+                        <ul id="thumbnail">
+                            {% for img in product.image.all %}
+                                <li><img onclick="changeImage(this)" src="{{img.image.url}}" width="70"></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="p-3 right-side">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3>{{product.title}}</h3> <span class="heart"><i class='bx bx-heart'></i></span>
+                    </div>
+                    <h3>Rp. {{product.price|intcomma}}</h3>
+                    <div class="mt-1" style="font-size: 12px;">
+                        <p>Dilihat sebanyak {{product.view}} kali</p>
+                        <p>Diterbitkan pada {{product.created_on}}</p>
+                    </div>
+                    <hr>
+                    <div class="mt-3">
+                        <span class="fw-bold">Deskripsi</span>
+                        <p>{{product.description}}</p>  
+                    </div>
+                    <div class="mt-3">
+                        <span class="fw-bold">Lokasi</span>
+                        <p>{{product.location}}</p>  
+                    </div>
+                    <div class="mt-3">
+                        <span class="fw-bold">Kategori</span>
+                        <p>{{product.category.category.name}} - {{product.category.name}}</p>  
+                    </div>
+                    <div class="mt-3">
+                        <span class="fw-bold">Kondisi</span>
+                        <p>{{product.condition.name}}</p>  
+                    </div>
+                    <div class="mt-3">
+                        <span class="fw-bold">Ketersediaan</span>
+                        <p>Di-{{product.availability.name}}</p>  
+                    </div>
+                    <hr>
+                    <div class="mt-3">
+                        <span class="fw-bold">Informasi Penjual</span>
+                        <a href="{% url 'account:view' user_id=product.author.profile.pk %}">
+                            <img class="mr-3 circle-rounded" style="float: left;margin-right: 1rem;" width="50" height="50" src="{{ product.author.profile_image.url }}" />
+                            <p>{{product.author.username}}</p>
+                        </a>
+                        <p>Joined PNP Social since {{product.author.date_joined|naturaltime}}</p>
+                    </div>
+                    <hr>
+                    <a href="{% url 'marketplace:marketplace-home' %}" class="btn mb-1 mr-1 btn-outline-danger">Back to marketplace <span class="btn-icon-right"><i class="fas fa-sign-out-alt"></i></span></a>
+                    <button type="button" class="btn mb-1 btn-outline-primary">Sent message <span class="btn-icon-right"><i class="fa fa-envelope"></i></span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js" integrity="sha512-WNLxfP/8cVYL9sj8Jnp6et0BkubLP31jhTG9vhL/F5uEZmg5wEzKoXp1kJslzPQWwPT1eyMiSxlKCgzHLOTOTQ==" crossorigin="anonymous"></script>
+<script>
+    function changeImage(element) {
+        var main_prodcut_image = document.getElementById('main_product_image');
+        main_prodcut_image.src = element.src;
+    }
+</script>
+
+{% endblock post %}

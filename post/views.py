@@ -6,6 +6,7 @@ from django.views import View
 from django.views.generic.edit import UpdateView, DeleteView
 from django.http import HttpResponseRedirect
 from django.utils import timezone
+from django.core.paginator import Paginator
 
 from .models import Post, Comment, Image, Tag
 from .forms import PostForm, CommentForm, ShareForm, ExploreForm
