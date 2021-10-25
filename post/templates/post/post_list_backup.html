@@ -1,5 +1,6 @@
 {% extends 'personal/home.html' %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% block post %}
 <style>
     .post-image {
@@ -70,9 +71,9 @@
 </div>
 -->
 <div class="card">
-    <div class="card-body">
+    <div class="card-body infinite-container">
     {% for post in post_list %}
-        <div class="media media-reply">
+        <div class="media media-reply infinite-item">
             {% if post.0.shared_user %}
             <div>
                 <a href="{% url 'account:view' user_id=post.0.shared_user.profile.pk %}">
@@ -195,7 +196,17 @@
         </form>
     {% endfor %}
     </div>
+    <div class="d-flex d-none position-fixed" style="top:35vh;left:46vw;">
+        <button class="btn btn-primary loading" style="display: none;">
+            <span class="spinner-border spinner-border-sm"></span>
+            Please wait...
+        </button>
+    </div>
+    {% if post_list.has_next %}
+        <a class="infinite-more-link" href="?page={{ post_list.next_page_number }}">More</a>
+    {% endif %}
 </div>
+{% endblock post %}
 <!--
 <script src="https://cdn.tiny.cloud/1/havldrt4zgo6yunsmxmsi0xltdkxj3wix14yetpjmxf1tyqw/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
@@ -208,7 +219,25 @@
     menubar: false
   });
 </script>-->
+{%  block javascript %}
+<!-- Waypoints -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="{% static 'quixlab/js/jquery.waypoints.js' %}"></script>
+<script src="{% static 'quixlab/js/infinite.min.js' %}"></script>
+
 <script>
+
+    var infinite = new Waypoint.Infinite({
+        element: $('.infinite-container')[0],
+        offset: 'bottom-in-view',
+        onBeforePageLoad: function(){
+            $('.loading').show();
+        },
+        onAfterPageLoad: function(){
+            $('.loading').hide();
+        }
+    })
+
     function shareToggle(parent_id) {
         const row = document.getElementById(parent_id);
         console.log(parent_id)
@@ -221,5 +250,4 @@
     }
 
 </script>
-
-{% endblock post %}
+{% endblock javascript %}

@@ -6,7 +6,7 @@ from django.views import View
 from django.views.generic.edit import UpdateView, DeleteView
 from django.http import HttpResponseRedirect
 from django.utils import timezone
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import Post, Comment, Image, Tag
 from .forms import PostForm, CommentForm, ShareForm, ExploreForm
@@ -32,8 +32,18 @@ class PostListView(LoginRequiredMixin, View):
             comment = Comment.objects.filter(post=post).count()
             post_list.append((post,comment))
 
+        page = request.GET.get('page', 1)
+        paginator = Paginator(post_list,10)
+
+        try:
+            post_pagination = paginator.page(page)
+        except PageNotAnInteger:
+            post_pagination = paginator.page(1)
+        except EmptyPage:
+            post_pagination = paginator.page(paginator.num_pages)
+            
         context = {
-            'post_list': post_list,
+            'post_list': post_pagination,
             'shareform': share_form,
             'form': form,
         }

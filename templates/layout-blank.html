@@ -469,6 +469,7 @@
     <script src="{% static 'quixlab/js/settings.js' %}"></script>
     <script src="{% static 'quixlab/js/gleek.js' %}"></script>
     <script src="{% static 'quixlab/js/styleSwitcher.js' %}"></script>
+    
 
     <!-- jquery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" />
@@ -627,6 +628,8 @@
 
         formatTags();
     </script>
+
+    {% block javascript %}{% endblock %}
 
 </body>
 
