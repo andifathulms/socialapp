@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'account_profile',
     'follower',
     'forum',
+    'marketplace',
 ]
 
 MIDDLEWARE = [
