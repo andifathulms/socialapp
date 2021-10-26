@@ -42,16 +42,21 @@
     .heart {
         height: 29px;
         width: 29px;
-        background-color: #eaeaea;
         border-radius: 50%;
         display: flex;
         justify-content: center;
-        align-items: center
+        align-items: center;
+        color: grey;
     }
 
-    .ratings span {
-        font-size: 14px;
-        margin-left: 12px
+    .heart-clicked {
+        height: 29px;
+        width: 29px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: coral;
     }
 
     .right-side {
@@ -67,7 +72,7 @@
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" rel="stylesheet">
+
 <div class="container mt-3 mb-3">
     <div class="card">
         <div class="row g-0">
@@ -88,7 +93,10 @@
             <div class="col-md-6">
                 <div class="p-3 right-side">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h3>{{product.title}}</h3> <span class="heart"><i class='bx bx-heart'></i></span>
+                        <h3>{{product.title}}</h3>
+                        <button class="btn btn-transparent p-0 mr-3" type="submit">
+                            <span class="heart" id="like-button"><i class='fas fa-heart'></i></span>
+                        </button>
                     </div>
                     <h3>Rp. {{product.price|intcomma}}</h3>
                     <div class="mt-1" style="font-size: 12px;">
@@ -133,13 +141,41 @@
         </div>
     </div>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js" integrity="sha512-WNLxfP/8cVYL9sj8Jnp6et0BkubLP31jhTG9vhL/F5uEZmg5wEzKoXp1kJslzPQWwPT1eyMiSxlKCgzHLOTOTQ==" crossorigin="anonymous"></script>
+{% endblock post %}
+{% block javascript %}
 <script>
     function changeImage(element) {
         var main_prodcut_image = document.getElementById('main_product_image');
         main_prodcut_image.src = element.src;
     }
 </script>
-
-{% endblock post %}
+<script type="text/javascript">
+    $(function() {
+      $("#like-button").click(function() {
+        var like = document.getElementById('like-button')
+        if(like.classList.contains('heart')){
+            like.classList.remove('heart');
+            like.classList.add('heart-clicked');
+            swal("Berhasil !!", "Item ditambahkan di wishlist", "success")
+        }else{
+            like.classList.remove('heart-clicked');
+            like.classList.add('heart');
+            sweetAlert("Oops...", "Item dihapus dari wishlist", "error")
+        }
+        
+      });
+    });
+</script>
+<script>
+    /*
+    document.querySelector(".sweet-success").onclick = function() {
+        swal("Hey, Good job !!", "You clicked the button !!", "success")
+        swal({
+            title: "Sweet auto close alert !!",
+            text: "Hey, i will close in 2 seconds !!",
+            timer: 1e3,
+            showConfirmButton: !1
+        })
+    }*/
+</script>
+{% endblock javascript %}

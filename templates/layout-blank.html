@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="{% static 'cropperjs/dist/cropper.min.css' %}">
     
     <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+    <link href="{% static 'quixlab/plugins/sweetalert/css/sweetalert.css' %}" rel="stylesheet">
 
     <style type="text/css">
         body{
@@ -376,7 +377,7 @@
                         </a>
                         <ul aria-expanded="false">
                             <li><a href="{% url 'marketplace:marketplace-home' %}" style="color: white !important;">Buying</a></li>
-                            <li><a href="{% url 'marketplace:marketplace-home' %}" style="color: white !important;">Selling</a></li>
+                            <li><a href="{% url 'marketplace:marketplace-create' %}" style="color: white !important;">Selling</a></li>
                         </ul>
                     </li>
                     <li class="nav-label" style="color: white !important;">Profile</li>
@@ -485,6 +486,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/highlight.min.js" integrity="sha512-TDKKr+IvoqZnPzc3l35hdjpHD0m+b2EC2SrLEgKDRWpxf2rFCxemkgvJ5kfU48ip+Y+m2XVKyOCD85ybtlZDmw==" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/languages/kotlin.min.js" integrity="sha512-8aYTnyDstX39PHxorDD+6ROknf98Vqr5KTOjwRCl/442uAVKOpCJ5wY9I3VQ6y46rdDJKYBIglIfE2+GQk8U5Q==" crossorigin="anonymous"></script>
     <script>hljs.initHighlightingOnLoad();</script>
+
+    <!-- Sweet Alert -->
+    <script src="{% static 'quixlab/plugins/sweetalert/js/sweetalert.min.js' %}"></script>
+    <!--<script src="{% static 'quixlab/plugins/sweetalert/js/sweetalert.init.js' %}"></script>-->
 
     <script type="text/javascript">
         function displayLoadingSpinner(isDisplayed){
