@@ -1,7 +1,7 @@
 {% extends 'personal/home.html' %}
 {% load crispy_forms_tags %}
 {% load static %}
-{% block post %}
+{% block head %}
 <style>
     .post-image {
         max-width: 100%;
@@ -21,6 +21,8 @@
         text-decoration: none;
     }
 </style>
+{% endblock head %}
+{% block post %}
 <div class="card">
     <div class="card-body">
         <form method="POST" enctype="multipart/form-data" class="form-profile">

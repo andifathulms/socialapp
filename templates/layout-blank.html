@@ -89,7 +89,7 @@
         }
 
     </style>
-
+    {% block head %}{% endblock %}
 </head>
 
 <body>
@@ -378,6 +378,7 @@
                         <ul aria-expanded="false">
                             <li><a href="{% url 'marketplace:marketplace-home' %}" style="color: white !important;">Buying</a></li>
                             <li><a href="{% url 'marketplace:marketplace-create' %}" style="color: white !important;">Selling</a></li>
+                            <li><a href="{% url 'marketplace:marketplace-wishlist' %}" style="color: white !important;">Your Wishlist</a></li>
                         </ul>
                     </li>
                     <li class="nav-label" style="color: white !important;">Profile</li>

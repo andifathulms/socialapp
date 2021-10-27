@@ -274,6 +274,11 @@
 </style>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="container">
+    {% if hide %}
+    <div class="row mb-5">
+        <h3 class="m-auto">Your Wishlist Product</h3>
+    </div>
+    {% else %}
     <div class="row">
         <!-- add form here -->
         <div class="select ml-5 mb-5">
@@ -294,6 +299,7 @@
             <button type="button" class="btn btn-block btn-outline-primary">Apply Filter </button>
         </div>
     </div>
+    {% endif %}
     
     <div class="row">
         {% for product in products %}

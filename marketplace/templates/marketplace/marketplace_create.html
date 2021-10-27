@@ -180,15 +180,15 @@
 <script>
     $("#category").change(function () {
       //var url = $("#formdata").attr("data-marketplace-url");  // get the url of the `load_cities` view
-      var category = $(this).val();  // get the selected country ID from the HTML input
+      var category = $(this).val(); 
 
       $.ajax({                       // initialize an AJAX request
         url: 'http://127.0.0.1:8000/marketplace/ajax/load-cat/', // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
         data: {
-          'category': category       // add the country id to the GET parameters
+          'category': category 
         },
-        success: function (data) {   // `data` is the return of the `load_cities` view function
-          $("#subcategory").html(data);  // replace the contents of the city input with the data that came from the server
+        success: function (data) {
+          $("#subcategory").html(data);
           //console.log(data)
         }
       });

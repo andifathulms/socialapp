@@ -3,6 +3,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from account.models import Account
+from marketplace.models import Product
 
 class UserProfile(models.Model):
 	account 	= models.OneToOneField(Account, primary_key=True, verbose_name='user', related_name='profile', on_delete=models.CASCADE)
@@ -25,6 +26,11 @@ class UserProfile(models.Model):
 	nobp		= models.CharField(max_length=20, blank=True, null=True)
 	prodi		= models.CharField(max_length=50, blank=True, null=True)
 
+class UserSavedPost(models.Model):
+	account        = models.OneToOneField(Account, primary_key=True, on_delete=models.CASCADE)
+	products_saved = models.ManyToManyField(Product, blank=True)
+
+
 @receiver(post_save, sender=Account)
 def create_user_profile(sender, instance, created, **kwargs):
 	if created:
@@ -32,4 +38,13 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=Account)
 def save_user_profile(sender, instance, **kwargs):
+	instance.profile.save()
+
+@receiver(post_save, sender=Account)
+def create_user_saved_post(sender, instance, created, **kwargs):
+	if created:
+		UserSavedPost.objects.create(account=instance)
+
+@receiver(post_save, sender=Account)
+def save_user_saved_post(sender, instance, **kwargs):
 	instance.profile.save() 

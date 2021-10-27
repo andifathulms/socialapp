@@ -95,7 +95,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <h3>{{product.title}}</h3>
                         <button class="btn btn-transparent p-0 mr-3" type="submit">
-                            <span class="heart" id="like-button"><i class='fas fa-heart'></i></span>
+                            <span class="{% if is_wishlist %} heart-clicked {% else %} heart {% endif %}" id="like-button"><i class='fas fa-heart'></i></span>
                         </button>
                     </div>
                     <h3>Rp. {{product.price|intcomma}}</h3>
@@ -162,7 +162,16 @@
             like.classList.add('heart');
             sweetAlert("Oops...", "Item dihapus dari wishlist", "error")
         }
-        
+        $.ajax({                       // initialize an AJAX request
+            url: 'http://127.0.0.1:8000/marketplace/ajax/wishlist/', // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+            data: {
+              'pk': {{ product.pk }} 
+            },
+            success: function (data) {
+              
+              //console.log(data)
+            }
+          });
       });
     });
 </script>
