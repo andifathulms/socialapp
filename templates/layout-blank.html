@@ -7,10 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>PNP Social Media</title>
-    <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
-    <!-- Custom Stylesheet ### Initial
-    <link href="css/style.css" rel="stylesheet"> -->
 
     <link rel="stylesheet" href="{% static 'quixlab/css/style.css' %}">
     <!-- ALL PREVIOUS BASE.HTML STYLE -->
@@ -23,435 +19,46 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.css" integrity="sha512-+VDbDxc9zesADd49pfvz7CgsOl2xREI/7gnzcdyA9XjuTxLXrdpuz21VVIqc5HPfZji2CypSbxx1lgD7BgBK5g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{% static 'cropperjs/dist/cropper.min.css' %}">
     
+    <!-- Material Icon -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+
+    <!-- Sweet Alert, refactor later -->
     <link href="{% static 'quixlab/plugins/sweetalert/css/sweetalert.css' %}" rel="stylesheet">
 
     <style type="text/css">
         body{
             background:#F3F3F9 !important;
         }
-        .chat-dropdown-header:hover{
-            cursor: pointer;
-            background: var(--main-background-color);
-        }
-        .chat-dropdown-header{
-            color: var(--light-primary-text-color);
-        }
-        .scrollable-menu {
-            height: auto;
-            max-height: 90vh;
-            width: 500px;
-            overflow-x: hidden;
-        }
-
-        .notifications-material-icon {
-            font-size: 28px;
-
-        }
-        .notifications-icon-container{
-            width: 40px;
-            height: 40px;
-            background-color: var(--main-background-color);
-        }
-        .notifications-icon-container:hover {
-            cursor: pointer;
-            background-color: var(--secondary-text-color)
-        }
-        .notify-badge{
-            position: absolute;
-            background: transparent;
-            height:1.2rem;
-            width:1.2rem;
-            line-height: 1.2rem;
-            top:1rem;
-            right:2rem;
-            text-align: center;
-            font-size: 1rem;
-            border-radius: 50%;
-            color:white;
-            font-weight: 630;
-            margin-top:-15px;
-            margin-right: -25px;
-        }
-        #id_notifications_spinner{
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-        .app-logo{
-            padding: 0px !important;
-        }
-        .nav-header{
-            /*background-color: #ff7803 !important;*/
-            background-color: #000 !important;
-        }
-        .logo-small{
-            max-width: 3rem !important;
-        }
-
     </style>
+    
     {% block head %}{% endblock %}
 </head>
 
 <body>
 
-    <!--*******************
-        Preloader start
-    ********************-->
-    <div id="preloader">
-        <div class="loader">
-            <svg class="circular" viewBox="25 25 50 50">
-                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
-            </svg>
-        </div>
-    </div>
-
-    <div class="container" id="id_loading_spinner" style="display: none">
-        <div class="d-flex flex-row mx-auto flex-grow-1 justify-content-center">
-            <div class="spinner-border text-primary" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
-        </div>
-    </div>
-    <!--*******************
-        Preloader end
-    ********************-->
+    {% include 'snippets/preloader.html' %}
 
     {% include 'snippets/base_js.html' %}
 
-    <!--**********************************
-        Main wrapper start
-    ***********************************-->
     <div id="main-wrapper">
 
-        <!--**********************************
-            Nav header start
-        ***********************************-->
-        <div class="nav-header">
-            <div class="brand-logo">
-                <a href="{% url 'home' %}" class="app-logo">
-                    <b class="logo-abbr"><img src="{% static 'img/logo-pnp-social-2.png' %}" alt="" class="logo-small"> </b>
-                    <span class="logo-compact"><img src="#" alt=""></span>
-                    <span class="brand-title">
-                        <img src="{% static 'img/logo-pnp-social-4.png' %}" alt="">
-                    </span>
-                </a>
-            </div>
-        </div>
-        <!--**********************************
-            Nav header end
-        ***********************************-->
+        {% include 'snippets/nav_header.html' %}
 
-        <!--**********************************
-            Header start
-        ***********************************-->
-        <div class="header">    
-            <div class="header-content clearfix">
-                
-                <div class="nav-control">
-                    <div class="hamburger">
-                        <span class="toggle-icon"><i class="icon-menu"></i></span>
-                    </div>
-                </div>
-                <div class="header-left">
-                    <div class="input-group icons">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text bg-transparent border-0 pr-2 pr-sm-3" id="basic-addon1"><i class="mdi mdi-magnify"></i></span>
-                        </div>
-                        <form class="search-bar justify-content-start" onsubmit="return executeQuery();">
-                            <input type="text" class="form-control" name="q" id="id_q_large" placeholder="Search..." aria-label="Search Dashboard">
-                        </form>
-                        <!--<input type="search" class="form-control" placeholder="Search Dashboard" aria-label="Search Dashboard">-->
-                        <div class="drop-down   d-md-none">
-							<form action="#">
-								<input type="text" class="form-control" placeholder="Search">
-							</form>
-                        </div>
-                    </div>
-                </div>
-                <div class="header-right">
-                    <ul class="clearfix">
-                        <li class="icons dropdown">
-                            <div class="d-flex notifications-icon-container rounded-circle align-items-center mr-3" id="id_chat_notification_dropdown_toggle" data-toggle="dropdown">
-                                <span id="id_chat_notifications_count" class="notify-badge"></span>
-                                <span class="d-flex material-icons notifications-material-icon m-auto align-items-center">chat</span>
-                                 
-                                <div class="dropdown-menu scrollable-menu" aria-labelledby="id_chat_notification_dropdown_toggle" id="id_chat_notifications_container">
-                                    <!--
-                                    <a class="dropdown-item" href="#" onclick="chatRedirect({% url 'public_chat:public_chat_room' %})">Public Chat</a>
-                                    <a class="dropdown-item" href="#" onclick="chatRedirect({% url 'chat:private-chat-room' %})">Private Chat</a>-->
-                                </div>
-                            </div>
-                            <!--
-                            <a href="javascript:void(0)" data-toggle="dropdown">
-                                <i class="mdi mdi-email-outline"></i>
-                                <span id="id_chat_notifications_count" class="badge gradient-1 badge-pill badge-primary"></span>
-                            </a>
-                            <div class="drop-down animated fadeIn dropdown-menu">
-                                <div class="dropdown-content-heading d-flex justify-content-between">
-                                    <span class="">3 New Messages</span>  
-                                    
-                                </div>
-                                <div class="dropdown-content-body">
-                                    <ul>
-                                        <li class="notification-unread">
-                                            <a href="javascript:void()">
-                                                <img class="float-left mr-3 avatar-img" src="images/avatar/1.jpg" alt="">
-                                                <div class="notification-content">
-                                                    <div class="notification-heading">Saiful Islam</div>
-                                                    <div class="notification-timestamp">08 Hours ago</div>
-                                                    <div class="notification-text">Hi Teddy, Just wanted to let you ...</div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li class="notification-unread">
-                                            <a href="javascript:void()">
-                                                <img class="float-left mr-3 avatar-img" src="images/avatar/2.jpg" alt="">
-                                                <div class="notification-content">
-                                                    <div class="notification-heading">Adam Smith</div>
-                                                    <div class="notification-timestamp">08 Hours ago</div>
-                                                    <div class="notification-text">Can you do me a favour?</div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void()">
-                                                <img class="float-left mr-3 avatar-img" src="images/avatar/3.jpg" alt="">
-                                                <div class="notification-content">
-                                                    <div class="notification-heading">Barak Obama</div>
-                                                    <div class="notification-timestamp">08 Hours ago</div>
-                                                    <div class="notification-text">Hi Teddy, Just wanted to let you ...</div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void()">
-                                                <img class="float-left mr-3 avatar-img" src="images/avatar/4.jpg" alt="">
-                                                <div class="notification-content">
-                                                    <div class="notification-heading">Hilari Clinton</div>
-                                                    <div class="notification-timestamp">08 Hours ago</div>
-                                                    <div class="notification-text">Hello</div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    
-                                </div>
-                            </div>-->
-                        </li>
-                        <li class="icons dropdown">
-                            <div class="d-flex notifications-icon-container rounded-circle align-items-center mr-3" id="id_notification_dropdown_toggle" data-toggle="dropdown" onclick="setGeneralNotificationsAsRead()">
-                                <span id="id_general_notifications_count" class="badge badge-pill gradient-2 badge-primary"></span>
-                                <span class="d-flex material-icons notifications-material-icon m-auto align-items-center">notifications_none</span>
-                                <div class="dropdown-menu scrollable-menu" aria-labelledby="id_notification_dropdown_toggle" id="id_general_notifications_container" style="min-width: 23rem; max-height: 500px; overflow-y: auto;">                                       
-                                </div>
-                            </div>
-                            <!--
-                            <a href="#" data-toggle="dropdown">
-                                <i class="mdi mdi-bell-outline"></i>
-                                <span class="badge badge-pill gradient-2 badge-primary">3</span>
-                            </a>
-                            <div class="drop-down animated fadeIn dropdown-menu dropdown-notfication">
-                                <div id="id_notification_dropdown_toggle" class="dropdown-content-heading d-flex justify-content-between" onclick="setGeneralNotificationsAsRead()">
-                                    <span id="id_general_notifications_count" class="notify-badge"></span>
-                                    <span class="">2 New Notifications</span>
-                                </div>
-                                <div class="dropdown-content-body">
-                                    <ul>
-                                        <li>
-                                            <a href="javascript:void()">
-                                                <span class="mr-3 avatar-icon bg-success-lighten-2"><i class="icon-present"></i></span>
-                                                <div class="notification-content">
-                                                    <h6 class="notification-heading">Events near you</h6>
-                                                    <span class="notification-text">Within next 5 days</span> 
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void()">
-                                                <span class="mr-3 avatar-icon bg-danger-lighten-2"><i class="icon-present"></i></span>
-                                                <div class="notification-content">
-                                                    <h6 class="notification-heading">Event Started</h6>
-                                                    <span class="notification-text">One hour ago</span> 
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void()">
-                                                <span class="mr-3 avatar-icon bg-success-lighten-2"><i class="icon-present"></i></span>
-                                                <div class="notification-content">
-                                                    <h6 class="notification-heading">Event Ended Successfully</h6>
-                                                    <span class="notification-text">One hour ago</span>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void()">
-                                                <span class="mr-3 avatar-icon bg-danger-lighten-2"><i class="icon-present"></i></span>
-                                                <div class="notification-content">
-                                                    <h6 class="notification-heading">Events to Join</h6>
-                                                    <span class="notification-text">After two days</span> 
-                                                </div>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    
-                                </div>
-                            </div>-->
-                        </li>
-                        <!--
-                        <li class="icons dropdown d-none d-md-flex">
-                            <a href="javascript:void(0)" class="log-user"  data-toggle="dropdown">
-                                <span>English</span>  <i class="fa fa-angle-down f-s-14" aria-hidden="true"></i>
-                            </a>
-                            <div class="drop-down dropdown-language animated fadeIn  dropdown-menu">
-                                <div class="dropdown-content-body">
-                                    <ul>
-                                        <li><a href="javascript:void()">English</a></li>
-                                        <li><a href="javascript:void()">Dutch</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>-->
-                        <li class="icons dropdown">
-                            <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
-                                <span class="activity active"></span>
-                                <img src="{{request.user.profile_image.url}}" height="40" width="40" alt="">
-                            </div>
-                            <div class="drop-down dropdown-profile   dropdown-menu">
-                                <div class="dropdown-content-body">
-                                    <ul>
-                                        <li>
-                                            <a href="{% url 'account:view' user_id=request.user.id %}" ><i class="icon-user"></i> <span>Profile</span></a>
-                                        </li>
-                                        <!--<li>
-                                            <a href="email-inbox.html"><i class="icon-envelope-open"></i> <span>Inbox</span> <div class="badge gradient-3 badge-pill badge-primary">3</div></a>
-                                        </li>
-                                        
-                                        <hr class="my-2">-->
-                                        <li>
-                                            <!-- BIG WARNING, EDIT IN PRODUCTION -->
-                                            <a href="http://127.0.0.1:8000/lock/?next={{request.path}}"><i class="icon-lock"></i> <span>Lock Screen</span></a>
-                                        </li>
-                                        <li><a href="{% url 'logout' %}"><i class="icon-key"></i> <span>Logout</span></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <!--**********************************
-            Header end ti-comment-alt
-        ***********************************-->
+        {% include 'snippets/header.html' %}
 
-        <!--**********************************
-            Sidebar start
-        ***********************************-->
-        <div class="nk-sidebar">           
-            <div class="nk-nav-scroll">
-                <ul class="metismenu" id="menu">
-                    <li>
-                        <a href="{% url 'home' %}" aria-expanded="false">
-                            <i class="fas fa-home" style="color: white !important;"></i><span class="nav-text" style="color: white !important;">Home</span>
-                        </a>
-                    </li>
-                    <li class="nav-label" style="color: white !important;">Apps</li>
-                    <li>
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="far fa-comment-dots" style="color: white !important;"></i> <span class="nav-text" style="color: white !important;">Chat</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="{% url 'public_chat:public_chat_room' %}" style="color: white !important;">Public Chat</a></li>
-                            <li><a href="{% url 'chat:private-chat-room' %}" style="color: white !important;">Private Chat</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="{% url 'forum:forum-topic' %}" aria-expanded="false">
-                            <i class="fas fa-layer-group" style="color: white !important;"></i><span class="nav-text" style="color: white !important;">Forum</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="fas fa-store" style="color: white !important;"></i> <span class="nav-text" style="color: white !important;">Marketplace</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="{% url 'marketplace:marketplace-home' %}" style="color: white !important;">Buying</a></li>
-                            <li><a href="{% url 'marketplace:marketplace-create' %}" style="color: white !important;">Selling</a></li>
-                            <li><a href="{% url 'marketplace:marketplace-wishlist' %}" style="color: white !important;">Your Wishlist</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-label" style="color: white !important;">Profile</li>
-                    <li>
-                        <a href="{% url 'account:view' user_id=request.user.id %}" aria-expanded="false">
-                            <i class="far fa-user" style="color: white !important;"></i><span class="nav-text" style="color: white !important;">Account</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{% url 'friend:list' user_id=request.user.id %}" aria-expanded="false">
-                            <i class="fas fa-user-friends" style="color: white !important;"></i><span class="nav-text" style="color: white !important;">Friends</span>
-                        </a>
-                    </li>
-                    <li class="nav-label" style="color: white !important;">Settings</li>
-                    <li>
-                        <a href="#" aria-expanded="false">
-                            <i class="fas fa-info-circle" style="color: white !important;"></i><span class="nav-text" style="color: white !important;">About</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" aria-expanded="false">
-                            <i class="fas fa-cogs" style="color: white !important;"></i><span class="nav-text" style="color: white !important;">Setting</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <!--**********************************
-            Sidebar end
-        ***********************************-->
+        {% include 'snippets/sidebar.html' %}
 
-        <!--**********************************
-            Content body start
-        ***********************************-->
         <div class="content-body">
-            <!--
-            <div class="row page-titles mx-0">
-                <div class="col p-md-0">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
-                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Home</a></li>
-                    </ol>
-                </div>
-            </div>-->
-            <!-- row -->
-
             <div class="container-fluid">
                 {% block content %}
 
                 {% endblock content %}
             </div>
-            <!-- #/ container -->
         </div>
-        <!--**********************************
-            Content body end
-        ***********************************-->
         
-        
-        <!--**********************************
-            Footer start
-        ***********************************-->
-        <div class="footer">
-            <div class="copyright">
-                <p>Copyright &copy;</p>
-            </div>
-        </div>
-        <!--**********************************
-            Footer end
-        ***********************************-->
+        {% include 'snippets/footer.html' %}
+
     </div>
-    <!--**********************************
-        Main wrapper end
-    ***********************************-->
     
     {% include 'snippets/general_notifications.html' %}
     {% include 'snippets/chat_notifications.html' %}
@@ -460,12 +67,6 @@
         Scripts
     ***********************************-->
 
-    <!-- Initial script
-    <script src="plugins/common/common.min.js"></script>
-    <script src="js/custom.min.js"></script>
-    <script src="js/settings.js"></script>
-    <script src="js/gleek.js"></script>
-    <script src="js/styleSwitcher.js"></script>-->
     <script src="{% static 'quixlab/plugins/common/common.min.js' %}"></script>
     <script src="{% static 'quixlab/js/custom.min.js' %}"></script>
     <script src="{% static 'quixlab/js/settings.js' %}"></script>
@@ -474,7 +75,6 @@
     
 
     <!-- jquery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js" integrity="sha512-WNLxfP/8cVYL9sj8Jnp6et0BkubLP31jhTG9vhL/F5uEZmg5wEzKoXp1kJslzPQWwPT1eyMiSxlKCgzHLOTOTQ==" crossorigin="anonymous"></script>
 
     <!-- cropperjs -->
@@ -490,19 +90,6 @@
 
     <!-- Sweet Alert -->
     <script src="{% static 'quixlab/plugins/sweetalert/js/sweetalert.min.js' %}"></script>
-    <!--<script src="{% static 'quixlab/plugins/sweetalert/js/sweetalert.init.js' %}"></script>-->
-
-    <script type="text/javascript">
-        function displayLoadingSpinner(isDisplayed){
-            var spinner = document.getElementById("id_loading_spinner")
-            if(isDisplayed){
-                spinner.style.display = "block"
-            }
-            else{
-                spinner.style.display = "none"
-            }
-        }
-    </script>
 
     <!-- Setup SOCKET for NOTIFICATIONS -->
     <!-- Originally from header.html -->
@@ -617,9 +204,8 @@
             //const elements = document.querySelectorAll('.body-post');
             for (let i = 0; i < elements.length; i++) {
                 let bodyText = elements[i].children[0].innerText;
-                console.log(bodyText);
                 let words = bodyText.split(' ');
-
+                console.log(bodyText)
                 for (let j = 0; j < words.length; j++) {
                     if (words[j][0] === '#') {
                         //let replacedText = bodyText.replace(/\s\#(.*?)(\s|$)/g, ` <a href="#">${words[j]}</a>`);

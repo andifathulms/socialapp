@@ -1,0 +1,27 @@
+{% load static %}
+
+{% block head %}
+<style>
+    .app-logo{
+        padding: 0px !important;
+    }
+    .nav-header{
+        background-color: #000 !important;
+    }
+    .logo-small{
+        max-width: 3rem !important;
+    }
+</style>
+{% endblock head %}
+
+<div class="nav-header">
+    <div class="brand-logo">
+        <a href="{% url 'home' %}" class="app-logo">
+            <b class="logo-abbr"><img src="{% static 'img/logo-pnp-social-2.png' %}" alt="" class="logo-small"> </b>
+            <span class="logo-compact"><img src="#" alt=""></span>
+            <span class="brand-title">
+                <img src="{% static 'img/logo-pnp-social-4.png' %}" alt="">
+            </span>
+        </a>
+    </div>
+</div>

@@ -11,16 +11,16 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import Post, Comment, Image, Tag
 from .forms import PostForm, CommentForm, ShareForm, ExploreForm
 
+from account_profile.models import UserProfile
+
 DEBUG = False
 
 class PostListView(LoginRequiredMixin, View):
     login_url = '/login/'
     redirect_field_name = 'redirect_to'
     def get(self, request, *args, **kwargs):
-        logged_in_user = request.user
-
         posts = Post.objects.filter(
-            author__userfollow__followers__in=[logged_in_user.id] #Fix later
+            author__userfollow__followers__in=[request.user.id] #Fix later
         )
 
         form = PostForm(request.POST, request.FILES)
@@ -30,7 +30,11 @@ class PostListView(LoginRequiredMixin, View):
         post_list = []
         for post in posts:
             comment = Comment.objects.filter(post=post).count()
-            post_list.append((post,comment))
+            user = UserProfile.objects.get(account=post.author)
+            is_like = False
+            if request.user in post.likes.all():
+                is_like = True
+            post_list.append((post,comment,user,is_like))
 
         page = request.GET.get('page', 1)
         paginator = Paginator(post_list,10)
@@ -47,11 +51,9 @@ class PostListView(LoginRequiredMixin, View):
             'shareform': share_form,
             'form': form,
         }
-        context['debug_mode'] = settings.DEBUG
-        context['debug'] = DEBUG
-        context['room_id'] = "1"
+        
 
-        return render(request, 'post/post_list_backup.html', context)
+        return render(request, 'post/post_list_backup_2.html', context)
         #return render(request, 'layout-blank.html', context)
 
     def post(self, request, *args, **kwargs):
@@ -61,7 +63,7 @@ class PostListView(LoginRequiredMixin, View):
         form = PostForm(request.POST, request.FILES)
         files = request.FILES.getlist('image')
         share_form = ShareForm()
-
+        
         if form.is_valid():
             new_post = form.save(commit=False)
             new_post.author = request.user
@@ -82,10 +84,24 @@ class PostListView(LoginRequiredMixin, View):
         post_list = []
         for post in posts:
             comment = Comment.objects.filter(post=post).count()
-            post_list.append((post,comment))
+            user = UserProfile.objects.get(account=post.author)
+            is_like = False
+            if request.user in post.likes.all():
+                is_like = True
+            post_list.append((post,comment,user,is_like))
+
+        page = request.GET.get('page', 1)
+        paginator = Paginator(post_list,10)
+
+        try:
+            post_pagination = paginator.page(page)
+        except PageNotAnInteger:
+            post_pagination = paginator.page(1)
+        except EmptyPage:
+            post_pagination = paginator.page(paginator.num_pages)
 
         context = {
-            'post_list': post_list,
+            'post_list': post_pagination,
             'shareform': share_form,
             'form': form,
         }
@@ -93,7 +109,7 @@ class PostListView(LoginRequiredMixin, View):
         context['debug'] = DEBUG
         context['room_id'] = "1"
         
-        return render(request, 'post/post_list_backup.html', context)
+        return render(request, 'post/post_list_backup_2.html', context)
 
 class PostDetailView(LoginRequiredMixin, View):
     def get(self, request, pk, *args, **kwargs):
@@ -165,6 +181,7 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 class AddLike(LoginRequiredMixin, View):
     def post(self, request, pk, *args, **kwargs):
+        print("POST")
         post = Post.objects.get(pk=pk)
 
         is_dislike = False

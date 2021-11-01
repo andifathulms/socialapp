@@ -205,22 +205,11 @@
         </button>
     </div>
     {% if post_list.has_next %}
-        <a class="infinite-more-link" href="?page={{ post_list.next_page_number }}">More</a>
+        <a class="infinite-more-link" href="?page={{ post_list.next_page_number }}"></a>
     {% endif %}
 </div>
 {% endblock post %}
-<!--
-<script src="https://cdn.tiny.cloud/1/havldrt4zgo6yunsmxmsi0xltdkxj3wix14yetpjmxf1tyqw/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
-<script>
-  tinymce.init({
-    selector: 'textarea',
-    plugins: "emoticons",
-    toolbar: "emoticons",
-    toolbar_location: "bottom",
-    menubar: false
-  });
-</script>-->
 {%  block javascript %}
 <!-- Waypoints -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>

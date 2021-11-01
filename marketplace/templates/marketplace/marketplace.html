@@ -279,8 +279,8 @@
         <h3 class="m-auto">Your Wishlist Product</h3>
     </div>
     {% else %}
+    <!--
     <div class="row">
-        <!-- add form here -->
         <div class="select ml-5 mb-5">
           <select>
             {% for category in categories %}
@@ -298,7 +298,7 @@
         <div class="select-btn ml-5 mb-5">
             <button type="button" class="btn btn-block btn-outline-primary">Apply Filter </button>
         </div>
-    </div>
+    </div>-->
     {% endif %}
     
     <div class="row">
@@ -307,10 +307,11 @@
             <!-- Thumbnail-->
             <a href="{% url 'marketplace:marketplace-detail' product.pk %}">
             <div class="thumbnail">
+                <!--
                 <div class="date">
                     <div class="day">New</div>
                 </div>
-                <!--
+                
                 {% for img in product.image.all %}
                     <img src="{{img.image.url}}" />
                 {% endfor %}-->

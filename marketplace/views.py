@@ -1,8 +1,10 @@
 from django.shortcuts import render
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic.edit import UpdateView, DeleteView
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
+from django.urls import reverse_lazy
 
 from .models import Product, ProductImage, ProductCategory, ProductSubCategory, ProductCondition, ProductAvailability
 from .forms import ProductForm
@@ -123,6 +125,62 @@ class MarketplaceWishlistListView(LoginRequiredMixin, View):
 
 	def post(self, request, *args, **kwargs):
 		pass
+
+class MarketplaceManageProductView(LoginRequiredMixin, View):
+	login_url = '/login/'
+	redirect_field_name = 'redirect_to'
+
+	def get(self, request, *args, **kwargs):
+		logged_in_user = request.user
+		context = {}
+
+		product = Product.objects.filter(author=logged_in_user)
+		category = ProductCategory.objects.all()
+		condition = ProductCondition.objects.all()
+		
+		context["products"] = product
+		context["categories"] = category
+		context["conditions"] = condition
+
+		return render(request, 'marketplace/marketplace.html', context)
+
+class MarketplaceDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Product
+    success_url = reverse_lazy('marketplace:marketplace-manage')
+
+    def test_func(self):
+        post = self.get_object()
+        return self.request.user == post.author
+
+class MarketplaceEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'marketplace/marketplace_edit.html'
+
+    def get_success_url(self):
+        pk = self.kwargs['pk']
+        return reverse_lazy('marketplace:marketplace-detail', kwargs={'pk': pk})
+
+    def get_initial(self):
+    	initial = super(MarketplaceEditView, self).get_initial()
+
+    	product_object = self.get_object()
+
+    	initial['title'] = product_object.title
+    	initial['description'] = product_object.description
+    	initial['price'] = product_object.price
+    	initial['image'] = product_object.image
+    	initial['condition'] = product_object.condition
+    	initial['availability'] = product_object.availability
+    	initial['location'] = product_object.location
+    	initial['category'] = product_object.category
+    	print(initial)
+    	return initial
+
+
+    def test_func(self):
+        post = self.get_object()
+        return self.request.user == post.author
 
 @csrf_exempt
 def load_subcategories(request):
