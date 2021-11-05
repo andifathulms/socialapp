@@ -1,0 +1,34 @@
+{% load static %}
+{% load humanize %}
+
+{% load humanize %}
+
+{% for product in products %}
+  <div class="tweet-wrap infinite-item">
+    <div class="tweet-header">
+      <a href="{% url 'account:view' user_id=product.author.profile.pk %}">
+          <img class="mr-3 circle-rounded avator" style="float: left;margin-right: 1rem;" width="50" height="50" src="{{ product.author.profile_image.url }}" />
+      </a>
+      
+      <div class="tweet-header-info">
+        {{product.2.fullname}} <span>@{{ product.author }}</span><span> has posted to marketplace at {{ product.created_on|naturaltime }}</span><span class="label label-success">Marketplace</span>
+        <div class="body-post" style="font-weight:normal; transform: rotate(0);">
+          <a href="{% url 'marketplace:marketplace-detail' product.pk %}" style="color: black;">
+          <p><strong>{{ product.title|safe }}</strong></p>
+          <p><strong>Rp. {{product.price|intcomma}}</strong></p>
+          </a>
+          {% if product.image.count > 0 %}
+            <div class="row">
+              {% for img in product.image.all %}
+                  <div class="col-md-auto col-xs-12">
+                      <img src="{{ img.image.url }}" class="post-image" />
+                  </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+      
+    </div>
+  </div>
+{% endfor %}

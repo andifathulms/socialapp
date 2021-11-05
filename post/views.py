@@ -11,6 +11,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import Post, Comment, Image, Tag
 from .forms import PostForm, CommentForm, ShareForm, ExploreForm
 
+from marketplace.models import Product
+
 from account_profile.models import UserProfile
 
 DEBUG = False
@@ -23,6 +25,8 @@ class PostListView(LoginRequiredMixin, View):
         posts = Post.objects.filter(
             author__userfollow__followers__in=[request.user.id] #Fix later
         )
+
+        product = Product.objects.all()
 
         form = PostForm(request.POST, request.FILES)
         share_form = ShareForm()
@@ -39,18 +43,23 @@ class PostListView(LoginRequiredMixin, View):
 
         page = request.GET.get('page', 1)
         paginator = Paginator(post_list,10)
+        product_paginator = Paginator(product,1)
 
         try:
             post_pagination = paginator.page(page)
+            product_pagination = product_paginator.page(page)
         except PageNotAnInteger:
             post_pagination = paginator.page(1)
+            product_pagination = product_paginator.page(1)
         except EmptyPage:
             post_pagination = paginator.page(paginator.num_pages)
+            product_pagination = product_paginator.page(num_pages)
             
         context = {
             'post_list': post_pagination,
             'shareform': share_form,
             'form': form,
+            'products' : product_pagination,
         }
         
 

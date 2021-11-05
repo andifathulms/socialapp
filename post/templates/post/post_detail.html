@@ -394,7 +394,7 @@
     comment.addEventListener('htmx:afterSwap', function(){
         reply_count = Number(reply.innerText)
         reply.innerText = reply_count + 1
-        toastr.success("Success added comment!");
+        /*toastr.success("Success added comment!");*/
     });
     
     document.body.addEventListener('htmx:configRequest', function(evt) {
