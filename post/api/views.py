@@ -114,3 +114,61 @@ class PostAPIDetail(APIView):
         post.delete()
         
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class CommentAPIDetail(APIView):
+    permission_classes = (AllowAny,)
+    """
+    Retrieve, update or delete a transformer instance
+    """
+    def get_object(self, pk):
+        # Returns an object instance that should 
+        # be used for detail views.
+        try:
+            return Comment.objects.get(pk=pk)
+        except Comment.DoesNotExist:
+            raise Http404
+  
+    def get(self, request, post_pk, pk, format=None):
+        comment = self.get_object(pk)
+        post = Post.objects.get(pk=post_pk)
+        context = {
+            'comment': comment,
+            'post' : post
+        }
+        serializer = CommentSerializer(comment)
+
+        return render(request, 'post/snippets/post_detail_edited_comment.html', context)
+        #return Response(serializer.data)
+  
+    def put(self, request, post_pk, pk, format=None):
+        comment = self.get_object(pk)
+        serializer = CommentSerializer(comment, data=request.data)
+        post = Post.objects.get(pk=post_pk)
+        context = {
+            'comment': comment,
+            'post' : post
+        }
+        if serializer.is_valid():
+            serializer.save()
+
+            return render(request, 'post/snippets/post_detail_edited_comment.html', context)
+            #return Response(serializer.data)
+        print(serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+  
+    def patch(self, request, pk, format=None):
+        post = self.get_object(pk)
+        serializer = PostSerializer(post,
+                                           data=request.data,
+                                           partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+          
+  
+    def delete(self, request, pk, format=None):
+        post = self.get_object(pk)
+        post.delete()
+        
+        return Response(status=status.HTTP_204_NO_CONTENT)

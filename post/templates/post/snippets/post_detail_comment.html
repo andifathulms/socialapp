@@ -3,7 +3,7 @@
 {% for comment in comments %}
 {% if comment.0.is_parent %}
 
-<div class="tweet-wrap infinite-item">
+<div class="tweet-wrap infinite-item" id="comment-{{comment.0.pk}}">
   <div class="tweet-header">
     <a href="{% url 'account:view' user_id=comment.0.author.profile.pk %}">
         <img class="mr-3 circle-rounded avator" style="float: left;margin-right: 1rem;" width="50" height="50" src="{{ comment.0.author.profile_image.url }}" />
@@ -47,9 +47,43 @@
       <svg class="feather feather-send sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
       <div class="share-count">0</div>
     </div>
+
+    {% if request.user == comment.0.author %}
+    <div class="edit">
+        <button class="btn btn-transparent p-0 mr-3" hx-get= "{% url 'post:comment-edit' post.pk comment.0.pk %}" hx-swap="outerHTML" hx-target = "#comment-{{comment.0.pk}}">
+            <span><i class='far fa-edit'></i></span>
+        </button>
+    </div>
+    <!-- IF CHANGE, SO IS NEW COMMENT -->
+    <div class="delete">
+        <button class="btn btn-transparent p-0 mr-3" data-toggle="modal" data-target="#deleteComment-{{comment.0.pk}}">
+            <span><i class='fas fa-trash'></i></span>
+        </button>
+    </div>
+    {% endif %}
   </div>
 </div>
-
+<div class="modal fade" id="deleteComment-{{comment.0.pk}}">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete this comment ?</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>This action can't be undone</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <form method="POST" action="{% url 'post:comment-delete' post.pk comment.0.pk %}">
+                   {% csrf_token %}
+                   <button type="submit" value="DELETE" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="card d-none" id="{{ comment.0.pk }}">
     <div class="card-body">
         <form method="POST" action="{% url 'post:comment-reply' post.pk comment.0.pk %}" class="form-profile">

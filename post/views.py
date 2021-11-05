@@ -216,6 +216,21 @@ class PostEditViewHTMX(LoginRequiredMixin, View):
         return render(request, 'post/post_detail_tweet.html', context)
 
 
+class CommentEditViewHTMX(LoginRequiredMixin, View):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+    def get(self, request, pk, *args, **kwargs):
+        comment = Comment.objects.get(pk=pk)
+        post_pk = self.kwargs['post_pk']
+        post = Post.objects.get(pk=post_pk)
+
+        context = {
+            'comment': comment,
+            'post' : post,
+        }
+
+        return render(request, 'post/snippets/post_detail_inline_editing_comment.html', context)
+
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     template_name = 'post/post_delete.html'

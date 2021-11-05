@@ -1,6 +1,5 @@
 {% load humanize %}
 
-{% for comment in comments %}
 <div class="tweet-wrap infinite-item" id="comment-{{comment.pk}}">
   <div class="tweet-header">
     <a href="{% url 'account:view' user_id=comment.author.profile.pk %}">
@@ -61,4 +60,3 @@
     {% endif %}
   </div>
 </div>
-{% endfor %}

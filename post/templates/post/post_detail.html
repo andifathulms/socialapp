@@ -381,7 +381,6 @@
 
 <script>
     function copyContent() {
-        console.log("COPY")
         document.getElementById("hiddenTextarea").value =  
             document.getElementById("tweet-box").innerHTML;
         return true;
@@ -397,11 +396,17 @@
         reply.innerText = reply_count + 1
         toastr.success("Success added comment!");
     });
+    
     document.body.addEventListener('htmx:configRequest', function(evt) {
         evt.detail.parameters['body'] = document.getElementById("tweet-box-IE").innerHTML;
         evt.detail.parameters['author'] = {{request.user.pk}};
     });
-
+    comment.addEventListener('htmx:configRequest', function(evt){
+        console.log("456")
+        evt.detail.parameters['comment'] = document.getElementById("tweet-box-comment-IE").innerHTML;
+        evt.detail.parameters['author'] = {{request.user.pk}};
+        evt.detail.parameters['post'] = {{post.pk}};
+    });
 
 </script>
 {% endblock javascript %}
