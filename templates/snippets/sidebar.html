@@ -14,6 +14,7 @@
                 </a>
                 <ul aria-expanded="false">
                     <li><a href="{% url 'public_chat:public_chat_room' %}" style="color: white !important;">Public Chat</a></li>
+                    <li hx-get="{% url 'public_chat:public_chat_room' %}" hx-target= "#main-content" hx-trigger= "click"><span style="color: white !important;">Public Chat</span></a></li>
                     <li><a href="{% url 'chat:private-chat-room' %}" style="color: white !important;">Private Chat</a></li>
                 </ul>
             </li>

@@ -19,6 +19,7 @@ class PostListView(LoginRequiredMixin, View):
     login_url = '/login/'
     redirect_field_name = 'redirect_to'
     def get(self, request, *args, **kwargs):
+        
         posts = Post.objects.filter(
             author__userfollow__followers__in=[request.user.id] #Fix later
         )
@@ -53,8 +54,7 @@ class PostListView(LoginRequiredMixin, View):
         }
         
 
-        return render(request, 'post/post_list_backup_2.html', context)
-        #return render(request, 'layout-blank.html', context)
+        return render(request, 'post/post_list.html', context)
 
     def post(self, request, *args, **kwargs):
         logged_in_user = request.user
@@ -77,7 +77,7 @@ class PostListView(LoginRequiredMixin, View):
                 new_post.image.add(img)
 
             new_post.save()
-
+            
         else:
             print(form.errors)
         
@@ -105,27 +105,39 @@ class PostListView(LoginRequiredMixin, View):
             'shareform': share_form,
             'form': form,
         }
-        context['debug_mode'] = settings.DEBUG
-        context['debug'] = DEBUG
-        context['room_id'] = "1"
         
-        return render(request, 'post/post_list_backup_2.html', context)
+        return render(request, 'post/snippets/post_list_body.html', context)
 
 class PostDetailView(LoginRequiredMixin, View):
     def get(self, request, pk, *args, **kwargs):
         post = Post.objects.get(pk=pk)
         form = CommentForm()
         comments = Comment.objects.filter(post=post).order_by('-created_on')
+        
+        is_post_like = False
+        if request.user in post.likes.all():
+            is_post_like = True
+
+        comment_list = []
+        for comment in comments:
+            is_like = False
+            if request.user in comment.likes.all():
+                is_like = True
+
+            comment_list.append((comment,is_like))
 
         context = {
             'post': post,
             'form': form,
-            'comments': comments,
+            'comments': comment_list,
+            'is_post_like' : is_post_like,
         }        
-        return render(request, 'post/post_detail_backup.html', context)
+        return render(request, 'post/post_detail.html', context)
     def post(self, request, pk, *args, **kwargs):
+        print(pk)
         post = Post.objects.get(pk=pk)
         form = CommentForm(request.POST)
+        files = request.FILES.getlist('image')
 
         if form.is_valid():
             new_comment = form.save(commit=False)
@@ -135,6 +147,15 @@ class PostDetailView(LoginRequiredMixin, View):
 
             new_comment.create_tags()
 
+            for f in files:
+                img = Image(image=f)
+                img.save()
+                new_comment.image.add(img)
+
+            new_comment.save()
+        else:
+            print(form.errors)
+
         comments = Comment.objects.filter(post=post).order_by('-created_on')
 
         context = {
@@ -142,9 +163,10 @@ class PostDetailView(LoginRequiredMixin, View):
             'form': form,
             'comments': comments,
         }
+        print(context)
+        return render(request, 'post/snippets/post_detail_new_comment.html', context)
 
-        return render(request, 'post/post_detail_backup.html', context)
-
+#obsolete?
 class PostEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
     fields = ['body']
@@ -157,6 +179,42 @@ class PostEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def test_func(self):
         post = self.get_object()
         return self.request.user == post.author
+
+#edit with htmx?
+class PostEditViewHTMX(LoginRequiredMixin, View):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+    def get(self, request, pk, *args, **kwargs):
+        post = Post.objects.get(pk=pk)
+
+
+        context = {
+            'post': post
+        }
+
+        return render(request, 'post/snippets/post_detail_inline_editing.html', context)
+    def put(self, request, pk, *args, **kwargs):
+        post = Post.objects.get(pk=pk)
+        form = PostForm(request.PUT, request.FILES)
+        files = request.FILES.getlist('image')
+
+        if form.is_valid():
+            print(request.PUT)
+
+            post.create_tags()
+
+            for f in files:
+                img = Image(image=f)
+                img.save()
+                post.image.add(img)
+
+            #post.save()
+            
+        else:
+            print(form.errors)
+
+        return render(request, 'post/post_detail_tweet.html', context)
+
 
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post

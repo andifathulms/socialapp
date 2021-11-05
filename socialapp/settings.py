@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'storages',
     'channels',
     'mathfilters',
+    'rest_framework',
 
     'personal',
     'account',
@@ -65,6 +66,20 @@ INSTALLED_APPS = [
     'forum',
     'marketplace',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+         'rest_framework.authentication.BasicAuthentication',
+         'rest_framework.authentication.SessionAuthentication',
+        #'knox.auth.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 15,
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

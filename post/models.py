@@ -51,6 +51,7 @@ class Comment(models.Model):
     dislikes = models.ManyToManyField(Account, blank=True, related_name='comment_dislikes')
     parent = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True, related_name='+')
     tags = models.ManyToManyField('Tag', blank=True)
+    image = models.ManyToManyField('Image', blank=True)
 
     def create_tags(self):
         for word in self.comment.split():

@@ -10,4 +10,4 @@ def public_chat_view(request):
 	context['debug_mode'] = settings.DEBUG
 	context['debug'] = DEBUG
 	context['room_id'] = "1"
-	return render(request, "public_chat/room.html", context)
+	return render(request, "public_chat/public_chat.html", context)

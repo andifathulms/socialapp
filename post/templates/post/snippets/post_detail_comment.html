@@ -1,0 +1,94 @@
+{% load humanize %}
+
+{% for comment in comments %}
+{% if comment.0.is_parent %}
+
+<div class="tweet-wrap infinite-item">
+  <div class="tweet-header">
+    <a href="{% url 'account:view' user_id=comment.0.author.profile.pk %}">
+        <img class="mr-3 circle-rounded avator" style="float: left;margin-right: 1rem;" width="50" height="50" src="{{ comment.0.author.profile_image.url }}" />
+    </a>
+    
+    <div class="tweet-header-info">
+      {{comment.2.fullname}} <span><a href="{% url 'account:view' user_id=comment.0.author.profile.pk %}">@{{ comment.0.author }}</a></span><span> . {{ comment.0.created_on|naturaltime }} ({{comment.0.created_on}})</span>
+      <div class="body-post" style="font-weight:normal; transform: rotate(0);">
+        <p>{{ comment.0.comment|safe }}</p>
+        {% if comment.0.image.count > 0 %}
+          <div class="row">
+            {% for img in comment.0.image.all %}
+                <div class="col-md-auto col-xs-12">
+                    <img src="{{ img.image.url }}" class="post-image" />
+                </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+    
+  </div>
+  
+  <div class="tweet-info-counts">
+    
+    <div class="comments">
+      <svg class="feather feather-message-circle sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+      <div class="comment-count">{{comment.0.children|length}}</div>
+    </div>
+    
+    <div class="likes">
+        <button class="btn btn-transparent p-0 mr-3" type="submit" onclick="sentAJAX_like_comment({{comment.0.pk}},{{post.pk}})">
+            <span class="{% if comment.1 %} heart-clicked {% else %} heart {% endif %}" id="comment-like-button-{{comment.0.pk}}"><i class='fas fa-heart'></i></span>
+        </button>
+        <div class="likes-count">
+          <span id="comment-likes-count-{{comment.0.pk}}">{{ comment.0.likes.all.count }}</span>
+        </div>
+    </div>
+
+    <div class="message">
+      <svg class="feather feather-send sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+      <div class="share-count">0</div>
+    </div>
+  </div>
+</div>
+
+<div class="card d-none" id="{{ comment.0.pk }}">
+    <div class="card-body">
+        <form method="POST" action="{% url 'post:comment-reply' post.pk comment.0.pk %}" class="form-profile">
+            {% csrf_token %}
+            <div class="form-group">
+                <textarea class="form-control" name="comment" id="textarea" cols="30" rows="2" placeholder="Reply to this comment"></textarea>
+            </div>
+            <div class="d-flex align-items-center">
+                <button class="btn btn-primary px-3 ml-4">Send</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% for child_comment in comment.0.children %}
+<div class="card child-comment" style="margin-bottom: 5px;">
+    <div class="card-body">
+        <div>
+            <a href="{% url 'account:view' user_id=post.author.profile.pk %}">
+                <img class="mr-3 circle-rounded" height="50" width="50" src="{{ child_comment.author.profile_image.url }}" />
+            </a>
+        </div>
+        <div class="media-body">
+            <div class="d-sm-flex justify-content-between mb-2">                  
+                <h5 class="mb-sm-0"><a class="text-primary post-link" href="{% url 'account:view' user_id=post.author.profile.pk %}">@{{ child_comment.author }}</a> <small class="text-muted ml-3">{{ child_comment.created_on }}</small></h5>
+                
+                <div class="media-reply__link" style="display:flex; flex-direction: row;">
+                    {% if request.user == child_comment.author %}
+                        <a href="{% url 'post:comment-delete' post.pk child_comment.pk %}" class="edit-color"><i class="fas fa-trash"></i></a>
+                    {% endif %}
+                    
+                </div>
+            </div>
+            <div class="body-post">
+                <p>{{ child_comment.comment }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endif %}
+{% endfor %}

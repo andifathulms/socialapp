@@ -60,6 +60,9 @@ urlpatterns = [
     
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='password_reset/password_reset_complete.html'),
     name='password_reset_complete'),
+
+    path('api-auth/', include('rest_framework.urls')),
+    path('api/', include('post.api.urls', namespace='api')),
 ]
 
 if settings.DEBUG:

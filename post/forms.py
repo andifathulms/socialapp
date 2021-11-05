@@ -26,7 +26,14 @@ class CommentForm(forms.ModelForm):
         widget=forms.Textarea(
             attrs={'rows': '3',
                    'placeholder': 'Say Something...'}
-        ))    
+        ))
+
+    image = forms.ImageField(
+        required=False,
+        widget=forms.ClearableFileInput(attrs={
+            'multiple': True
+            })
+    )   
     class Meta:
         model = Comment
         fields = ['comment']

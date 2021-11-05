@@ -1,15 +1,11 @@
-{% extends 'layout-blank.html' %}
-{% load crispy_forms_tags %}
-{% load static %}
 
-{% block content %}
 <div class="container">
 
 	<!-- MEDIUM+ SCREENS -->
-	<div class="main d-none d-md-flex flex-column" id="home-content">
+	<div class="main d-none d-md-flex flex-column">
 
 		{% block post %}
-		{% endblock post %}
+		{% endblock %}
 
 	</div>
 	<!-- END MEDIUM+ SCREENS -->
@@ -20,5 +16,10 @@
 	</div>
 	<!-- END SMALL SCREENS -->
 </div>
-{% endblock content %}
+
+
+
+
+
+
 

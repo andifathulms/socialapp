@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 {% load static %}
 
-{% block post %}
+{% block head %}
 <style>
     .child-comment{
         margin-left: 2rem;
@@ -11,149 +11,224 @@
         text-decoration: none;
     }
 </style>
+<style>
+    .post-image {
+        display: block;
+        max-width:430px;
+        max-height:135px;
+        width: auto;
+        height: auto;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    .post-image:hover {opacity: 0.7;}
+    .share-btn {
+        cursor: pointer;
+    }
+
+    .shared-post {
+        margin-left: 30px;
+    }
+
+    .body-post a {
+        text-decoration: none;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+    }
+    img {
+      max-width:100%;
+    }
+    .avator {
+      border-radius:100px;
+      width:48px;
+      margin-right: 15px;
+    }
+
+
+    .tweet-wrap {
+      background: #fff;
+      border-radius:3px;
+      padding: 30px;
+      border-bottom: 1px solid #e6ecf0;
+      border-top: 1px solid #e6ecf0;
+    }
+
+    .tweet-header {
+      display: flex;
+      align-items:flex-start;
+      font-size:20px;
+    }
+    .tweet-header-info {
+      font-weight:bold;
+    }
+    .tweet-header-info span {
+      color:#657786;
+      font-weight:normal;
+      margin-left: 5px;
+    }
+    .tweet-header-info p {
+      font-weight:normal;
+      margin-top: 5px;
+      
+    }
+    .tweet-img-wrap {
+      padding-left: 5px;
+    }
+
+    .tweet-info-counts {
+      display: flex;
+      margin-left: 60px;
+      margin-top: 10px;
+    }
+    .tweet-info-counts div {
+      display: flex;
+      margin-right: 20px;
+    }
+    .tweet-info-counts div svg {
+      color:#657786;
+      margin-right: 10px;
+    }
+    @media screen and (max-width:430px){
+      body {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+      .tweet-header {
+        flex-direction:column;
+      }
+      .tweet-header img {
+        margin-bottom: 20px;
+      }
+      .tweet-header-info p {
+        margin-bottom: 30px;
+      }
+      .tweet-img-wrap {
+        padding-left: 0;
+      }
+      .tweet-info-counts {
+      display: flex;
+      margin-left: 0;
+    }
+    .tweet-info-counts div {
+      margin-right: 10px;
+    }
+    }
+    .heart {
+        height: 29px;
+        width: 29px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: grey;
+    }
+
+    .heart-clicked {
+        height: 29px;
+        width: 29px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: coral;
+    }
+
+    /* Image Viewer */
+    /* The Modal (background) */
+    #image-viewer {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        padding-top: 100px;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0,0,0);
+        background-color: rgba(0,0,0,0.9);
+    }
+    .modal-content {
+        margin: auto;
+        display: block;
+        width: 80%;
+        max-width: 700px;
+    }
+    .modal-content { 
+        animation-name: zoom;
+        animation-duration: 0.6s;
+    }
+    @keyframes zoom {
+        from {transform:scale(0)} 
+        to {transform:scale(1)}
+    }
+    #image-viewer .close {
+        position: absolute;
+        top: 15px;
+        right: 35px;
+        color: #f1f1f1;
+        font-size: 40px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+    #image-viewer .close:hover,
+    #image-viewer .close:focus {
+        color: #bbb;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    @media only screen and (max-width: 700px){
+        .modal-content {
+            width: 100%;
+        }
+    }
+</style>
+{% endblock head %}
+
+{% block post %}
 <div class="container">
-    <div class="row mt-5">
+    <div class="row mt-5 mb-5">
         <div class="col-md-3 col-sm-6">
             <a href="{% url 'home' %}" class="btn btn-light">Back to Feed</a>
         </div>
     </div>
-    <div class="row justify-content-center mt-3">
-        <div class="col-md-5 col-sm-12 border-bottom">
-            <div>
-                <a href="{% url 'account:view' user_id=post.author.profile.pk %}">
-                    <img class="round-circle " style="float: left;margin-right: 1rem;" height="30" width="30" src="{{ post.author.profile_image.url }}" />
-                </a>
-                <p style="padding-top: 0.5rem;">
-                    <a class="text-primary" style="text-decoration: none;" href="{% url 'account:view' user_id=post.author.profile.pk %}">@{{ post.author }}</a> {{ post.created_on }}
-                </p>
-            </div>
-                {% if request.user == post.author %}
-                <a href="{% url 'post:post-edit' post.pk %}" style="color: #333;"><i class="far fa-edit"></i></a>
-                <a href="{% url 'post:post-delete' post.pk %}" style="color: #333;"><i class="fas fa-trash"></i></a>
-                {% endif %}
-                {% if post.image.count > 0 %}
-                  <div class="row">
-                    {% for img in post.image.all %}
-                        <div class="col-md-6 col-xs-12">
-                            <img src="{{ img.image.url }}" class="post-image" />
-                        </div>
-                    {% endfor %}
-                  </div>
-                {% endif %}
-            <div class="body-post">
-                <p>{{ post.body }}</p>
-            </div>
-            <div class="d-flex flex-row">
-                <form method="POST" action="{% url 'post:post-like' post.pk %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="next" value="{{ request.path }}">
-                    <button style="background-color: transparent; border: none; box-shadow: none;" type="submit">
-                        <i class="far fa-thumbs-up"> <span>{{ post.likes.all.count }}</span></i>
-                    </button>
-                </form>
 
-                <form method="POST" action="{% url 'post:post-dislike' post.pk %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="next" value="{{ request.path }}">
-                    <button style="background-color: transparent; border: none; box-shadow: none;" type="submit">
-                        <i class="far fa-thumbs-down"> <span>{{ post.dislikes.all.count }}</span></i>
-                    </button>
+    <div id="post-detail-tweet">
+        {% include 'post/snippets/post_detail_tweet.html' %}
+    </div>
+
+    {% include 'post/snippets/post_detail_form.html' %}
+    {% include 'post/snippets/post_detail_reply_count.html' %}
+    <div id="post-comment-content">
+        {% include 'post/snippets/post_detail_comment.html' %}
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="deleteModal">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete this post ?</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>This action can't be undone</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <form method="POST" action="{% url 'post:post-delete' post.pk %}">
+                   {% csrf_token %}
+                   <button type="submit" value="DELETE" class="btn btn-danger">Delete</button>
                 </form>
             </div>
         </div>
     </div>
-
-    <div class="row justify-content-center mt-3">
-        <div class="col-md-5 col-sm-12">
-            <h5>Add a Comment!</h5>
-        </div>
-    </div>
-    <div class="row justify-content-center mt-3 mb-5">
-        <div class="col-md-5 col-sm-12">
-            <form method="POST">
-                {% csrf_token %}
-                {{ form | crispy }}
-                <div class="d-grid gap-2">
-                    <button class="btn btn-success mt-3">Submit!</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    {% for comment in comments %}
-    {% if comment.is_parent %}
-    <div class="row justify-content-center mt-3 mb-5 border-bottom">
-        <div class="col-md-5 col-sm-12">
-            <p>
-                <div>
-                    <a href="{% url 'account:view' user_id=comment.author.profile.pk %}">
-                        <img class="round-circle " style="float: left;margin-right: 1rem;" height="30" width="30" src="{{ comment.author.profile_image.url }}" />
-                    </a>
-                    <p style="padding-top: 0.5rem;">
-                        <a class="text-primary" style="text-decoration: none;" href="{% url 'account:view' user_id=comment.author.profile.pk %}">@{{ comment.author }}</a> {{ comment.created_on }}
-                    </p>
-                </div>
-                {% if request.user == comment.author %}
-                <a href="{% url 'post:comment-delete' post.pk comment.pk %}" style="color: #333;"><i class="fas fa-trash"></i></a>
-                {% endif %}
-            </p>
-            <p>{{ comment.comment }}</p>
-
-            <div class="d-flex flex-row">
-                <form method="POST" action="{% url 'post:comment-like' post.pk comment.pk %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="next" value="{{ request.path }}">
-                    <button class="remove-default-btn" type="submit">
-                        <i class="far fa-thumbs-up"> <span>{{ comment.likes.all.count }}</span></i>
-                    </button>
-                </form>
-
-                <form method="POST" action="{% url 'post:comment-dislike' post.pk comment.pk %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="next" value="{{ request.path }}">
-                    <button class="remove-default-btn" type="submit">
-                        <i class="far fa-thumbs-down"> <span>{{ comment.dislikes.all.count }}</span></i>
-                    </button>
-                </form>
-                <div>
-                    <button class="remove-default-btn"><i class="far fa-comment-dots" onclick="commentReplyToggle('{{ comment.pk }}')"></i></button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row justify-content-center mt-3 mb-5 d-none" id="{{ comment.pk }}">
-        <div class="col-md-5 col-sm-12">
-            <form method="POST" action="{% url 'post:comment-reply' post.pk comment.pk %}">
-                {% csrf_token %}
-                {{ form | crispy }}
-                <div class="d-grid gap-2">
-                    <button class="btn btn-success mt-3">Submit!</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    {% for child_comment in comment.children %}
-    <div class="row justify-content-center mt-3 mb-5 child-comment">
-        <div class="col-md-5 col-sm-12 border-bottom">
-            <p>
-                <div>
-                    <a href="{% url 'account:view' user_id=post.author.profile.pk %}">
-                        <img class="round-circle post-img" height="30" width="30" src="{{ child_comment.author.profile_image.url }}" />
-                    </a>
-                    <p class="post-text">
-                        <a class="text-primary post-link" href="{% url 'account:view' user_id=post.author.profile.pk %}">@{{ child_comment.author }}</a> {{ child_comment.created_on }}
-                    </p>
-                </div>
-                {% if request.user == child_comment.author %}
-                    <a href="{% url 'post:comment-delete' post.pk child_comment.pk %}" class="edit-color"><i class="fas fa-trash"></i></a>
-                {% endif %}
-            </p>
-            <p>{{ child_comment.comment }}</p>
-        </div>
-    </div>
-    {% endfor %}
-    {% endif %}
-    {% endfor %}
 </div>
 <script>
 
@@ -169,3 +244,164 @@
 
 </script>
 {% endblock post %}
+
+{% block javascript %}
+
+<script>
+    const wrapper = document.querySelector(".wrapper"),
+    editableInput = wrapper.querySelector(".editable"),
+    readonlyInput = wrapper.querySelector(".readonly"),
+    placeholder = wrapper.querySelector(".placeholder"),
+    counter = wrapper.querySelector(".counter"),
+    button = wrapper.querySelector("button");
+
+    editableInput.onfocus = ()=>{
+      placeholder.style.color = "#c5ccd3";
+    }
+    editableInput.onblur = ()=>{
+      placeholder.style.color = "#98a5b1";
+    }
+
+    editableInput.onkeyup = (e)=>{
+      let element = e.target;
+      validated(element);
+    }
+    editableInput.onkeypress = (e)=>{
+      let element = e.target;
+      validated(element);
+      placeholder.style.display = "none";
+    }
+
+    function validated(element){
+      let text;
+      let maxLength = 100;
+      let currentlength = element.innerText.length;
+
+      if(currentlength <= 0){
+        placeholder.style.display = "block";
+        counter.style.display = "none";
+        button.classList.remove("active");
+      }else{
+        placeholder.style.display = "none";
+        counter.style.display = "block";
+        button.classList.add("active");
+      }
+
+      counter.innerText = maxLength - currentlength;
+
+      if(currentlength > maxLength){
+        let overText = element.innerText.substr(maxLength); //extracting over texts
+        overText = `<span class="highlight">${overText}</span>`; //creating new span and passing over texts
+        text = element.innerText.substr(0, maxLength) + overText; //passing overText value in textTag variable
+        readonlyInput.style.zIndex = "1";
+        counter.style.color = "#e0245e";
+        button.classList.remove("active");
+      }else{
+        readonlyInput.style.zIndex = "-1";
+        counter.style.color = "#333";
+      }
+      readonlyInput.innerHTML = text; //replacing innerHTML of readonly div with textTag value
+    }
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+
+    function sentAJAX_like(pk){
+        var id = "like-button-"+pk
+        var id_count = "likes-count-"+pk
+        var like = document.getElementById(id)
+        var count = document.getElementById(id_count)
+        var like_count = Number(count.innerText)
+        if(like.classList.contains('heart')){
+            like.classList.remove('heart');
+            like.classList.add('heart-clicked');
+            count.innerText = like_count + 1
+        }else{
+            like.classList.remove('heart-clicked');
+            like.classList.add('heart');
+            count.innerText = like_count - 1
+        }
+       $.ajax({
+        type: "POST",
+        headers: {'X-CSRFToken': csrftoken},
+        url: 'http://127.0.0.1:8000/post/'+pk+'/like', // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+        data: {
+          'pk': pk
+        },
+        success: function (data) {
+          
+          //console.log(data)
+        }
+      });
+    }
+
+    function sentAJAX_like_comment(pk, post_pk){
+        var id = "comment-like-button-"+pk
+        var id_count = "comment-likes-count-"+pk
+        var like = document.getElementById(id)
+        var count = document.getElementById(id_count)
+        var like_count = Number(count.innerText)
+        if(like.classList.contains('heart')){
+            like.classList.remove('heart');
+            like.classList.add('heart-clicked');
+            count.innerText = like_count + 1
+        }else{
+            like.classList.remove('heart-clicked');
+            like.classList.add('heart');
+            count.innerText = like_count - 1
+        }
+       $.ajax({
+        type: "POST",
+        headers: {'X-CSRFToken': csrftoken},
+        url: 'http://127.0.0.1:8000/post/'+post_pk+'/comment/'+pk+'/like', 
+        data: {
+          'pk': pk
+        },
+        success: function (data) {
+          
+          //console.log(data)
+        }
+      });
+    }   
+</script>
+
+<script>
+    function copyContent() {
+        console.log("COPY")
+        document.getElementById("hiddenTextarea").value =  
+            document.getElementById("tweet-box").innerHTML;
+        return true;
+    }
+</script>
+
+<script type="text/javascript">
+    var reply = document.getElementById("count-reply");
+    var comment = document.getElementById("post-comment-content");
+    var btnEdit = document.getElementById("btn-post-edit");
+    comment.addEventListener('htmx:afterSwap', function(){
+        reply_count = Number(reply.innerText)
+        reply.innerText = reply_count + 1
+        toastr.success("Success added comment!");
+    });
+    document.body.addEventListener('htmx:configRequest', function(evt) {
+        evt.detail.parameters['body'] = document.getElementById("tweet-box-IE").innerHTML;
+        evt.detail.parameters['author'] = {{request.user.pk}};
+    });
+
+
+</script>
+{% endblock javascript %}

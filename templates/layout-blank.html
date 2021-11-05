@@ -1,7 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
+    
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -25,6 +25,9 @@
     <!-- Sweet Alert, refactor later -->
     <link href="{% static 'quixlab/plugins/sweetalert/css/sweetalert.css' %}" rel="stylesheet">
 
+    <!-- Toastr -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
     <style type="text/css">
         body{
             background:#F3F3F9 !important;
@@ -36,7 +39,7 @@
 
 <body>
 
-    {% include 'snippets/preloader.html' %}
+    {% include 'snippets/preloader_sub.html' %}
 
     {% include 'snippets/base_js.html' %}
 
@@ -49,10 +52,10 @@
         {% include 'snippets/sidebar.html' %}
 
         <div class="content-body">
-            <div class="container-fluid">
+            <div class="container-fluid" id="main-content">
                 {% block content %}
 
-                {% endblock content %}
+                {% endblock %}
             </div>
         </div>
         
@@ -73,6 +76,14 @@
     <script src="{% static 'quixlab/js/gleek.js' %}"></script>
     <script src="{% static 'quixlab/js/styleSwitcher.js' %}"></script>
     
+    <!-- HTMX CDN -->
+    <script src="https://unpkg.com/htmx.org@1.1.0"></script>
+    <!-- handling CSRF request -->
+    <script>
+      document.body.addEventListener('htmx:configRequest', (event) => {
+        event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+      })
+    </script>
 
     <!-- jquery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js" integrity="sha512-WNLxfP/8cVYL9sj8Jnp6et0BkubLP31jhTG9vhL/F5uEZmg5wEzKoXp1kJslzPQWwPT1eyMiSxlKCgzHLOTOTQ==" crossorigin="anonymous"></script>
@@ -82,14 +93,41 @@
 
     <!-- Markdown-it -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/11.0.1/markdown-it.min.js" integrity="sha512-hW0KbtvDnXCHbh2UCNP/6R+oXxCKiOfm9ciuUekdGBCQF1+57bGqZAk3sAFir7PMQstyRW0UecsSc2HQotH2vg==" crossorigin="anonymous"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it-emoji/2.0.0/markdown-it-emoji.js"></script>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/styles/default.min.css" integrity="sha512-kZqGbhf9JTB4bVJ0G8HCkqmaPcRgo88F0dneK30yku5Y/dep7CZfCnNml2Je/sY4lBoqoksXz4PtVXS4GHSUzQ==" crossorigin="anonymous" />
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/highlight.min.js" integrity="sha512-TDKKr+IvoqZnPzc3l35hdjpHD0m+b2EC2SrLEgKDRWpxf2rFCxemkgvJ5kfU48ip+Y+m2XVKyOCD85ybtlZDmw==" crossorigin="anonymous"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/languages/kotlin.min.js" integrity="sha512-8aYTnyDstX39PHxorDD+6ROknf98Vqr5KTOjwRCl/442uAVKOpCJ5wY9I3VQ6y46rdDJKYBIglIfE2+GQk8U5Q==" crossorigin="anonymous"></script>
+
     <script>hljs.initHighlightingOnLoad();</script>
 
     <!-- Sweet Alert -->
     <script src="{% static 'quixlab/plugins/sweetalert/js/sweetalert.min.js' %}"></script>
+
+    <!-- Toastr -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        toastr.options = {
+          "closeButton": false,
+          "debug": false,
+          "newestOnTop": true,
+          "progressBar": true,
+          "positionClass": "toast-bottom-center",
+          "preventDuplicates": false,
+          "onclick": null,
+          "showDuration": "300",
+          "hideDuration": "1000",
+          "timeOut": "5000",
+          "extendedTimeOut": "1000",
+          "showEasing": "swing",
+          "hideEasing": "linear",
+          "showMethod": "fadeIn",
+          "hideMethod": "fadeOut"
+        }
+    </script>
 
     <!-- Setup SOCKET for NOTIFICATIONS -->
     <!-- Originally from header.html -->
@@ -205,7 +243,6 @@
             for (let i = 0; i < elements.length; i++) {
                 let bodyText = elements[i].children[0].innerText;
                 let words = bodyText.split(' ');
-                console.log(bodyText)
                 for (let j = 0; j < words.length; j++) {
                     if (words[j][0] === '#') {
                         //let replacedText = bodyText.replace(/\s\#(.*?)(\s|$)/g, ` <a href="#">${words[j]}</a>`);

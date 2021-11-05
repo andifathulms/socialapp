@@ -11456,7 +11456,10 @@ table.dataTable thead .sorting::after {
   right: 0;
   bottom: 0;
   z-index: 99999999999;
-  background: #fff; }
+  background: #fff;
+  justify-content: center;
+  align-items: center;
+  align-content: center;}
 
 .loader {
   position: absolute;
