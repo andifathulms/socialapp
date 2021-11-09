@@ -1,0 +1,15 @@
+<div style="display: none;" id="replyForm">
+    <form method="POST">
+        {% csrf_token %}
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="threadTitle">Your Answer</label>
+                <textarea name="reply" class="form-control summernote" placeholder="Input your answer here"></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-light" id="cancelForm">Cancel</button>
+            <button type="submit" class="btn btn-primary" name="btn-post-question">Post</button>
+        </div>
+    </form>
+</div>

@@ -10,7 +10,7 @@ class Subject(models.Model):
 	created_on = models.DateTimeField(default=timezone.now)
 	description = models.TextField()
 	admin = models.ManyToManyField(Account, blank=True, related_name='forum_admin')
-
+	image = models.ImageField(upload_to='uploads/subject_img/', blank=True, null=True)
 
 class ForumPost(models.Model):
 

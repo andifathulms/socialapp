@@ -4,7 +4,7 @@
 {% load humanize %}
 
 {% for product in products %}
-  <div class="tweet-wrap infinite-item">
+  <div class="tweet-wrap infinite-item" style="background-color: #f3f5a4;">
     <div class="tweet-header">
       <a href="{% url 'account:view' user_id=product.author.profile.pk %}">
           <img class="mr-3 circle-rounded avator" style="float: left;margin-right: 1rem;" width="50" height="50" src="{{ product.author.profile_image.url }}" />

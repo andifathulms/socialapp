@@ -1,0 +1,53 @@
+{% load humanize %}
+{% load mathfilters %}
+
+{% for post in posts %}
+  <div class="tweet-wrap infinite-item">
+    <div class="tweet-header">
+      <div class="vote-wrap">
+        <form method="POST" action="{% url 'forum:forum-upvote' post.0.pk %}">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.path }}">
+            <button class="btn btn-transparent p-0" type="submit">
+              <div class="vote {% if post.2 %}up{% else %}inactive{% endif %}">
+                <i class="fas fa-chevron-circle-up"></i>
+              </div>
+            </button>
+        </form>
+        <div class="stat">
+          <span class="score">
+              <strong>{{post.0.upvote.all.count|sub:post.0.downvote.all.count}}</strong>
+          </span>
+        </div>
+        <form method="POST" action="{% url 'forum:forum-downvote' post.0.pk %}">
+          {% csrf_token %}
+          <input type="hidden" name="next" value="{{ request.path }}">
+          <button class="btn btn-transparent p-0" type="submit">
+              <div class="vote {% if post.3 %}down{% else %}inactive{% endif %}">
+                  <i class="fas fa-chevron-circle-down"></i>
+              </div>
+          </button>
+        </form>
+      </div>
+      
+      <div class="tweet-header-info">
+        <div class="body-post" style="font-weight:normal; transform: rotate(0);">
+          <a href="{% url 'forum:forum-detail' post.0.pk %}"class="text-body">
+              <p><strong>{{post.0.title|safe}}</strong></p>
+              {% if "img" in post.0.body %}
+              {% else %}
+              <p>{{post.0.body|safe|truncatechars:100}}</p>
+              {% endif %}
+          </a>
+        </div>
+        <span>@{{ post.0.author }} asked {{ post.0.created_on|naturaltime }}</span>
+      </div>
+      
+    </div>
+    
+    <div class="tweet-info-counts">
+      <span class="d-none d-sm-inline-block"><i class="far fa-eye"></i>{{post.0.view}}</span>
+      <span><i class="far fa-comment ml-2"></i> {{post.1}}</span>
+    </div>
+  </div>
+{% endfor %}

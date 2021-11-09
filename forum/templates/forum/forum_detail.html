@@ -1,412 +1,225 @@
 {% extends 'personal/home.html' %}
 {% load crispy_forms_tags %}
 {% load mathfilters %}
-{% block post %}
-<style type="text/css">
-body{
-    color: #1a202c;
-    text-align: left;
-    background-color: #e2e8f0;    
-}
-.inner-wrapper {
-    position: relative;
-    height: calc(100vh - 3.5rem);
-    transition: transform 0.3s;
-}
-@media (min-width: 992px) {
-    .sticky-navbar .inner-wrapper {
-        height: calc(100vh - 3.5rem - 48px);
-    }
-}
+{% load humanize %}
 
-.inner-main,
-.inner-sidebar {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    display: flex;
-    flex-direction: column;
-}
-.inner-sidebar {
-    left: 0;
-    width: 235px;
-    border-right: 1px solid #cbd5e0;
-    background-color: #fff;
-}
-.inner-main {
-    right: 0;
-    left: 235px;
-}
-.inner-main-footer,
-.inner-main-header,
-.inner-sidebar-footer,
-.inner-sidebar-header {
-    height: 3.5rem;
-    border-bottom: 1px solid #cbd5e0;
-    display: flex;
-    align-items: center;
-    padding: 0 1rem;
-    flex-shrink: 0;
-}
-.inner-main-body,
-.inner-sidebar-body {
-    padding: 1rem;
-    overflow-y: auto;
-    position: relative;
-    flex: 1 1 auto;
-}
-.inner-main-body .sticky-top,
-.inner-sidebar-body .sticky-top {
-    
-}
-.inner-main-footer,
-.inner-main-header {
-    background-color: #fff;
-}
-.inner-main-footer,
-.inner-sidebar-footer {
-    border-top: 1px solid #cbd5e0;
-    border-bottom: 0;
-    height: auto;
-    min-height: 3.5rem;
-}
-@media (max-width: 767.98px) {
+{% block head %}
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<style type="text/css">
+    .inner-wrapper {
+        position: relative;
+        height: calc(100vh - 3.5rem);
+        transition: transform 0.3s;
+    }
+    @media (min-width: 992px) {
+        .sticky-navbar .inner-wrapper {
+            height: calc(100vh - 3.5rem - 48px);
+        }
+    }
+
+    .inner-main,
     .inner-sidebar {
-        left: -235px;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        display: flex;
+        flex-direction: column;
+    }
+    .inner-sidebar {
+        left: 0;
+        width: 235px;
+        border-right: 1px solid #cbd5e0;
+        background-color: #fff;
     }
     .inner-main {
-        left: 0;
+        right: 0;
+        left: 235px;
     }
-    .inner-expand .main-body {
-        overflow: hidden;
+    .inner-main-footer,
+    .inner-main-header,
+    .inner-sidebar-footer,
+    .inner-sidebar-header {
+        height: 3.5rem;
+        border-bottom: 1px solid #cbd5e0;
+        display: flex;
+        align-items: center;
+        padding: 0 1rem;
+        flex-shrink: 0;
     }
-    .inner-expand .inner-wrapper {
-        transform: translate3d(235px, 0, 0);
+    .inner-main-body,
+    .inner-sidebar-body {
+        padding: 1rem;
+        overflow-y: auto;
+        position: relative;
+        flex: 1 1 auto;
     }
-}
+    .inner-main-body .sticky-top,
+    .inner-sidebar-body .sticky-top {
+        
+    }
+    .inner-main-footer,
+    .inner-main-header {
+        background-color: #fff;
+    }
+    .inner-main-footer,
+    .inner-sidebar-footer {
+        border-top: 1px solid #cbd5e0;
+        border-bottom: 0;
+        height: auto;
+        min-height: 3.5rem;
+    }
+    @media (max-width: 767.98px) {
+        .inner-sidebar {
+            left: -235px;
+        }
+        .inner-main {
+            left: 0;
+        }
+        .inner-expand .main-body {
+            overflow: hidden;
+        }
+        .inner-expand .inner-wrapper {
+            transform: translate3d(235px, 0, 0);
+        }
+    }
 
-.nav .show>.nav-link.nav-link-faded, .nav-link.nav-link-faded.active, .nav-link.nav-link-faded:active, .nav-pills .nav-link.nav-link-faded.active, .navbar-nav .show>.nav-link.nav-link-faded {
-    color: #3367b5;
-    background-color: #c9d8f0;
-}
+    .nav .show>.nav-link.nav-link-faded, .nav-link.nav-link-faded.active, .nav-link.nav-link-faded:active, .nav-pills .nav-link.nav-link-faded.active, .navbar-nav .show>.nav-link.nav-link-faded {
+        color: #3367b5;
+        background-color: #c9d8f0;
+    }
 
-.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
-    color: #fff;
-    background-color: #467bcb;
-}
-.nav-link.has-icon {
-    display: flex;
-    align-items: center;
-}
-.nav-link.active {
-    color: #467bcb;
-}
-.nav-pills .nav-link {
-    border-radius: .25rem;
-}
-.nav-link {
-    color: #4a5568;
-}
-.card {
-    box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.06);
-}
+    .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+        color: #fff;
+        background-color: #467bcb;
+    }
+    .nav-link.has-icon {
+        display: flex;
+        align-items: center;
+    }
+    .nav-link.active {
+        color: #467bcb;
+    }
+    .nav-pills .nav-link {
+        border-radius: .25rem;
+    }
+    .nav-link {
+        color: #4a5568;
+    }
+    .card {
+        box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.06);
+    }
 
-.card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    word-wrap: break-word;
-    background-color: #fff;
-    background-clip: border-box;
-    border: 0 solid rgba(0,0,0,.125);
-    border-radius: .25rem;
-}
+    .card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 0 solid rgba(0,0,0,.125);
+        border-radius: .25rem;
+    }
 
-.card-body {
-    flex: 1 1 auto;
-    min-height: 1px;
-    padding: 1rem;
-}
+    .card-body {
+        flex: 1 1 auto;
+        min-height: 1px;
+        padding: 1rem;
+    }
 
-.ibox-content {
-  background-color: #ffffff;
-  color: inherit;
-  padding: 15px 20px 20px 20px;
-  border-color: #e7eaec;
-  border-image: none;
-  border-style: solid solid none;
-  border-width: 1px 0;
-}
+    .ibox-content {
+      background-color: #ffffff;
+      color: inherit;
+      padding: 15px 20px 20px 20px;
+      border-color: #e7eaec;
+      border-image: none;
+      border-style: solid solid none;
+      border-width: 1px 0;
+    }
 
-.vote-wrap{
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-left: 10px;
-  margin-right: 20px;
-  text-align:center;
-}
-.vote{
-  font-size:36px;
-  padding: 0;
-  margin: 0;
-}
-.up{
-  color:green;
-}
-.down{
-  color:red;
-}
-.inactive{
-  color:gray;
-}
-.score{
-  position: relative;
-  display:block;
-  padding: 2px 0;
-}
+    .vote-wrap{
+      margin-top: 0px;
+      margin-bottom: 0px;
+      margin-left: 10px;
+      margin-right: 20px;
+      text-align:center;
+    }
+    .vote{
+      font-size:36px;
+      padding: 0;
+      margin: 0;
+    }
+    .up{
+      color:green;
+    }
+    .down{
+      color:red;
+    }
+    .inactive{
+      color:gray;
+    }
+    .score{
+      position: relative;
+      display:block;
+      padding: 2px 0;
+    }
 </style>
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+{% include 'forum/snippets/css/tweet_box_css.html' %}
+{% endblock head %}
+
+{% block post %}
+
 <div class="container">
 <div class="main-body p-0">
-    <div class="ibox-content m-b-sm border-bottom" style="margin-bottom: 10px;">
-        <div class="p-xs">
-            <h2>{{subject.title}}</h2>
-            <span>{{subject.description}}</span>
-        </div>
+    
+    {% include 'forum/snippets/forum_header.html' %}
+
+    <a href="{% url 'forum:forum-content' post.subject.pk %}" class="btn btn-light btn-sm mb-3 has-icon"><i class="fa fa-arrow-left mr-2"></i>Back</a>
+    
+    {% include 'forum/snippets/forum_detail_post.html' %}
+
+    
+    <div class="inner-sidebar-header justify-content-center">
+        <button class="btn btn-primary has-icon btn-block" type="button" id="btnReply">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus mr-2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            Reply to this question
+        </button>
     </div>
-    <div class="inner-wrapper">
-        <!-- Inner sidebar -->
-        <div class="inner-sidebar">
+    
+    {% include 'forum/snippets/forum_detail_form.html' %}
+    
+    {% include 'forum/snippets/forum_detail_comment.html' %}
 
-            <!-- Inner sidebar body -->
-            <div class="inner-sidebar-body p-0">
-                <div class="p-3 h-100" data-simplebar="init">
-                    <div class="simplebar-wrapper" style="margin: -16px;">
-                        <div class="simplebar-height-auto-observer-wrapper"><div class="simplebar-height-auto-observer"></div></div>
-                        <div class="simplebar-mask">
-                            <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
-                                <div class="simplebar-content-wrapper" style="height: 100%; overflow: hidden scroll;">
-                                    <div class="simplebar-content" style="padding: 16px;">
-                                        <nav class="nav nav-pills nav-gap-y-1 flex-column">
-                                            <a href="javascript:void(0)" class="nav-link nav-link-faded has-icon active">All Threads</a>
-                                            <a href="javascript:void(0)" class="nav-link nav-link-faded has-icon">Popular this week</a>
-                                            <a href="javascript:void(0)" class="nav-link nav-link-faded has-icon">Popular all time</a>
-                                            <a href="javascript:void(0)" class="nav-link nav-link-faded has-icon">Solved</a>
-                                            <a href="javascript:void(0)" class="nav-link nav-link-faded has-icon">Unsolved</a>
-                                            <a href="javascript:void(0)" class="nav-link nav-link-faded has-icon">No replies yet</a>
-                                        </nav>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="simplebar-placeholder" style="width: 234px; height: 292px;"></div>
-                    </div>
-                    <div class="simplebar-track simplebar-horizontal" style="visibility: hidden;"><div class="simplebar-scrollbar" style="width: 0px; display: none;"></div></div>
-                    <div class="simplebar-track simplebar-vertical" style="visibility: visible;"><div class="simplebar-scrollbar" style="height: 151px; display: block; transform: translate3d(0px, 0px, 0px);"></div></div>
-                </div>
-            </div>
-            <!-- /Inner sidebar body -->
-        </div>
-        <!-- /Inner sidebar -->
-
-        <!-- Inner main -->
-        <div class="inner-main">
-            <!-- Inner main header -->
-            <div class="inner-main-header">
-                <a class="nav-link nav-icon rounded-circle nav-link-faded mr-3 d-md-none" href="#" data-toggle="inner-sidebar"><i class="material-icons">arrow_forward_ios</i></a>
-                <select class="custom-select custom-select-sm w-auto mr-1">
-                    <option selected="">Latest</option>
-                    <option value="1">Popular</option>
-                    <option value="3">Solved</option>
-                    <option value="3">Unsolved</option>
-                    <option value="3">No Replies Yet</option>
-                </select>
-                <span class="input-icon input-icon-sm ml-auto w-auto">
-                    <input type="text" class="form-control form-control-sm bg-gray-200 border-gray-200 shadow-none mb-4 mt-4" placeholder="Search forum" />
-                </span>
-            </div>
-            <!-- /Inner main header -->
-
-            <!-- Inner main body -->
-
-            <!-- Forum List -->
-            <div class="inner-main-body p-2 p-sm-3 show">
-                <a href="{% url 'forum:forum-content' post.subject.pk %}" class="btn btn-light btn-sm mb-3 has-icon"><i class="fa fa-arrow-left mr-2"></i>Back</a>
-                <div class="card mb-2">
-                    <div class="card-body">
-                        <div class="media forum-item">
-                            <div class="vote-wrap">
-                              <form method="POST" action="{% url 'forum:forum-upvote' post.pk %}">
-                                  {% csrf_token %}
-                                  <input type="hidden" name="next" value="{{ request.path }}">
-                                  <button class="btn btn-transparent p-0" type="submit">
-                                    <div class="vote {% if is_upvote %}up{% else %}inactive{% endif %}">
-                                      <i class="fas fa-chevron-circle-up"></i>
-                                    </div>
-                                  </button>
-                              </form>
-                              <div class="stat">
-                                <span class="score"><strong>{{post.upvote.all.count|sub:post.downvote.all.count}}</strong>
-                                </span>
-                              </div>
-                              <form method="POST" action="{% url 'forum:forum-downvote' post.pk %}">
-                                {% csrf_token %}
-                                <input type="hidden" name="next" value="{{ request.path }}">
-                                <button class="btn btn-transparent p-0" type="submit">
-                                    <div class="vote {% if is_downvote %}down{% else %}inactive{% endif %}">
-                                        <i class="fas fa-chevron-circle-down"></i>
-                                    </div>
-                                </button>
-                              </form>
-                            </div>
-                            <a href="{% url 'account:view' user_id=post.author.profile.pk %}" class="card-link">
-                                <img src="{{post.author.profile_image.url}}" class="mr-3 rounded-circle" width="50" height="50" alt="User" />
-                                <small class="d-block text-center text-muted">{{user_profile.status}}</small>
-                            </a>
-                            <div class="media-body ml-3">
-                                <a href="{% url 'account:view' user_id=post.author.profile.pk %}" class="text-secondary">{{post.author.username}}</a>
-                                <small class="text-muted ml-2">{{timestamp}}</small>
-                                <h3 class="mt-3">{{post.title}}</h3>
-                                <hr>
-                                <div class="mt-3 font-size-sm">
-                                    {% autoescape off %}
-                                    <p>{{post.body}}</p>
-                                    {% endautoescape %}
-                                </div>
-                            </div>
-                            <div class="text-muted small text-center">
-                                <span class="d-none d-sm-inline-block"><i class="far fa-eye"></i> {{post.view}}</span>
-                                <span><i class="far fa-comment ml-2"></i> {{replies|length}}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="inner-sidebar-header justify-content-center">
-                    <button class="btn btn-primary has-icon btn-block" type="button" data-toggle="modal" data-target="#threadModal">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus mr-2">
-                            <line x1="12" y1="5" x2="12" y2="19"></line>
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                        </svg>
-                        Reply to this question
-                    </button>
-                </div>
-                <hr>
-                <!-- Replies -->
-                {% for reply in replies %}
-                <div class="card mb-2">
-                    <div class="card-body">
-                        <div class="media forum-item">
-                            <div class="vote-wrap">
-                              <form method="POST" action="{% url 'forum:reply-upvote' post.pk reply.0.pk %}">
-                                  {% csrf_token %}
-                                  <input type="hidden" name="next" value="{{ request.path }}">
-                                  <button class="btn btn-transparent p-0" type="submit">
-                                    <div class="vote {% if reply.3 %}up{% else %}inactive{% endif %}">
-                                      <i class="fas fa-chevron-circle-up"></i>
-                                    </div>
-                                  </button>
-                              </form>
-                              <div class="stat">
-                                <span class="score"><strong>{{reply.0.upvote.all.count|sub:reply.0.downvote.all.count}}</strong>
-                                </span>
-                              </div>
-                              <form method="POST" action="{% url 'forum:reply-downvote' post.pk reply.0.pk %}">
-                                {% csrf_token %}
-                                <input type="hidden" name="next" value="{{ request.path }}">
-                                <button class="btn btn-transparent p-0" type="submit">
-                                    <div class="vote {% if reply.4 %}down{% else %}inactive{% endif %}">
-                                        <i class="fas fa-chevron-circle-down"></i>
-                                    </div>
-                                </button>
-                              </form>
-                            </div>
-                            <a href="{% url 'account:view' user_id=reply.0.author.profile.pk %}" class="card-link">
-                                <img src="{{reply.0.author.profile_image.url}}" class="mr-3 rounded-circle" width="50" height="50" alt="User" />
-                                <small class="d-block text-center text-muted">{{reply.1.status}}</small>
-                            </a>
-                            <div class="media-body ml-3">
-                                <a href="{% url 'account:view' user_id=reply.0.author.profile.pk %}" class="text-secondary">{{reply.0.author.username}}</a>
-                                <small class="text-muted ml-2">{{reply.2}}</small>
-                                <div class="mt-3 font-size-sm">
-                                    {% autoescape off %}
-                                    <p>{{reply.0.reply}}</p>
-                                    {% endautoescape %}
-                                </div>
-                                <!--
-                                <button class="btn btn-xs text-muted has-icon"><i class="fa fa-heart" aria-hidden="true"></i>1</button>
-                                <a href="javascript:void(0)" class="text-muted small">Reply</a> -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-                <!--
-                <ul class="pagination pagination-sm pagination-circle justify-content-center mb-0">
-                    <li class="page-item disabled">
-                        <span class="page-link has-icon"><i class="material-icons">chevron_left</i></span>
-                    </li>
-                    <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
-                    <li class="page-item"><span class="page-link">2</span></li>
-                    <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link has-icon" href="javascript:void(0)"><i class="material-icons">chevron_right</i></a>
-                    </li>
-                </ul> -->
-            </div>
-            <!-- /Forum List -->
-
-            <!-- /Inner main body -->
-        </div>
-        <!-- /Inner main -->
-    </div>
-
-    <!-- New Thread Modal -->
-    <div class="modal fade" id="threadModal" tabindex="-1" role="dialog" aria-labelledby="threadModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <form method="POST">
-                    {% csrf_token %}
-                    <div class="modal-header d-flex align-items-center bg-primary text-white">
-                        <h6 class="modal-title mb-0" id="threadModalLabel">Post your reply</h6>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="threadTitle">Your Answer</label>
-                            <textarea name="reply" class="form-control summernote" placeholder="Input your answer here"></textarea>
-                        </div>
-                        
-                        <!--
-                        <div class="custom-file form-control-sm mt-3" style="max-width: 300px;">
-                            <input type="file" class="custom-file-input" id="customFile" multiple="" />
-                            <label class="custom-file-label" for="customFile">Attachment</label>
-                        </div> -->
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary" name="btn-post-question">Post</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 </div>
 </div>
+{% endblock post %}
+{% block javascript %}
 <script src="https://cdn.tiny.cloud/1/havldrt4zgo6yunsmxmsi0xltdkxj3wix14yetpjmxf1tyqw/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
 <script>
     tinymce.init({
       selector: 'textarea',
       height: 500,
-      plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
-      toolbar: 'a11ycheck addcomment showcomments casechange checklist code export formatpainter pageembed permanentpen table',
+      plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker image code',
+      toolbar: 'a11ycheck addcomment showcomments casechange checklist code export formatpainter pageembed permanentpen table image',
       toolbar_mode: 'floating',
       tinycomments_mode: 'embedded',
       tinycomments_author: 'Author name',
    });
 </script>
+    
+<script>
+    $('#btnReply').click(function(){
+        $('#replyForm').css('display','block');
+        $('#btnReply').css('display','none');
+    });
 
-{% endblock post %}
+    $('#cancelForm').click(function(){
+        $('#replyForm').css('display','none');
+        $('#btnReply').css('display','block');
+    });
+</script>
+{% endblock javascript %}

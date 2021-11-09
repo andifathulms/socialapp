@@ -1,0 +1,50 @@
+<div class="forum-title">
+    <div class="pull-right forum-desc">
+        <samll>Total forum: {{general_subject|length}}</samll>
+    </div>
+    <h3>General forums</h3>
+</div>
+
+{% for forum in general_subject %}
+<div class="forum-item active">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="forum-icon">
+                <img class="mr-3 circle-rounded avator" style="float: left;margin-right: 2rem;" width="70" height="70" src="{{ forum.0.image.url }}" />
+            </div>
+            <div class="forum-desc">
+                <a href="{% url 'forum:forum-content' forum.0.pk %}" class="forum-item-title">{{forum.0.title}}</a>
+                <div class="forum-sub-title">{{forum.0.description}}</div>
+            </div>
+        </div>
+        <div class="col-md-1 forum-info">
+            <span class="views-number">
+                {% if forum.2 > 0 %}
+                    {{forum.2}}
+                {% else %}
+                    0
+                {% endif %}
+            </span>
+            <div>
+                <small>Views</small>
+            </div>
+        </div>
+        <div class="col-md-1 forum-info"> <!-- md-1 -->
+            <span class="views-number">
+                {{forum.1}}
+            </span>
+            <div>
+                <small>Posts</small>
+            </div>
+        </div>
+        <div class="col-md-1 forum-info">
+            <span class="views-number">
+                0
+            </span>
+            <div>
+                <small>Subscriber</small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
