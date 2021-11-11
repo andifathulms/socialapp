@@ -8,12 +8,14 @@ from .views import(
 	AddDownvote,
 	AddReplyUpvote,
 	AddReplyDownvote,
+	AddSubscribe,
 	)
 
 app_name = 'forum'
 
 urlpatterns = [
 	path('subject/', SubjectListView.as_view(), name='forum-topic'),
+	path('subscribe/<int:pk>/', AddSubscribe.as_view(), name='forum-subscribe'),
 	path('content/<int:pk>/', ForumListView.as_view(), name='forum-content'),
 	path('detail/<int:pk>/', ForumDetailView.as_view(), name='forum-detail'),
 	path('detail/<int:pk>/<int:parent_comment_id>', ForumDetailView.as_view(), name='forum-detail-reply'),

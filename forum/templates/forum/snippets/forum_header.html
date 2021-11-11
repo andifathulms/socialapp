@@ -5,5 +5,10 @@
     <div class="p-xs">
         <h2>{{subject.title}}</h2>
         <span>{{subject.description}}</span>
+        {% if request.user in subject.subscriber.all %}
+        <button type="button" class="btn mb-1 btn-success" id="btn-join-{{subject.pk}}" onclick="myFunction({{subject.pk}}) " style="float: right;">Joined</button>
+        {% else %}
+        <button type="button" class="btn mb-1 btn-outline-primary" id="btn-join-{{subject.pk}}" onclick="myFunction({{subject.pk}})" style="float: right;">Join</button>
+        {% endif %}
     </div>
 </div>

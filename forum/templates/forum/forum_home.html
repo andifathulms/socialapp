@@ -199,6 +199,12 @@
     .m-b-sm {
         margin-bottom: 10px;
     }
+    .btn-leave:hover:before{
+      content: 'Leave?';
+    }
+    .btn-leave:hover{
+      background-color: coral;
+    }
 </style>
 {% endblock head %}
 
@@ -220,3 +226,43 @@
 </div>
 
 {% endblock post %}
+
+{% block javascript %}
+<script>
+  
+  const csrftoken = getCookie('csrftoken');
+
+  function myFunction(pk) {
+    var id = "btn-join-" + pk
+    var subs_id = "subscribe-"+pk
+    var btn = document.getElementById(id)
+    var subscribe = document.getElementById(subs_id)
+    var subscribe_count = Number(subscribe.innerText)
+    if(btn.classList.contains('btn-outline-primary')){
+      btn.classList.remove('btn-outline-primary')
+      /*btn.classList.add('btn-leave')*/
+      btn.classList.add('btn-success')
+      btn.innerHTML = 'Joined'
+      subscribe.innerText = subscribe_count + 1
+    }else{
+      btn.classList.remove('btn-success')
+      /*btn.classList.remove('btn-leave')*/
+      btn.classList.add('btn-outline-primary')
+      btn.innerHTML = 'Join'
+      subscribe.innerText = subscribe_count - 1
+    }
+    $.ajax({
+      type: "POST",
+      headers: {'X-CSRFToken': csrftoken},
+      url: 'http://127.0.0.1:8000/forum/subscribe/'+pk+'/', 
+      data: {
+        'pk': pk
+      },
+      success: function (data) {
+        
+        //console.log(data)
+      }
+    });
+  }
+</script>
+{% endblock javascript %}

@@ -5,29 +5,21 @@
   <div class="tweet-wrap infinite-item">
     <div class="tweet-header">
       <div class="vote-wrap">
-        <form method="POST" action="{% url 'forum:forum-upvote' post.0.pk %}">
-            {% csrf_token %}
-            <input type="hidden" name="next" value="{{ request.path }}">
-            <button class="btn btn-transparent p-0" type="submit">
-              <div class="vote {% if post.2 %}up{% else %}inactive{% endif %}">
-                <i class="fas fa-chevron-circle-up"></i>
-              </div>
-            </button>
-        </form>
+        <button class="btn btn-transparent p-0" type="submit" id="upvote-{{post.0.pk}}" onclick="sentAJAX_upvote_post({{post.0.pk}})">
+          <div id="upvote-div-{{post.0.pk}}" class="vote {% if request.user in post.0.upvote.all %}up{% else %}inactive{% endif %}">
+            <i class="fas fa-chevron-circle-up"></i>
+          </div>
+        </button>
         <div class="stat">
           <span class="score">
-              <strong>{{post.0.upvote.all.count|sub:post.0.downvote.all.count}}</strong>
+              <strong id="score-{{post.0.pk}}">{{post.0.upvote.all.count|sub:post.0.downvote.all.count}}</strong>
           </span>
         </div>
-        <form method="POST" action="{% url 'forum:forum-downvote' post.0.pk %}">
-          {% csrf_token %}
-          <input type="hidden" name="next" value="{{ request.path }}">
-          <button class="btn btn-transparent p-0" type="submit">
-              <div class="vote {% if post.3 %}down{% else %}inactive{% endif %}">
-                  <i class="fas fa-chevron-circle-down"></i>
-              </div>
-          </button>
-        </form>
+        <button class="btn btn-transparent p-0" type="submit" id="downvote-{{post.0.pk}}" onclick="sentAJAX_downvote_post({{post.0.pk}})">
+            <div id="downvote-div-{{post.0.pk}}" class="vote {% if request.user in post.0.downvote.all %}down{% else %}inactive{% endif %}">
+              <i class="fas fa-chevron-circle-down"></i>
+            </div>
+        </button>
       </div>
       
       <div class="tweet-header-info">

@@ -4,28 +4,20 @@
 <div class="tweet-wrap">
     <div class="tweet-header">
         <div class="vote-wrap">
-          <form method="POST" action="{% url 'forum:forum-upvote' post.pk %}">
-              {% csrf_token %}
-              <input type="hidden" name="next" value="{{ request.path }}">
-              <button class="btn btn-transparent p-0" type="submit">
-                <div class="vote {% if is_upvote %}up{% else %}inactive{% endif %}">
+              <button class="btn btn-transparent p-0" type="submit" id="upvote-{{post.pk}}" onclick="sentAJAX_upvote_post({{post.pk}})">
+                <div id="upvote-div" class="vote {% if request.user in post.upvote.all %}up{% else %}inactive{% endif %}">
                   <i class="fas fa-chevron-circle-up"></i>
                 </div>
               </button>
-          </form>
           <div class="stat">
-            <span class="score"><strong>{{post.upvote.all.count|sub:post.downvote.all.count}}</strong>
+            <span class="score"><strong id="score">{{post.upvote.all.count|sub:post.downvote.all.count}}</strong>
             </span>
           </div>
-          <form method="POST" action="{% url 'forum:forum-downvote' post.pk %}">
-            {% csrf_token %}
-            <input type="hidden" name="next" value="{{ request.path }}">
-            <button class="btn btn-transparent p-0" type="submit">
-                <div class="vote {% if is_downvote %}down{% else %}inactive{% endif %}">
-                    <i class="fas fa-chevron-circle-down"></i>
+            <button class="btn btn-transparent p-0" type="submit" id="downvote-{{post.pk}}" onclick="sentAJAX_downvote_post({{post.pk}})">
+                <div id="downvote-div" class="vote {% if request.user in post.downvote.all %}down{% else %}inactive{% endif %}">
+                  <i class="fas fa-chevron-circle-down"></i>
                 </div>
             </button>
-          </form>
         </div>
         <a href="{% url 'account:view' user_id=post.author.profile.pk %}">
             <img class="mr-3 circle-rounded avator" style="float: left;margin-right: 1rem;" width="50" height="50" src="{{ post.author.profile_image.url }}" />
@@ -33,7 +25,7 @@
         <div class="tweet-header-info">
             <div class="body-post" style="font-weight:normal; transform: rotate(0);">
                 <a href="{% url 'account:view' user_id=post.author.profile.pk %}" class="text-secondary">{{post.author.username}}</a><span>asked {{ post.created_on|naturaltime }}</span>
-                <small class="text-muted ml-2">({{timestamp}})</small>
+                <small class="text-muted ml-2">({{post.created_on}})</small>
                 <h3 class="mt-3">{{post.title}}</h3>
                 Viewed<span> {{post.view}} times</span>  |  Total Answer<span> {{replies|length}}</span>
                 <hr>

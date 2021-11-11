@@ -1,6 +1,6 @@
 <div style="display: none;" id="replyForm">
-    <form method="POST">
-        {% csrf_token %}
+    <form method="POST"> {% csrf_token %}
+    <!--<form onsubmit='copyContent()' method= "post" hx-post= "{% url 'forum:forum-detail' post.pk %}" hx-swap="innerHTML" hx-target = "#comment-list">-->
         <div class="modal-body">
             <div class="form-group">
                 <label for="threadTitle">Your Answer</label>

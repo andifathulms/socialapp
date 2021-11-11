@@ -205,7 +205,8 @@
 <script>
     tinymce.init({
       selector: 'textarea',
-      height: 500,
+      body_id : "reply",
+      height: 200,
       plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker image code',
       toolbar: 'a11ycheck addcomment showcomments casechange checklist code export formatpainter pageembed permanentpen table image',
       toolbar_mode: 'floating',
@@ -228,11 +229,191 @@
 
 <script>
     function copyContent() {
-        var iframe = document.getElementById("reply_ifr");
-        console.log(iframe.querySelector('#tinymce'))
+        var iframe = document.getElementById("reply");
+        console.log(iframe)
         document.getElementById("tinymce").value =  
             document.getElementById("reply").innerHTML;
         return true;
+    }
+</script>
+<script>
+    const csrftoken = getCookie('csrftoken');
+    function sentAJAX_upvote_post(pk) {
+        var btn_id = "upvote-" + pk
+        var btn = document.getElementById(btn_id)
+        var div = document.getElementById('upvote-div')
+        var div_down = document.getElementById('downvote-div')
+        var score = document.getElementById('score')
+        var score_count = Number(score.innerText)
+        if(div.classList.contains('up')){
+          div.classList.remove('up')
+          div.classList.add('inactive')
+          score.innerText = score_count - 1
+        }else{
+          div.classList.remove('inactive')
+          div.classList.add('up')
+          if(div_down.classList.contains('down')){
+            div_down.classList.remove('down')
+            score.innerText = score_count + 2
+          }else{
+            score.innerText = score_count + 1
+          }
+        }
+        $.ajax({
+          type: "POST",
+          headers: {'X-CSRFToken': csrftoken},
+          url: 'http://127.0.0.1:8000/forum/'+pk+'/upvote', 
+          data: {
+            'pk': pk
+          },
+          success: function (data) {
+            
+            //console.log(data)
+          }
+        });
+    }
+
+    function sentAJAX_downvote_post(pk) {
+        var btn_id = "downvote-" + pk
+        var btn = document.getElementById(btn_id)
+        var div = document.getElementById('downvote-div')
+        var div_up = document.getElementById('upvote-div')
+        var score = document.getElementById('score')
+        var score_count = Number(score.innerText)
+        if(div.classList.contains('down')){
+          div.classList.remove('down')
+          div.classList.add('inactive')
+          score.innerText = score_count + 1
+        }else{
+          div.classList.remove('inactive')
+          div.classList.add('down')
+          if(div_up.classList.contains('up')){
+            div_up.classList.remove('up')
+            score.innerText = score_count - 2
+          }else{
+            score.innerText = score_count - 1
+          }
+        }
+        $.ajax({
+          type: "POST",
+          headers: {'X-CSRFToken': csrftoken},
+          url: 'http://127.0.0.1:8000/forum/'+pk+'/downvote', 
+          data: {
+            'pk': pk
+          },
+          success: function (data) {
+            
+            //console.log(data)
+          }
+        });
+    }
+
+    function sentAJAX_upvote_reply(pk, post_pk) {
+        var btn_id = "upvote-reply-" + pk
+        var btn = document.getElementById(btn_id)
+        var div = document.getElementById('upvote-reply-div-'+pk)
+        var div_down = document.getElementById('downvote-reply-div-'+pk)
+        var score = document.getElementById('score-reply-'+pk)
+        var score_count = Number(score.innerText)
+        var score_div = document.getElementById('score-'+pk)
+        if(div.classList.contains('up')){
+          div.classList.remove('up')
+          div.classList.add('inactive')
+          if(score_count <= 1){
+            score_div.classList.remove('up')
+            if(score_count <= 0){
+                score_div.classList.add('down')
+            }
+          }
+          score.innerText = score_count - 1
+        }else{
+          div.classList.remove('inactive')
+          div.classList.add('up')
+          if(div_down.classList.contains('down')){
+            div_down.classList.remove('down')
+            if(score_count >= -1){
+                score_div.classList.remove('down')
+                if(score_count >= 0){
+                    score_div.classList.add('up')
+                }
+            }
+            score.innerText = score_count + 2
+          }else{
+            if(score_count >= 0){
+                score_div.classList.remove('down')
+                if(score_count >= 1){
+                    score_div.classList.add('up')
+                }
+            }
+            score.innerText = score_count + 1
+          }
+        }
+        $.ajax({
+          type: "POST",
+          headers: {'X-CSRFToken': csrftoken},
+          url: 'http://127.0.0.1:8000/forum/'+post_pk+'/reply/'+pk+'/upvote', 
+          data: {
+            'pk': pk
+          },
+          success: function (data) {
+            
+            //console.log(data)
+          }
+        });
+    }
+
+    function sentAJAX_downvote_reply(pk, post_pk) {
+        var btn_id = "downvote-reply-" + pk
+        var btn = document.getElementById(btn_id)
+        var div = document.getElementById('downvote-reply-div-'+pk)
+        var div_up = document.getElementById('upvote-reply-div-'+pk)
+        var score = document.getElementById('score-reply-'+pk)
+        var score_count = Number(score.innerText)
+        var score_div = document.getElementById('score-'+pk)
+        if(div.classList.contains('down')){
+          div.classList.remove('down')
+          div.classList.add('inactive')
+          if(score_count >= -1){
+            score_div.classList.remove('down')
+            if(score_count >= 0){
+                score_div.classList.add('up')
+            }
+          }
+          score.innerText = score_count + 1
+        }else{
+          div.classList.remove('inactive')
+          div.classList.add('down')
+          if(div_up.classList.contains('up')){
+            div_up.classList.remove('up')
+            if(score_count <= 1){
+                score_div.classList.remove('up')
+                if(score_count <= 0){
+                    score_div.classList.add('down')
+                }
+            }
+            score.innerText = score_count - 2
+          }else{
+            if(score_count <= 0){
+                score_div.classList.remove('up')
+                if(score_count <= -1){
+                    score_div.classList.add('down')
+                }
+            }
+            score.innerText = score_count - 1
+          }
+        }
+        $.ajax({
+          type: "POST",
+          headers: {'X-CSRFToken': csrftoken},
+          url: 'http://127.0.0.1:8000/forum/'+post_pk+'/reply/'+pk+'/downvote', 
+          data: {
+            'pk': pk
+          },
+          success: function (data) {
+            
+            //console.log(data)
+          }
+        });
     }
 </script>
 {% endblock javascript %}

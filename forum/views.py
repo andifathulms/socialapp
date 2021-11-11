@@ -185,7 +185,7 @@ class ForumDetailView(LoginRequiredMixin, View):
 		context["replies"] = post_reply
 
 		return render(request, 'forum/forum_detail_2.html', context)
-		#return render(request, 'forum/snippets/forum_detail_comment.html', context)
+		#return render(request, 'forum/snippets/forum_detail/comments.html', context)
 
 class AddUpvote(LoginRequiredMixin, View):
 
@@ -307,6 +307,19 @@ class AddReplyDownvote(LoginRequiredMixin, View):
 
 		if is_downvote:
 			forum_post.downvote.remove(request.user)
+
+		next = request.POST.get('next', '/')
+		return HttpResponseRedirect(next)
+
+class AddSubscribe(LoginRequiredMixin, View):
+
+	def post(self, request, pk, *args, **kwargs):
+		subject = Subject.objects.get(pk=pk)
+
+		if request.user in subject.subscriber.all():
+			subject.subscriber.remove(request.user)
+		else:
+			subject.subscriber.add(request.user)
 
 		next = request.POST.get('next', '/')
 		return HttpResponseRedirect(next)

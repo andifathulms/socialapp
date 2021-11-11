@@ -8,7 +8,7 @@
 {% for forum in general_subject %}
 <div class="forum-item active">
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-8">
             <div class="forum-icon">
                 <img class="mr-3 circle-rounded avator" style="float: left;margin-right: 2rem;" width="70" height="70" src="{{ forum.0.image.url }}" />
             </div>
@@ -16,6 +16,13 @@
                 <a href="{% url 'forum:forum-content' forum.0.pk %}" class="forum-item-title">{{forum.0.title}}</a>
                 <div class="forum-sub-title">{{forum.0.description}}</div>
             </div>
+        </div>
+        <div class="col-md-1 btn-join">
+            {% if request.user in forum.0.subscriber.all %}
+            <button type="button" class="btn mb-1 btn-success" id="btn-join-{{forum.0.pk}}" onclick="myFunction({{forum.0.pk}}) ">Joined</button>
+            {% else %}
+            <button type="button" class="btn mb-1 btn-outline-primary" id="btn-join-{{forum.0.pk}}" onclick="myFunction({{forum.0.pk}}) ">Join</button>
+            {% endif %}
         </div>
         <div class="col-md-1 forum-info">
             <span class="views-number">
@@ -38,8 +45,8 @@
             </div>
         </div>
         <div class="col-md-1 forum-info">
-            <span class="views-number">
-                0
+            <span class="views-number" id="subscribe-{{forum.0.pk}}">
+                {{forum.0.subscriber.all.count}}
             </span>
             <div>
                 <small>Subscriber</small>

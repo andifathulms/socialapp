@@ -221,6 +221,8 @@
     </div>
 </div>
 </div>
+{% endblock post %}
+{% block javascript %}
 <script src="https://cdn.tiny.cloud/1/havldrt4zgo6yunsmxmsi0xltdkxj3wix14yetpjmxf1tyqw/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
 <script>
@@ -261,5 +263,77 @@
       },
    });
 </script>
+<script>
+    const csrftoken = getCookie('csrftoken');
 
-{% endblock post %}
+    function sentAJAX_upvote_post(pk) {
+        var btn_id = "upvote-" + pk
+        var btn = document.getElementById(btn_id)
+        var div = document.getElementById('upvote-div-'+pk)
+        var div_down = document.getElementById('downvote-div-'+pk)
+        var score = document.getElementById('score-'+pk)
+        var score_count = Number(score.innerText)
+        if(div.classList.contains('up')){
+          div.classList.remove('up')
+          div.classList.add('inactive')
+          score.innerText = score_count - 1
+        }else{
+          div.classList.remove('inactive')
+          div.classList.add('up')
+          if(div_down.classList.contains('down')){
+            div_down.classList.remove('down')
+            score.innerText = score_count + 2
+          }else{
+            score.innerText = score_count + 1
+          }
+        }
+        $.ajax({
+          type: "POST",
+          headers: {'X-CSRFToken': csrftoken},
+          url: 'http://127.0.0.1:8000/forum/'+pk+'/upvote', 
+          data: {
+            'pk': pk
+          },
+          success: function (data) {
+            
+            //console.log(data)
+          }
+        });
+    }
+
+    function sentAJAX_downvote_post(pk) {
+        var btn_id = "downvote-" + pk
+        var btn = document.getElementById(btn_id)
+        var div = document.getElementById('downvote-div-'+pk)
+        var div_up = document.getElementById('upvote-div-'+pk)
+        var score = document.getElementById('score-'+pk)
+        var score_count = Number(score.innerText)
+        if(div.classList.contains('down')){
+          div.classList.remove('down')
+          div.classList.add('inactive')
+          score.innerText = score_count + 1
+        }else{
+          div.classList.remove('inactive')
+          div.classList.add('down')
+          if(div_up.classList.contains('up')){
+            div_up.classList.remove('up')
+            score.innerText = score_count - 2
+          }else{
+            score.innerText = score_count - 1
+          }
+        }
+        $.ajax({
+          type: "POST",
+          headers: {'X-CSRFToken': csrftoken},
+          url: 'http://127.0.0.1:8000/forum/'+pk+'/downvote', 
+          data: {
+            'pk': pk
+          },
+          success: function (data) {
+            
+            //console.log(data)
+          }
+        });
+    }
+</script>
+{% endblock javascript %}
