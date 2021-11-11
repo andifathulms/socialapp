@@ -16,6 +16,7 @@ urlpatterns = [
 	path('subject/', SubjectListView.as_view(), name='forum-topic'),
 	path('content/<int:pk>/', ForumListView.as_view(), name='forum-content'),
 	path('detail/<int:pk>/', ForumDetailView.as_view(), name='forum-detail'),
+	path('detail/<int:pk>/<int:parent_comment_id>', ForumDetailView.as_view(), name='forum-detail-reply'),
 	path('<int:pk>/upvote', AddUpvote.as_view(), name='forum-upvote'),
     path('<int:pk>/downvote', AddDownvote.as_view(), name='forum-downvote'),
     path('<int:post_pk>/reply/<int:pk>/upvote', AddReplyUpvote.as_view(), name='reply-upvote'),

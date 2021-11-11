@@ -143,7 +143,7 @@ class PostDetailView(LoginRequiredMixin, View):
         }        
         return render(request, 'post/post_detail.html', context)
     def post(self, request, pk, *args, **kwargs):
-        print(pk)
+        
         post = Post.objects.get(pk=pk)
         form = CommentForm(request.POST)
         files = request.FILES.getlist('image')

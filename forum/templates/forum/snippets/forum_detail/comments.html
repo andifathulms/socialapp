@@ -1,0 +1,90 @@
+{% load humanize %}
+{% load mathfilters %}
+{% load mptt_tags %}
+
+
+<div class="comment-thread">
+{% recursetree replies %}
+    {% with reply=node %} 
+        <details open class="comment" id="comment-{{reply.pk}}">
+            <a href="#comment-{{reply.pk}}" class="comment-border-link">
+                <span class="sr-only">Jump to comment-{{reply.pk}}</span>
+            </a>
+            <summary>
+                <div class="comment-heading">
+                    <div class="comment-voting">
+                        <form method="POST" action="{% url 'forum:reply-upvote' post.pk reply.pk %}">
+                          {% csrf_token %}
+                          <input type="hidden" name="next" value="{{ request.path }}">
+                          <button class="btn btn-transparent p-0" type="submit">
+                            <div class="{% if request.user in reply.upvote.all %}up{% else %}inactive{% endif %}">
+                              <i class="fas fa-chevron-circle-up"></i>
+                            </div>
+                          </button>
+                        </form>
+                        
+                        <form method="POST" action="{% url 'forum:reply-downvote' post.pk reply.pk %}">
+                          {% csrf_token %}
+                          <input type="hidden" name="next" value="{{ request.path }}">
+                          <button class="btn btn-transparent p-0" type="submit">
+                            <div class="{% if request.user in reply.downvote.all %}down{% else %}inactive{% endif %}">
+                                <i class="fas fa-chevron-circle-down"></i>
+                            </div>
+                          </button>
+                        </form>
+                    </div>
+                    <div class="comment-info">
+                        <a href="{% url 'account:view' user_id=reply.author.profile.pk %}" class="card-link">
+                            <img src="{{reply.author.profile_image.url}}" class="mr-3 circle-rounded avator" style="float: left;margin-right: 1rem;" width="50" height="50" alt="User" />
+                        </a>
+                        <a href="#" class="comment-author">{{reply.author.username}}</a>
+                        <span>replied {{ reply.created|naturaltime }} </span> <small class="text-muted ml-2">({{reply.created}}) {{reply.level}}</small>
+                        {% with point=reply.upvote.all.count|sub:reply.downvote.all.count %}
+                        <p class="points {% if point > 0 %}up{% endif %} {% if point < 0 %}down{% endif %}">{{point}} points</p>
+                        {% endwith %}
+                    </div>
+                </div>
+            </summary>
+
+            <div class="comment-body">
+                <p>
+                    {{reply.reply|safe}}
+                </p>
+                <button type="button" data-toggle="reply-form" data-target="comment-{{reply.pk}}-reply-form">Reply</button>
+                <button type="button">Flag</button>
+
+                <!-- Reply form start -->
+                <form method="POST" action="{% url 'forum:forum-detail-reply' post.pk reply.id %}" class="reply-form d-none" id="comment-{{reply.id}}-reply-form">
+                    {% csrf_token %}
+                    <textarea name="reply" placeholder="Reply to comment" rows="4"></textarea>
+                    <button type="submit">Submit</button>
+                    <button type="button" data-toggle="reply-form" data-target="comment-{{reply.pk}}-reply-form">Cancel</button>
+                </form>
+                <!-- Reply form end -->
+            </div>
+
+        </details>
+
+        {% if not reply.is_leaf_node %}
+            <div class="children pl-2 pl-md-5">
+              {{ children }}
+            </div>
+        {% endif %}
+    {% endwith %}
+{% endrecursetree %}
+</div>
+    
+<script>
+	document.addEventListener(
+	    "click",
+	    function(event) {
+	        var target = event.target;
+	        var replyForm;
+	        if (target.matches("[data-toggle='reply-form']")) {
+	            replyForm = document.getElementById(target.getAttribute("data-target"));
+	            replyForm.classList.toggle("d-none");
+	        }
+	    },
+	    false
+	);
+</script>

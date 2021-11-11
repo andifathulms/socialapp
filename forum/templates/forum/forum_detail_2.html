@@ -165,6 +165,7 @@
     }
 </style>
 {% include 'forum/snippets/css/tweet_box_css.html' %}
+{% include 'forum/snippets/css/forum_comment.html' %}
 {% endblock head %}
 
 {% block post %}
@@ -192,7 +193,7 @@
     {% include 'forum/snippets/forum_detail_form.html' %}
 
     <div id="comment-list">
-        {% include 'forum/snippets/forum_detail_comment.html' %}
+        {% include 'forum/snippets/forum_detail/comments.html' %}
     </div>
 
 </div>

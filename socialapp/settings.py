@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'channels',
     'mathfilters',
     'rest_framework',
+    'mptt',
 
     'personal',
     'account',

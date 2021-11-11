@@ -130,60 +130,24 @@ class ForumDetailView(LoginRequiredMixin, View):
 
 		post = ForumPost.objects.get(pk=pk)
 		user_profile = UserProfile.objects.get(account=logged_in_user)
-		post_reply = ForumReply.objects.filter(post=post).order_by('-created_on')
+		post_reply = ForumReply.objects.filter(post=post)
 		subject = post.subject
 		
 		counter = ForumPost.objects.get(id = pk)
 		counter.view = F('view')+1
 		counter.save(update_fields=["view"])
 
-		is_upvote_comment = False
-		is_downvote_comment = False
-		reply_list = []
-		for reply in post_reply:
-			profile = UserProfile.objects.get(account=reply.author)
-			timestamp = calculate_timestamp(reply.created_on)
-
-			for upvote in reply.upvote.all():
-				if upvote == logged_in_user:
-					is_upvote_comment = True
-					break
-
-			for downvote in reply.downvote.all():
-				if downvote == logged_in_user:
-					is_downvote_comment = True
-					break
-
-			reply_list.append((reply,profile,timestamp, is_upvote_comment, is_downvote_comment))
-			is_upvote_comment = False
-			is_downvote_comment = False
-
-			
-
-		is_upvote = False
-		is_downvote = False
-		for upvote in post.upvote.all():
-			if upvote == logged_in_user:
-				is_upvote = True
-				break
-
-		for downvote in post.downvote.all():
-			if downvote == logged_in_user:
-				is_downvote = True
-				break
 
 		context["subject"] = subject
 		context["post"] = post
-		context["is_upvote"] = is_upvote
-		context["is_downvote"] = is_downvote
 		context["user_profile"] = user_profile
-		context["timestamp"] = calculate_timestamp(post.created_on)
-		context["replies"] = reply_list
+		#context["replies"] = reply_list
+		context["replies"] = post_reply
 
 		#print("render")
-		return render(request, 'forum/forum_detail.html', context)
+		return render(request, 'forum/forum_detail_2.html', context)
 
-	def post(self, request, pk, *args, **kwargs):
+	def post(self, request, pk, parent_comment_id=None, *args, **kwargs):
 		logged_in_user = request.user
 		context = {}
 
@@ -197,55 +161,31 @@ class ForumDetailView(LoginRequiredMixin, View):
 			forum_reply = form.save(commit=False)
 			forum_reply.post = post
 			forum_reply.author = logged_in_user
+
+			#If secondary response
+			if parent_comment_id:
+				parent_comment = ForumReply.objects.get(id=parent_comment_id)
+				forum_reply.parent_id = parent_comment.id
+				#Respondent
+				forum_reply.reply_to = parent_comment.author
+				forum_reply.save()
+				#return HttpResponse('200 OK')
+				#return render(request, 'forum/forum_detail_2.html', context)
+
 			forum_reply.save()
 		else:
 			print(request.POST)
 			print(form.errors)
 
-		post_reply = ForumReply.objects.filter(post=post).order_by('-created_on')
-
-		is_upvote_comment = False
-		is_downvote_comment = False
-		reply_list = []
-		for reply in post_reply:
-			profile = UserProfile.objects.get(account=reply.author)
-			timestamp = calculate_timestamp(reply.created_on)
-
-			for upvote in reply.upvote.all():
-				if upvote == logged_in_user:
-					is_upvote_comment = True
-					break
-
-			for downvote in reply.downvote.all():
-				if downvote == logged_in_user:
-					is_downvote_comment = True
-					break
-
-			reply_list.append((reply,profile,timestamp, is_upvote_comment, is_downvote_comment))
-			is_upvote_comment = False
-			is_downvote_comment = False
-
-		is_upvote = False
-		is_downvote = False
-		for upvote in post.upvote.all():
-			if upvote == logged_in_user:
-				is_upvote = True
-				break
-
-		for downvote in post.downvote.all():
-			if downvote == logged_in_user:
-				is_downvote = True
-				break	
+		post_reply = ForumReply.objects.filter(post=post)
 
 		context["subject"] = subject
 		context["post"] = post
-		context["is_upvote"] = is_upvote
-		context["is_downvote"] = is_downvote
-		context["user_profile"] = user_profile
-		context["timestamp"] = calculate_timestamp(post.created_on)
-		context["replies"] = reply_list
-		
-		return render(request, 'forum/forum_detail.html', context)
+		#context["replies"] = reply_list
+		context["replies"] = post_reply
+
+		return render(request, 'forum/forum_detail_2.html', context)
+		#return render(request, 'forum/snippets/forum_detail_comment.html', context)
 
 class AddUpvote(LoginRequiredMixin, View):
 
