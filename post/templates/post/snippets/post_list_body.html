@@ -4,7 +4,7 @@
 {% for post in post_list %}
     {% if post.0.shared_user %}
     {% else %}
-    <div class="tweet-wrap infinite-item">
+    <div class="tweet-wrap infinite-item mb-1">
       <div class="tweet-header">
         <a href="{% url 'account:view' user_id=post.0.author.profile.pk %}">
             <img class="mr-3 circle-rounded avator" style="float: left;margin-right: 1rem;" width="50" height="50" src="{{ post.0.author.profile_image.url }}" />

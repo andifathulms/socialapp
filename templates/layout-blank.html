@@ -29,11 +29,21 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
     <style type="text/css">
+        :root {
+             --primary-light: #8abdff;
+             --primary: #6d5dfc;
+             --primary-dark: #5b0eeb;
+             --white: #fff;
+             --greyLight-1: #e4ebf5;
+             --greyLight-2: #c8d0e7;
+             --greyLight-3: #bec8e4;
+             --greyDark: #9baacf;
+        }
         body{
-            background:#F3F3F9 !important;
+            background:var(--greyLight-1) !important;
         }
     </style>
-    
+    {% include 'snippets/css/sidebar.css' %}
     {% block head %}{% endblock %}
 </head>
 
@@ -43,21 +53,23 @@
 
     {% include 'snippets/base_js.html' %}
 
-    <div id="main-wrapper">
+    <!-- Has to use visible overflow as a workaround position sticky -->
+    <div id="main-wrapper" style="overflow: visible !important;">
 
-        {% include 'snippets/nav_header.html' %}
-
-        {% include 'snippets/header.html' %}
-
-        {% include 'snippets/sidebar.html' %}
-
-        <div class="content-body">
-            <div class="container-fluid" id="main-content">
-                {% block content %}
-
-                {% endblock %}
+        {% include 'snippets/header_2.html' %}
+        
+        
+            <div class="container-fluid" id="main-content" style="padding-top: 7rem;">
+                <div class="row">
+                    <div class="col-md-2 m-0 p-0" style="position: -webkit-sticky;position: sticky;top: 100px;height: 100vh; ">
+                        {% include 'snippets/sidebar_2.html' %}
+                    </div>
+                    
+                    {% block content %}{% endblock %}
+                    
+                </div>
             </div>
-        </div>
+        
         
         {% include 'snippets/footer.html' %}
 
@@ -274,6 +286,7 @@
               return cookieValue;
           }
     </script>
+    {% include 'snippets/js/sidebar.js' %}
     {% block javascript %}{% endblock %}
 
 </body>

@@ -18,7 +18,11 @@
             </div>
         </div>
         <div class="col-md-1 btn-join">
-            <button type="button" class="btn mb-1 btn-outline-primary" id="btn-join-{{forum.0.pk}}" onclick="myFunction({{forum.0.pk}})">Join</button>
+            {% if request.user in forum.0.subscriber.all %}
+            <button type="button" class="btn mb-1 btn-success" id="btn-join-{{forum.0.pk}}" onclick="myFunction({{forum.0.pk}}) ">Joined</button>
+            {% else %}
+            <button type="button" class="btn mb-1 btn-outline-primary" id="btn-join-{{forum.0.pk}}" onclick="myFunction({{forum.0.pk}}) ">Join</button>
+            {% endif %}
         </div>
         <div class="col-md-1 forum-info">
             <span class="views-number">
@@ -42,7 +46,7 @@
         </div>
         <div class="col-md-1 forum-info">
             <span class="views-number" id="subscribe-{{forum.0.pk}}">
-                0
+                {{forum.0.subscriber.all.count}}
             </span>
             <div>
                 <small>Subscriber</small>

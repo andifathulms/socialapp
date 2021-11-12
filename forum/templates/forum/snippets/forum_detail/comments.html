@@ -3,10 +3,10 @@
 {% load mptt_tags %}
 
 
-<div class="comment-thread">
+<div class="comment-thread mt-2 pt-2">
 {% recursetree replies %}
     {% with reply=node %} 
-        <details open class="comment" id="comment-{{reply.pk}}">
+        <details open class="comment pt-3" id="comment-{{reply.pk}}">
             <a href="#comment-{{reply.pk}}" class="comment-border-link">
                 <span class="sr-only">Jump to comment-{{reply.pk}}</span>
             </a>
@@ -29,7 +29,7 @@
                             <img src="{{reply.author.profile_image.url}}" class="mr-3 circle-rounded avator" style="float: left;margin-right: 1rem;" width="50" height="50" alt="User" />
                         </a>
                         <a href="#" class="comment-author">{{reply.author.username}}</a>
-                        <span>replied {{ reply.created|naturaltime }} </span> <small class="text-muted ml-2">({{reply.created}}) {{reply.level}}</small>
+                        <span>replied {{ reply.created|naturaltime }} </span>
                         {% with point=reply.upvote.all.count|sub:reply.downvote.all.count %}
                         <p id="score-{{reply.pk}}" class="points {% if point > 0 %}up{% endif %} {% if point < 0 %}down{% endif %}"><span id="score-reply-{{reply.pk}}">{{point}}</span> points</p>
                         {% endwith %}

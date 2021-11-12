@@ -3,22 +3,37 @@
 {% load static %}
 
 {% block content %}
-<div class="container">
+<div class="col-md-7 m-0 p-0">
+	<div class="container">
 
-	<!-- MEDIUM+ SCREENS -->
-	<div class="main d-none d-md-flex flex-column" id="home-content">
+		<!-- MEDIUM+ SCREENS -->
+		<div class="main d-none d-md-flex flex-column" id="home-content">
 
-		{% block post %}
-		{% endblock post %}
+			{% block post %}
+			{% endblock post %}
 
+		</div>
+		<!-- END MEDIUM+ SCREENS -->
+		
+		<!-- SMALL SCREENS -->
+		<div class="d-flex d-md-none p-2">
+			<p>This site is not meant to be viewed on a mobile device. Please download the <a href="#">app</a>.</p>
+		</div>
+		<!-- END SMALL SCREENS -->
 	</div>
-	<!-- END MEDIUM+ SCREENS -->
-	
-	<!-- SMALL SCREENS -->
-	<div class="d-flex d-md-none p-2">
-		<p>This site is not meant to be viewed on a mobile device. Please download the <a href="#">app</a>.</p>
-	</div>
-	<!-- END SMALL SCREENS -->
+</div>
+<div class="col-md-3 m-0 p-0" style="position: -webkit-sticky;position: sticky;top: 100px;height: 100vh; ">
+  <div class="content-section">
+    <h3>Our Sidebar</h3>
+    <p class='text-muted'>You can put any information here you'd like.
+      <ul class="list-group">
+        <li class="list-group-item list-group-item-light" style="background: var(--primary-light);">Latest Posts</li>
+        <li class="list-group-item list-group-item-light" style="background: var(--primary-light);">Announcements</li>
+        <li class="list-group-item list-group-item-light" style="background: var(--primary-light);">Calendars</li>
+        <li class="list-group-item list-group-item-light" style="background: var(--primary-light);">etc</li>
+      </ul>
+    </p>
+  </div>
 </div>
 {% endblock content %}
 

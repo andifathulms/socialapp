@@ -45,11 +45,13 @@
 
 
     .tweet-wrap {
+      /*background: #fff;*/
       background: #fff;
-      border-radius:3px;
+      border-radius:10px;
       padding: 30px;
       border-bottom: 1px solid #e6ecf0;
       border-top: 1px solid #e6ecf0;
+      box-shadow: 0.8rem 0.8rem 1.4rem var(--greyLight-2), -0.2rem -0.2rem 1.8rem var(--white);
     }
 
     .tweet-header {
@@ -194,6 +196,7 @@
       {% include 'post/snippets/post_list_body.html' %}
     </div>
     {% include 'post/snippets/product_list.html' %}
+    {% include 'post/snippets/forum_list.html' %}
     <div class="d-flex d-none position-fixed" style="top:35vh;left:46vw;">
         <button class="btn btn-primary loading" style="display: none;">
             <span class="spinner-border spinner-border-sm"></span>

@@ -51,10 +51,11 @@
 
     .tweet-wrap {
       background: #fff;
-      border-radius:3px;
+      border-radius:10px;
       padding: 30px;
       border-bottom: 1px solid #e6ecf0;
       border-top: 1px solid #e6ecf0;
+      box-shadow: 0.8rem 0.8rem 1.4rem var(--greyLight-2), -0.2rem -0.2rem 1.8rem var(--white);
     }
 
     .tweet-header {
@@ -204,8 +205,13 @@
 
     {% include 'post/snippets/post_detail_form.html' %}
     {% include 'post/snippets/post_detail_reply_count.html' %}
-    <div id="post-comment-content">
-        {% include 'post/snippets/post_detail_comment.html' %}
+    <div class="infinite-container">
+        <div id="post-comment-content">
+            {% include 'post/snippets/post_detail_comment.html' %}
+        </div>
+        {% if comments.has_next %}
+            <a class="infinite-more-link" href="?page={{ comments.next_page_number }}"></a>
+        {% endif %}
     </div>
 </div>
 <!-- Modal -->

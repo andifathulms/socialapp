@@ -1,0 +1,24 @@
+{% load static %}
+{% load humanize %}
+
+{% load humanize %}
+
+{% for forum in forums %}
+  <div class="tweet-wrap infinite-item" style="background-color: #6798e6;">
+    <div class="tweet-header">
+      <a href="{% url 'account:view' user_id=forum.author.profile.pk %}">
+          <img class="mr-3 circle-rounded avator" style="float: left;margin-right: 1rem;" width="50" height="50" src="{{ forum.author.profile_image.url }}" />
+      </a>
+      
+      <div class="tweet-header-info">
+        {{forum.2.fullname}} <span>@{{ forum.author }}</span><span> asked on {{forum.subject.title}} at {{ forum.created_on|naturaltime }}</span><span class="label label-info">Forum</span>
+        <div class="body-post" style="font-weight:normal; transform: rotate(0);">
+          <a href="{% url 'forum:forum-detail' forum.pk %}" style="color: black;">
+          <p><strong>{{ forum.title|safe }}</strong></p>
+          </a>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+{% endfor %}
