@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'mathfilters',
     'rest_framework',
     'mptt',
+    'django_editorjs',
 
     'personal',
     'account',
@@ -66,6 +67,7 @@ INSTALLED_APPS = [
     'follower',
     'forum',
     'marketplace',
+    'blog',
 ]
 
 REST_FRAMEWORK = {

@@ -16,6 +16,15 @@
             </ul>
         </li>
         <li>
+            <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                <i class="fas fa-blog"></i> <span class="nav-text">Blog</span>
+            </a>
+            <ul>
+                <li><a href="{% url 'blog:blog-home' %}">New Blog</a></li>
+                
+            </ul>
+        </li>
+        <li>
             <a href="{% url 'forum:forum-topic' %}" aria-expanded="false">
                 <i class="fas fa-layer-group"></i><span class="nav-text">Forum</span>
             </a>

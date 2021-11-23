@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils import timezone
 
+from urlextract import URLExtract
+
 from account.models import Account
 
 class Post(models.Model):
@@ -14,6 +16,21 @@ class Post(models.Model):
     shared_on = models.DateTimeField(blank=True, null=True)
     shared_user = models.ForeignKey(Account, on_delete=models.CASCADE, null=True, blank=True, related_name='+')
     tags = models.ManyToManyField('Tag', blank=True)
+    has_url = models.BooleanField(default=False, blank=True)
+    url = models.URLField(max_length=200, blank=True, null=True)
+    
+    def save(self, *args, **kwargs):
+        extractor = URLExtract()
+        if extractor.has_urls(self.body):
+            self.has_url = True
+
+            urls = extractor.find_urls(self.body)
+            self.url = urls[0]
+
+            replaced = self.body.replace(self.url, " ")
+            self.body = replaced
+
+        super(Post, self).save(*args, **kwargs)
 
     def create_tags(self):
         for word in self.body.split():

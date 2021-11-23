@@ -22,10 +22,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from django.urls import path
+from django.views.decorators.csrf import csrf_exempt
 
 from personal.views import home_screen_view
 from post.views import PostListView, Explore
 from account.views import register_view, login_view, logout_view, account_search_view, lock_view
+from blog.views import uploadi,uploadf,upload_link_view
 
 urlpatterns = [
     path('', PostListView.as_view(), name='home'),
@@ -45,6 +47,7 @@ urlpatterns = [
     path('forum/', include('forum.urls', namespace='forum')),
     path('marketplace/', include('marketplace.urls', namespace='marketplace')),
     path('follow/', include('follower.urls', namespace='follow')),
+    path('blog/', include('blog.urls', namespace='blog')),
 
     path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(template_name='password_reset/password_change_done.html'), 
     name='password_change_done'),
@@ -63,6 +66,10 @@ urlpatterns = [
 
     path('api-auth/', include('rest_framework.urls')),
     path('api/', include('post.api.urls', namespace='api')),
+
+    path('uploadi/',csrf_exempt(uploadi) ),
+    path('uploadf/',csrf_exempt(uploadf) ),
+    path('linkfetching/',upload_link_view),
 ]
 
 if settings.DEBUG:

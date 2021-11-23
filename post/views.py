@@ -16,6 +16,9 @@ from forum.models import ForumPost, Subject
 
 from account_profile.models import UserProfile
 
+from itertools import chain
+from operator import attrgetter
+
 DEBUG = False
 
 class PostListView(LoginRequiredMixin, View):
@@ -39,40 +42,28 @@ class PostListView(LoginRequiredMixin, View):
         post_list = []
         for post in posts:
             comment = Comment.objects.filter(post=post).count()
-            user = UserProfile.objects.get(account=post.author)
-            is_like = False
-            if request.user in post.likes.all():
-                is_like = True
-            post_list.append((post,comment,user,is_like))
+            post_list.append((post,comment))
+
+        result_list = sorted(chain(posts, product, forum),key=attrgetter('created_on'), reverse=True)
 
         page = request.GET.get('page', 1)
-        paginator = Paginator(post_list,10)
-        product_paginator = Paginator(product,1)
-        forum_paginator = Paginator(forum,2)
-
+        join_paginator = Paginator(result_list,10)
+        
         try:
-            post_pagination = paginator.page(page)
-            product_pagination = product_paginator.page(page)
-            forum_pagination = forum_paginator.page(page)
+            join_pagination = join_paginator.page(page)
         except PageNotAnInteger:
-            post_pagination = paginator.page(1)
-            product_pagination = product_paginator.page(1)
-            forum_pagination = forum_paginator.page(1)
+            join_pagination = join_paginator.page(1)
         except EmptyPage:
-            post_pagination = paginator.page(paginator.num_pages)
-            product_pagination = product_paginator.page(product_paginator.num_pages)
-            forum_pagination = forum_paginator.page(product_paginator.page)
-            
+            join_pagination = join_paginator.page(join_paginator.num_pages)
+
         context = {
-            'post_list': post_pagination,
             'shareform': share_form,
             'form': form,
-            'products' : product_pagination,
-            'forums' : forum_pagination,
+            'results' : join_pagination,
         }
         
 
-        return render(request, 'post/post_list.html', context)
+        return render(request, 'post/post_list_2.html', context)
 
     def post(self, request, *args, **kwargs):
         logged_in_user = request.user
@@ -99,6 +90,11 @@ class PostListView(LoginRequiredMixin, View):
         else:
             print(form.errors)
         
+        product = Product.objects.all()
+
+        subject = Subject.objects.get(pk=1)
+        forum = ForumPost.objects.filter(subject=subject)
+
         post_list = []
         for post in posts:
             comment = Comment.objects.filter(post=post).count()
@@ -108,23 +104,24 @@ class PostListView(LoginRequiredMixin, View):
                 is_like = True
             post_list.append((post,comment,user,is_like))
 
+        result_list = sorted(chain(posts, product, forum),key=attrgetter('created_on'), reverse=True)
         page = request.GET.get('page', 1)
-        paginator = Paginator(post_list,10)
-
+        join_paginator = Paginator(result_list,10)
+        
         try:
-            post_pagination = paginator.page(page)
+            join_pagination = join_paginator.page(page)
         except PageNotAnInteger:
-            post_pagination = paginator.page(1)
+            join_pagination = join_paginator.page(1)
         except EmptyPage:
-            post_pagination = paginator.page(paginator.num_pages)
+            join_pagination = join_paginator.page(join_paginator.num_pages)
 
         context = {
-            'post_list': post_pagination,
+            'results': join_pagination,
             'shareform': share_form,
             'form': form,
         }
         
-        return render(request, 'post/snippets/post_list_body.html', context)
+        return render(request, 'post/snippets/post_list_body_2.html', context)
 
 class PostDetailView(LoginRequiredMixin, View):
     def get(self, request, pk, *args, **kwargs):
