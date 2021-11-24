@@ -62,7 +62,7 @@ class Post(models.Model):
 class Comment(models.Model):
     comment = models.TextField()
     created_on = models.DateTimeField(default=timezone.now)
-    post = models.ForeignKey('Post', on_delete=models.CASCADE)
+    post = models.ForeignKey('Post', on_delete=models.CASCADE, related_name="comment_parent")
     author = models.ForeignKey(Account, on_delete=models.CASCADE)
     likes = models.ManyToManyField(Account, blank=True, related_name='comment_likes')
     dislikes = models.ManyToManyField(Account, blank=True, related_name='comment_dislikes')
