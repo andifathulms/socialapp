@@ -194,4 +194,99 @@
       </div>
     </div>
     {% endif %}
+
+    {% if result.claps %}
+    <div class="tweet-wrap infinite-item">
+      <div class="tweet-header">
+        <a href="{% url 'account:view' user_id=result.author.profile.pk %}">
+            <img class="mr-3 circle-rounded avator" style="float: left;margin-right: 1rem;" width="50" height="50" src="{{ result.author.profile_image.url }}" />
+        </a>
+        
+        <div class="tweet-header-info" style="clear: both;">
+          <span>@{{ result.author }}</span><span> posted to Blog at {{ result.created_on|date:"F d, Y" }} {{ result.created_on|naturaltime }}</span><span class="label label-warning">Blog</span>
+          <div class="body-post" style="font-weight:normal; transform: rotate(0);">
+            <div class="container border rounded p-0 mt-5">
+              <div class="row no-gutters">
+                <a href="{% url 'blog:blog-detail' result.pk %}" style="color: black;">
+                  <span style="position: absolute;width: 100%;height: 100%;top: 0;left: 0;z-index: 1;"></span> 
+                </a>
+                <div class="col-md-9 p-2">
+                  <div class="border-end">
+                    <p><strong>{{ result.title|safe }}</strong></p>
+                    <p id="blog-body-{{result.pk}}"></p>
+                    <script>
+                      function truncateString(str, num) {
+                        if (str.length <= num) {
+                          return str
+                        }
+                        return str.slice(0, num) + '...'
+                      }
+
+                      window.addEventListener("DOMContentLoaded", () => {
+                        const postBody = document.getElementById("blog-body-{{result.pk}}");
+                        const postBodyImg = document.getElementById("blog-body-img-{{result.pk}}");
+                        let body = JSON.parse("{{result.body|escapejs}}");
+                        let blocks = body.blocks;
+                        let imageFlag = false;
+                        let textBody = "";
+                        postBody.style = "color: grey";
+                        for (let index = 0; index <= blocks.length; index++) {
+                          switch (blocks[index].type) {
+                            case "Header":
+                              break;
+
+                            case "Image":
+                              if(!imageFlag){
+                                let div = document.createElement("div");
+                                let image = document.createElement("img");
+                                image.src = `${blocks[index].data.file.url}`;
+                                image.style = "vertical-align: middle;"
+                                postBodyImg.appendChild(image);
+                                imageFlag = true;
+                              }
+                              break;
+
+                            case "List":
+                              break;
+
+                            case "Raw":
+                              break;
+
+                            case "Attaches":
+                              break;
+
+                            case "paragraph":
+                              let temp = blocks[index].data.text;
+                              textBody += temp;
+                              postBody.innerHTML = truncateString(textBody,180);
+                              break;
+
+                            case "Link":
+                              break;
+
+                            default:
+                              break;
+                          }
+                        }
+                      });
+                    </script>
+                    
+                  </div>
+                </div>
+                <div class="col-md-3 p-0">
+                  <div class="bg-light">
+                    <div id="blog-body-img-{{result.pk}}">
+                      
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    {% endif %}
 {% endfor %}

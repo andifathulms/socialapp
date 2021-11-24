@@ -13,6 +13,7 @@ from .forms import PostForm, CommentForm, ShareForm, ExploreForm
 
 from marketplace.models import Product
 from forum.models import ForumPost, Subject
+from blog.models import Blog
 
 from account_profile.models import UserProfile
 
@@ -32,11 +33,12 @@ class PostListView(LoginRequiredMixin, View):
 
         product = Product.objects.all()
 
-        subject = Subject.objects.get(pk=1)
+        subject = Subject.objects.get(pk=1) #Fix later
         forum = ForumPost.objects.filter(subject=subject)
+        blog = Blog.objects.all() #Fix later
 
         form = PostForm(request.POST, request.FILES)
-        share_form = ShareForm()
+        share_form = ShareForm() # For now obsolete?
         posts = Post.objects.all().order_by('-created_on')
 
         post_list = []
@@ -44,7 +46,7 @@ class PostListView(LoginRequiredMixin, View):
             comment = Comment.objects.filter(post=post).count()
             post_list.append((post,comment))
 
-        result_list = sorted(chain(posts, product, forum),key=attrgetter('created_on'), reverse=True)
+        result_list = sorted(chain(posts, product, forum, blog),key=attrgetter('created_on'), reverse=True)
 
         page = request.GET.get('page', 1)
         join_paginator = Paginator(result_list,10)

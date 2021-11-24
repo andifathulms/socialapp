@@ -5,8 +5,8 @@ from django_editorjs import EditorJsField
 from account.models import Account
 
 class Blog(models.Model):
-	title = models.CharField(max_length=60)
-	body=EditorJsField(
+    title = models.CharField(max_length=60)
+    body=EditorJsField(
         editorjs_config={
             "tools":{
                 "Link":{
@@ -32,5 +32,8 @@ class Blog(models.Model):
             }
         }
     )
-	created_on = models.DateTimeField(default=timezone.now)
-	author = models.ForeignKey(Account, on_delete=models.CASCADE)
+    created_on = models.DateTimeField(default=timezone.now)
+    author = models.ForeignKey(Account, on_delete=models.CASCADE)
+    claps = models.ManyToManyField(Account, blank=True, related_name='clap')
+    read_list = models.ManyToManyField(Account, blank=True, related_name='read_list')
+    
