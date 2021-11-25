@@ -1,0 +1,54 @@
+<script>
+	function sentAJAX_readList(pk){
+	    var id = "read-list-button-"+pk
+	    var read_list = document.getElementById(id)
+	    if(read_list.classList.contains('heart')){
+	        read_list.classList.remove('heart');
+	        read_list.classList.add('heart-clicked');
+	    }else{
+	        read_list.classList.remove('heart-clicked');
+	        read_list.classList.add('heart');
+	    }
+	   $.ajax({
+	    type: "POST",
+	    headers: {'X-CSRFToken': csrftoken},
+	    url: 'http://127.0.0.1:8000/blog/'+pk+'/read-list', 
+	    data: {
+	      'pk': pk
+	    },
+	    success: function (data) {
+	      
+	      //console.log(data)
+	    }
+	  });
+	}
+
+	function sentAJAX_claps(pk){
+	    var id = "claps-button-"+pk
+	    var id_count = "claps-count-"+pk
+	    var claps = document.getElementById(id)
+	    var count = document.getElementById(id_count)
+        var like_count = Number(count.innerText)
+	    if(claps.classList.contains('heart')){
+	        claps.classList.remove('heart');
+	        claps.classList.add('heart-clicked');
+	        count.innerText = like_count + 1
+	    }else{
+	        claps.classList.remove('heart-clicked');
+	        claps.classList.add('heart');
+	        count.innerText = like_count - 1
+	    }
+	   $.ajax({
+	    type: "POST",
+	    headers: {'X-CSRFToken': csrftoken},
+	    url: 'http://127.0.0.1:8000/blog/'+pk+'/claps', 
+	    data: {
+	      'pk': pk
+	    },
+	    success: function (data) {
+	      
+	      //console.log(data)
+	    }
+	  });
+	}
+</script>

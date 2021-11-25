@@ -283,7 +283,31 @@
        $.ajax({
         type: "POST",
         headers: {'X-CSRFToken': csrftoken},
-        url: 'http://127.0.0.1:8000/post/'+pk+'/like', // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+        url: 'http://127.0.0.1:8000/post/'+pk+'/like',
+        data: {
+          'pk': pk
+        },
+        success: function (data) {
+          
+          //console.log(data)
+        }
+      });
+    }
+
+    function sentAJAX_readList(pk){
+        var id = "read-list-button-"+pk
+        var read_list = document.getElementById(id)
+        if(read_list.classList.contains('heart')){
+            read_list.classList.remove('heart');
+            read_list.classList.add('heart-clicked');
+        }else{
+            read_list.classList.remove('heart-clicked');
+            read_list.classList.add('heart');
+        }
+       $.ajax({
+        type: "POST",
+        headers: {'X-CSRFToken': csrftoken},
+        url: 'http://127.0.0.1:8000/blog/'+pk+'/read-list', 
         data: {
           'pk': pk
         },

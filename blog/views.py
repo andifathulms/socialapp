@@ -1,9 +1,10 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.views.decorators.csrf import ensure_csrf_cookie, requires_csrf_token
 from django.core.files.storage import FileSystemStorage
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views import View
 from django.contrib import messages
 from django.views.generic import ListView
 
@@ -25,6 +26,47 @@ def home(request):
 def postdetail(request,id):
     post=Blog.objects.get(id=id)
     return render(request,'blog/blog_detail.html',{'post':post})
+
+
+class AddReadList(LoginRequiredMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        blog = Blog.objects.get(pk=pk)
+
+        is_readlist = False
+
+        for user in blog.read_list.all():
+            if user == request.user:
+                is_readlist = True
+                break
+
+        if not is_readlist:
+            blog.read_list.add(request.user)
+
+        if is_readlist:
+            blog.read_list.remove(request.user)
+            
+        next = request.POST.get('next', '/')
+        return HttpResponseRedirect(next)
+
+class AddClaps(LoginRequiredMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        blog = Blog.objects.get(pk=pk)
+
+        is_claps = False
+
+        for user in blog.claps.all():
+            if user == request.user:
+                is_claps = True
+                break
+
+        if not is_claps:
+            blog.claps.add(request.user)
+
+        if is_claps:
+            blog.claps.remove(request.user)
+
+        next = request.POST.get('next', '/')
+        return HttpResponseRedirect(next)
 
 @requires_csrf_token
 def uploadi(request):
