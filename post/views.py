@@ -23,8 +23,8 @@ from operator import attrgetter
 DEBUG = False
 
 def fillRightNav(request,context):
-    readlist = Blog.objects.filter(read_list__in=[request.user.id])[:4]
-    count = Blog.objects.filter(read_list__in=[request.user.id]).count()
+    readlist = Blog.objects.filter(read_list__in=[request.user.id], is_draft=False)[:4]
+    count = Blog.objects.filter(read_list__in=[request.user.id], is_draft=False).count()
 
     context["readlist"] = readlist
     context["readlist_count"] = count
@@ -42,7 +42,7 @@ class PostListView(LoginRequiredMixin, View):
 
         subject = Subject.objects.get(pk=1) #Fix later
         forum = ForumPost.objects.filter(subject=subject)
-        blog = Blog.objects.all() #Fix later
+        blog = Blog.objects.filter(is_draft=False) #Fix later
 
         form = PostForm(request.POST, request.FILES)
         share_form = ShareForm() # For now obsolete?
@@ -105,7 +105,7 @@ class PostListView(LoginRequiredMixin, View):
 
         subject = Subject.objects.get(pk=1)
         forum = ForumPost.objects.filter(subject=subject)
-        blog = Blog.objects.all() #Fix later
+        blog = Blog.objects.filter(is_draft=False) #Fix later
 
         post_list = []
         for post in posts:

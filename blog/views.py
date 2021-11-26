@@ -21,7 +21,12 @@ def home(request):
         if form.is_valid():
             post=form.save(commit=False)
             post.author = request.user
+
+            if 'draft' in request.POST:
+                post.is_draft = True
+            
             post=form.save()
+            
             messages.success(request,'submitted succesfully {}'.format(post))
             return redirect('/')      
     form=BlogForm()
@@ -39,7 +44,7 @@ def postdetail(request,id):
 class ReadingList(ListView):
     def get(self, request, *args, **kwargs):
         
-        readlist = Blog.objects.filter(read_list__in=[request.user.id])
+        readlist = Blog.objects.filter(read_list__in=[request.user.id], is_draft=False)
 
         page = request.GET.get('page', 1)
         join_paginator = Paginator(readlist,10)
@@ -60,6 +65,44 @@ class ReadingList(ListView):
 
         return render(request, 'blog/reading_list.html', context)
 
+class ManageBlog(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        context = {}
+        published_posts = Blog.objects.filter(author=request.user, is_draft=False)
+        drafted_posts = Blog.objects.filter(author=request.user, is_draft=True)
+
+        context["published_posts"] = published_posts
+        context["drafted_posts"] = drafted_posts
+
+        fillRightNav(request, context)
+
+        return render(request, 'blog/blog_manage.html', context)
+
+    def post(self, request, pk, *args, **kwargs):
+        context = {}
+        published_posts = Blog.objects.filter(author=request.user, is_draft=False)
+        drafted_posts = Blog.objects.filter(author=request.user, is_draft=True)
+
+        context["published_posts"] = published_posts
+        context["drafted_posts"] = drafted_posts
+
+        fillRightNav(request, context)
+
+        if 'publish' in request.POST:
+            blog = Blog.objects.get(pk=pk)
+            blog.is_draft = False
+            blog.save()
+
+            return redirect('blog:blog-manage')
+
+        if 'draft' in request.POST:
+            blog = Blog.objects.get(pk=pk)
+            blog.is_draft = True
+            blog.save()
+
+            return redirect('blog:blog-manage')
+
+        return render(request, 'blog/blog_manage.html', context)
 
 class AddReadList(LoginRequiredMixin, View):
     def post(self, request, pk, *args, **kwargs):
@@ -100,6 +143,7 @@ class AddClaps(LoginRequiredMixin, View):
 
         next = request.POST.get('next', '/')
         return HttpResponseRedirect(next)
+
 
 @requires_csrf_token
 def uploadi(request):

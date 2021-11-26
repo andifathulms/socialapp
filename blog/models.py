@@ -36,4 +36,5 @@ class Blog(models.Model):
     author = models.ForeignKey(Account, on_delete=models.CASCADE)
     claps = models.ManyToManyField(Account, blank=True, related_name='clap')
     read_list = models.ManyToManyField(Account, blank=True, related_name='read_list')
+    is_draft = models.BooleanField(default=False)
     
