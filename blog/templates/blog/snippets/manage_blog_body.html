@@ -124,12 +124,13 @@
               Draft
             </button>
           </form>
-          <button class="btn btn-warning mr-1" type="submit" name="edit">
-            Edit
-          </button>
-          <button class="btn btn-danger mr-1" type="submit" name="delete">
-            Delete
-          </button>
+          <form action="{% url 'blog:blog-update' result.pk %}" method="GET">
+            {% csrf_token %}
+          <button class="btn btn-warning mr-1" type="submit" name="edit">Edit</button>
+          </form>
+          <form action="{% url 'blog:blog-delete' result.pk %}" method="GET">
+          <button class="btn btn-danger mr-1" type="submit" name="delete">Delete</button>
+          </form>
         </div>  
       </div>
     {% endfor %}
@@ -248,12 +249,13 @@
               Publish
             </button>
           </form>
-          <button class="btn btn-warning mr-1" type="submit" name="edit">
-            Edit
-          </button>
-          <button class="btn btn-danger mr-1" type="submit" name="delete">
-            Delete
-          </button>
+          <form action="{% url 'blog:blog-update' result.pk %}" method="GET">
+            {% csrf_token %}
+          <button class="btn btn-warning mr-1" type="submit" name="edit">Edit</button>
+          </form>
+          <form action="{% url 'blog:blog-delete' result.pk %}" method="GET">
+          <button class="btn btn-danger mr-1" type="submit" name="delete">Delete</button>
+          </form>
         </div>  
       </div>
     {% endfor %}

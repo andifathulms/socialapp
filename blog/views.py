@@ -2,13 +2,12 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.views.decorators.csrf import ensure_csrf_cookie, requires_csrf_token
 from django.core.files.storage import FileSystemStorage
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
 from django.http import JsonResponse, HttpResponseRedirect
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views import View
 from django.contrib import messages
-from django.views.generic import ListView
+from django.views.generic import ListView, UpdateView, DeleteView
 
 from .models import Blog
 from .forms import BlogForm
@@ -28,9 +27,12 @@ def home(request):
             post=form.save()
             
             messages.success(request,'submitted succesfully {}'.format(post))
-            return redirect('/')      
-    form=BlogForm()
-    return render(request,'blog/blog_form.html',{'form':form})
+            return redirect('/')
+            #redirect('blog:blog-manage')   
+    form = BlogForm()
+    context = {'form':form}
+    fillRightNav(request, context)
+    return render(request,'blog/blog_form.html',context)
 
 def postdetail(request,id):
     post=Blog.objects.get(id=id)
@@ -64,6 +66,30 @@ class ReadingList(ListView):
         fillRightNav(request, context)
 
         return render(request, 'blog/reading_list.html', context)
+
+class BlogUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Blog
+    fields = ['title', 'body']
+
+    def form_valid(self,form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.author:
+            return True
+        return False
+
+class BlogDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Blog
+    success_url ="/"
+
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.author:
+            return True
+        return False
 
 class ManageBlog(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):

@@ -52,7 +52,7 @@
                 url.innerHTML = truncatedURL;
 
                 const left_content = document.createElement('div');
-                left_content.classList.add('border-end');
+                /*left_content.classList.add('border-end');*/
 
                 const left_col = document.createElement('div');
                 left_col.classList.add('col-md-3', 'p-2');
@@ -208,7 +208,7 @@
           <span style="color: black;">{{result.author.profile.fullname}}</span><span>@{{ result.author }} posted to Blog {{ result.created_on|naturaltime }}</span><span class="label label-warning">Blog</span>
           <div class="body-post" style="font-weight:normal; transform: rotate(0);">
             <div class="container border rounded p-0 mt-4">
-              <div class="row no-gutters">
+              <div class="row g-0">
                 <a href="{% url 'blog:blog-detail' result.pk %}" style="color: black;">
                   <span style="position: absolute;width: 100%;height: 100%;top: 0;left: 0;z-index: 1;"></span> 
                 </a>
