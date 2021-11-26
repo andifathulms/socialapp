@@ -188,9 +188,11 @@
 {% endblock head %}
 
 {% block post %}
-  {% include 'post/snippets/post_list_tweet_box.html' %}
+  <div style="width: 85%; margin: auto;">
+      {% include 'post/snippets/post_list_tweet_box.html' %}
+  </div>
 
-  <div class="infinite-container">
+  <div class="infinite-container" style="width: 85%; margin: auto;">
 
     <div id="post-content">
       {% include 'post/snippets/post_list_body_2.html' %}
@@ -231,6 +233,7 @@
         onAfterPageLoad: function(){
             $('.loading').hide();
             formatTags();
+            onClickedImage();
         }
     })
 
@@ -333,14 +336,17 @@
     }
 </script>
 <script>
-    $(".post-image").click(function(){
-      $("#full-image").attr("src", $(this).attr("src"));
-      $('#image-viewer').show();
-    });
+    function onClickedImage(){
+        $(".post-image").click(function(){
+          $("#full-image").attr("src", $(this).attr("src"));
+          $('#image-viewer').show();
+        });
 
-    $("#image-viewer .close").click(function(){
-      $('#image-viewer').hide();
-    });
+        $("#image-viewer .close").click(function(){
+          $('#image-viewer').hide();
+        });
+    }
+    onClickedImage()
 </script>
 <script>
     const wrapper = document.querySelector(".wrapper"),

@@ -1,0 +1,39 @@
+{% load humanize %}
+
+<div class="content-section">
+  <h3>Your Reading List </h3>
+  
+  <div class="list-group">
+    {% for obj in readlist %}
+    <a href="{% url 'blog:blog-detail' obj.pk %}" class="list-group-item list-group-item-action flex-column align-items-start">
+      <small><strong>{{obj.author.profile.fullname}}</strong></small>
+      <div class="d-flex w-100 justify-content-between">
+        <h6 class="mb-1">{{obj.title}}</h6>
+        
+      </div>
+      <small>{{ obj.created_on|date:"F d, Y" }}</small> <small><span id="rn-rt-{{obj.pk}}">2</span> min read</small>
+      <script>
+        function truncateString(str, num) {
+          if (str.length <= num) {
+            return str
+          }
+          return str.slice(0, num) + '...'
+        }
+
+        window.addEventListener("DOMContentLoaded", () => {
+          const text = "{{obj.body|escapejs}}";
+          const words = text.trim().split(/\s+/).length;
+          const wpm = 225;
+          const time = Math.ceil(words / wpm);
+          const readTime = document.getElementById("rn-rt-{{obj.pk}}");
+          readTime.innerHTML = time;
+        });
+      </script>
+    </a>
+    {% endfor %}
+    {% if readlist_count > 4 %}
+    <a href="{% url 'blog:blog-readlist' %}" class="list-group-item list-group-item-action list-group-item-success">See All ({{readlist_count}})</a>
+    {% endif %}
+  </div>
+    
+</div>

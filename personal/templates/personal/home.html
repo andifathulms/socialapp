@@ -22,18 +22,8 @@
 		<!-- END SMALL SCREENS -->
 	</div>
 </div>
-<div class="col-md-3 m-0 p-0" style="position: -webkit-sticky;position: sticky;top: 100px;height: 100vh; ">
-  <div class="content-section">
-    <h3>Our Sidebar</h3>
-    <p class='text-muted'>You can put any information here you'd like.
-      <ul class="list-group">
-        <li class="list-group-item list-group-item-light" style="background: var(--primary-light);">Latest Posts</li>
-        <li class="list-group-item list-group-item-light" style="background: var(--primary-light);">Announcements</li>
-        <li class="list-group-item list-group-item-light" style="background: var(--primary-light);">Calendars</li>
-        <li class="list-group-item list-group-item-light" style="background: var(--primary-light);">etc</li>
-      </ul>
-    </p>
-  </div>
+<div class="col-md-3 m-0 p-0" style="position: -webkit-sticky;position: sticky;top: 100px; height: 100vh;">
+  {% include 'snippets/right-sidebar.html' %}
 </div>
 {% endblock content %}
 

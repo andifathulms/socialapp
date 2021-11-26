@@ -10,7 +10,7 @@
         </a>
         
         <div class="tweet-header-info">
-          <span style="color: black;">{{request.user.profile.fullname}}</span><span>@{{ result.author }}</span><span> {{ result.created_on|naturaltime }}</span>
+          <span style="color: black;">{{result.author.profile.fullname}}</span><span>@{{ result.author }}</span><span> {{ result.created_on|naturaltime }}</span>
           <div class="body-post" id="body-post-{{result.pk}}" style="font-weight:normal; transform: rotate(0);">
             <p id="body-p-{{results.pk}}">{{ result.body|safe }}</p>
             {% if result.image.count > 0 %}
@@ -153,21 +153,23 @@
         </a>
         
         <div class="tweet-header-info">
-          <span style="color: black;">{{request.user.profile.fullname}}</span><span>@{{ result.author }}</span><span> has posted to marketplace at {{ result.created_on|naturaltime }}</span><span class="label label-success">Marketplace</span>
+          <span style="color: black;">{{result.author.profile.fullname}}</span><span>@{{ result.author }}</span><span> has posted to marketplace at {{ result.created_on|naturaltime }}</span><span class="label label-success">Marketplace</span>
           <div class="body-post" style="font-weight:normal; transform: rotate(0);">
             <a href="{% url 'marketplace:marketplace-detail' result.pk %}" style="color: black;">
             <p><strong>{{ result.title|safe }}</strong></p>
             <p><strong>Rp. {{result.price|intcomma}}</strong></p>
             </a>
-            {% if result.image.count > 0 %}
-              <div class="row">
-                {% for img in result.image.all %}
-                    <div class="col-md-auto col-xs-12">
-                        <img src="{{ img.image.url }}" class="post-image" />
-                    </div>
-                {% endfor %}
-              </div>
+            
+            {% if result.image.count == 2 %}
+                <div class="row">
+                  {% for img in result.image.all %}
+                      <div class="col-md-6 col-xs-12">
+                          <img src="{{ img.image.url }}" class="post-image" />
+                      </div>
+                  {% endfor %}
+                </div>
             {% endif %}
+            
           </div>
         </div>
         
@@ -183,7 +185,7 @@
         </a>
         
         <div class="tweet-header-info">
-          <span style="color: black;">{{request.user.profile.fullname}}</span><span>@{{ result.author }}</span><span> asked on {{result.subject.title}} at {{ result.created_on|naturaltime }}</span><span class="label label-info">Forum</span>
+          <span style="color: black;">{{result.author.profile.fullname}}</span><span>@{{ result.author }}</span><span> asked on {{result.subject.title}} at {{ result.created_on|naturaltime }}</span><span class="label label-info">Forum</span>
           <div class="body-post" style="font-weight:normal; transform: rotate(0);">
             <a href="{% url 'forum:forum-detail' result.pk %}" style="color: black;">
             <p><strong>{{ result.title|safe }}</strong></p>
@@ -203,7 +205,7 @@
         </a>
         
         <div class="tweet-header-info" style="clear: both;">
-          <span style="color: black;">{{request.user.profile.fullname}}</span><span>@{{ result.author }} posted to Blog {{ result.created_on|naturaltime }}</span><span class="label label-warning">Blog</span>
+          <span style="color: black;">{{result.author.profile.fullname}}</span><span>@{{ result.author }} posted to Blog {{ result.created_on|naturaltime }}</span><span class="label label-warning">Blog</span>
           <div class="body-post" style="font-weight:normal; transform: rotate(0);">
             <div class="container border rounded p-0 mt-4">
               <div class="row no-gutters">

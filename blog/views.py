@@ -1,6 +1,8 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.views.decorators.csrf import ensure_csrf_cookie, requires_csrf_token
 from django.core.files.storage import FileSystemStorage
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 from django.http import JsonResponse, HttpResponseRedirect
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -10,6 +12,8 @@ from django.views.generic import ListView
 
 from .models import Blog
 from .forms import BlogForm
+
+from post.views import fillRightNav
 
 def home(request):
     if request.method=="POST":
@@ -25,7 +29,36 @@ def home(request):
 
 def postdetail(request,id):
     post=Blog.objects.get(id=id)
-    return render(request,'blog/blog_detail.html',{'post':post})
+    context = {'post':post}
+
+    fillRightNav(request,context)
+
+    return render(request,'blog/blog_detail.html',context)
+
+
+class ReadingList(ListView):
+    def get(self, request, *args, **kwargs):
+        
+        readlist = Blog.objects.filter(read_list__in=[request.user.id])
+
+        page = request.GET.get('page', 1)
+        join_paginator = Paginator(readlist,10)
+        
+        try:
+            join_pagination = join_paginator.page(page)
+        except PageNotAnInteger:
+            join_pagination = join_paginator.page(1)
+        except EmptyPage:
+            join_pagination = join_paginator.page(join_paginator.num_pages)
+
+        context = {
+            'results' : join_pagination,
+        }
+
+        
+        fillRightNav(request, context)
+
+        return render(request, 'blog/reading_list.html', context)
 
 
 class AddReadList(LoginRequiredMixin, View):

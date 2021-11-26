@@ -1,0 +1,225 @@
+{% extends 'personal/home.html' %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+{% load static %}
+
+{% block head %}
+
+<link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.6/css/line.css">
+<style>
+    .post-image {
+        display: block;
+        max-width:430px;
+        max-height:135px;
+        width: auto;
+        height: auto;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    .post-image:hover {opacity: 0.7;}
+    .share-btn {
+        cursor: pointer;
+    }
+
+    .shared-post {
+        margin-left: 30px;
+    }
+
+    .body-post a {
+        text-decoration: none;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+    }
+    img {
+      max-width:100%;
+    }
+    .avator {
+      border-radius:100px;
+      width:48px;
+      margin-right: 15px;
+    }
+
+
+    .tweet-wrap {
+      /*background: #fff;*/
+      background: #fff;
+      border-radius:10px;
+      padding: 30px;
+      border-bottom: 1px solid #e6ecf0;
+      border-top: 1px solid #e6ecf0;
+      box-shadow: 0.8rem 0.8rem 1.4rem var(--greyLight-2), -0.2rem -0.2rem 1.8rem var(--white);
+    }
+
+    .tweet-header {
+      display: flex;
+      align-items:flex-start;
+      font-size:20px;
+    }
+    .tweet-header-info {
+      font-weight:bold;
+    }
+    .tweet-header-info span {
+      color:#657786;
+      font-weight:normal;
+      margin-left: 5px;
+    }
+    .tweet-header-info p {
+      font-weight:normal;
+      margin-top: 5px;
+      
+    }
+    .tweet-img-wrap {
+      padding-left: 5px;
+    }
+
+    .tweet-info-counts {
+      display: flex;
+      margin-left: 60px;
+      margin-top: 10px;
+    }
+    .tweet-info-counts div {
+      display: flex;
+      margin-right: 20px;
+    }
+    .tweet-info-counts div svg {
+      color:#657786;
+      margin-right: 10px;
+    }
+    @media screen and (max-width:430px){
+      body {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+      .tweet-header {
+        flex-direction:column;
+      }
+      .tweet-header img {
+        margin-bottom: 20px;
+      }
+      .tweet-header-info p {
+        margin-bottom: 30px;
+      }
+      .tweet-img-wrap {
+        padding-left: 0;
+      }
+      .tweet-info-counts {
+      display: flex;
+      margin-left: 0;
+    }
+    .tweet-info-counts div {
+      margin-right: 10px;
+    }
+    }
+    .heart {
+        height: 29px;
+        width: 29px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: grey;
+    }
+
+    .heart-clicked {
+        height: 29px;
+        width: 29px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: coral;
+    }
+</style>
+{% endblock head %}
+
+{% block post %}
+
+  <div class="infinite-container" style="/*width: 85%; margin: auto;*/">
+
+    <div id="post-content">
+      {% include 'blog/snippets/blog_list_body.html' %}
+    </div>
+    
+    <div class="d-flex d-none position-fixed" style="top:35vh;left:46vw;">
+        <button class="btn btn-primary loading" style="display: none;">
+            <span class="spinner-border spinner-border-sm"></span>
+            Loading tweet...
+        </button>
+    </div>
+
+    {% if results.has_next %}
+        <a class="infinite-more-link" href="?page={{ results.next_page_number }}"></a>
+    {% endif %}
+
+  </div>
+
+{% endblock post %}
+
+{%  block javascript %}
+<!-- Waypoints -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="{% static 'quixlab/js/jquery.waypoints.js' %}"></script>
+<script src="{% static 'quixlab/js/infinite.min.js' %}"></script>
+
+<script>
+    var infinite = new Waypoint.Infinite({
+        element: $('.infinite-container')[0],
+        offset: 'bottom-in-view',
+        onBeforePageLoad: function(){
+            $('.loading').show();
+        },
+        onAfterPageLoad: function(){
+            $('.loading').hide();
+            formatTags();
+        }
+    })
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+
+    function sentAJAX_readList(pk){
+        var id = "read-list-button-"+pk
+        var read_list = document.getElementById(id)
+        if(read_list.classList.contains('heart')){
+            read_list.classList.remove('heart');
+            read_list.classList.add('heart-clicked');
+        }else{
+            read_list.classList.remove('heart-clicked');
+            read_list.classList.add('heart');
+        }
+       $.ajax({
+        type: "POST",
+        headers: {'X-CSRFToken': csrftoken},
+        url: 'http://127.0.0.1:8000/blog/'+pk+'/read-list', 
+        data: {
+          'pk': pk
+        },
+        success: function (data) {
+          
+          //console.log(data)
+        }
+      });
+    }
+    
+</script>
+
+
+{% endblock javascript %}

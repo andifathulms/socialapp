@@ -22,6 +22,13 @@ from operator import attrgetter
 
 DEBUG = False
 
+def fillRightNav(request,context):
+    readlist = Blog.objects.filter(read_list__in=[request.user.id])[:4]
+    count = Blog.objects.filter(read_list__in=[request.user.id]).count()
+
+    context["readlist"] = readlist
+    context["readlist_count"] = count
+
 class PostListView(LoginRequiredMixin, View):
     login_url = '/login/'
     redirect_field_name = 'redirect_to'
@@ -63,7 +70,9 @@ class PostListView(LoginRequiredMixin, View):
             'form': form,
             'results' : join_pagination,
         }
+
         
+        fillRightNav(request, context)
 
         return render(request, 'post/post_list_2.html', context)
 
@@ -96,6 +105,7 @@ class PostListView(LoginRequiredMixin, View):
 
         subject = Subject.objects.get(pk=1)
         forum = ForumPost.objects.filter(subject=subject)
+        blog = Blog.objects.all() #Fix later
 
         post_list = []
         for post in posts:
@@ -106,7 +116,7 @@ class PostListView(LoginRequiredMixin, View):
                 is_like = True
             post_list.append((post,comment,user,is_like))
 
-        result_list = sorted(chain(posts, product, forum),key=attrgetter('created_on'), reverse=True)
+        result_list = sorted(chain(posts, product, forum, blog),key=attrgetter('created_on'), reverse=True)
         page = request.GET.get('page', 1)
         join_paginator = Paginator(result_list,10)
         
@@ -123,6 +133,8 @@ class PostListView(LoginRequiredMixin, View):
             'form': form,
         }
         
+        fillRightNav(request, context)
+
         return render(request, 'post/snippets/post_list_body_2.html', context)
 
 class PostDetailView(LoginRequiredMixin, View):
