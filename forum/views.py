@@ -12,9 +12,12 @@ from .forms import ForumPostForm, ForumReplyForm
 
 def fillRightNav(request,context):
     subject = Subject.objects.filter(subscriber__in=[request.user.id])
-    forum = ForumPost.objects.filter(subject__in=subject)
-    forump = ForumPost.objects.annotate(count=Count('forumpost_parent')).order_by('-count')
-    print(forump)
+    forum = ForumPost.objects.filter(subject__in=subject).order_by('-created_on')[:4]
+    forump = ForumPost.objects.annotate(count=Count('forumpost_parent')).order_by('-count')[:4]
+    
+    context["forum_newest"] = forum
+    context["forum_popular"] = forump
+    context["type"] = "forum"
 
 class SubjectListView(LoginRequiredMixin, View):
 	login_url = '/login/'
@@ -23,7 +26,7 @@ class SubjectListView(LoginRequiredMixin, View):
 	def get(self, request, *args, **kwargs):
 		logged_in_user = request.user
 		context = {}
-		fillRightNav(request,context)
+		
 		general_subject = Subject.objects.filter(type='General')
 		faculty_subject = Subject.objects.filter(type='Faculty')
 
@@ -43,7 +46,7 @@ class SubjectListView(LoginRequiredMixin, View):
 
 		context['general_subject'] = gen_container
 		context['faculty_subject'] = fac_container
-
+		fillRightNav(request,context)
 		return render(request, 'forum/forum_home.html', context)
 
 class ForumListView(LoginRequiredMixin, View):
@@ -79,7 +82,7 @@ class ForumListView(LoginRequiredMixin, View):
 
 		context["subject"] = subject
 		context["posts"] = p_list
-		
+		fillRightNav(request,context)
 
 		return render(request, 'forum/forum_content.html', context)
 
@@ -123,7 +126,7 @@ class ForumListView(LoginRequiredMixin, View):
 
 		context["subject"] = subject
 		context["posts"] = p_list
-
+		fillRightNav(request,context)
 		return render(request, 'forum/forum_content.html', context)
 
 class ForumDetailView(LoginRequiredMixin, View):
@@ -149,7 +152,7 @@ class ForumDetailView(LoginRequiredMixin, View):
 		context["user_profile"] = user_profile
 		#context["replies"] = reply_list
 		context["replies"] = post_reply
-
+		fillRightNav(request,context)
 		#print("render")
 		return render(request, 'forum/forum_detail_2.html', context)
 
@@ -189,7 +192,7 @@ class ForumDetailView(LoginRequiredMixin, View):
 		context["post"] = post
 		#context["replies"] = reply_list
 		context["replies"] = post_reply
-
+		fillRightNav(request,context)
 		return render(request, 'forum/forum_detail_2.html', context)
 		#return render(request, 'forum/snippets/forum_detail/comments.html', context)
 

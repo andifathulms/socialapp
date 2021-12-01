@@ -3,7 +3,6 @@
 {% load humanize %}
 {% block post %}
 <style>
-
     .post-module {
         position: relative;
         display: block;
@@ -167,7 +166,6 @@
         opacity: 1 !important;
     }
 
-    .container-fluid,
     .container {
         max-width: 1500px;
     }
@@ -274,7 +272,7 @@
     }
 </style>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-<div class="container">
+
     {% if hide %}
     <div class="row mb-5">
         <h3 class="m-auto">Your Wishlist Product</h3>
@@ -342,7 +340,7 @@
         </div>
         {% endfor %}
     </div>
-</div>
+
 {% endblock post %}
 {% block javascript %}
 <script>

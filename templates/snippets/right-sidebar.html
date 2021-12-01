@@ -2,9 +2,8 @@
 
 {% if type|stringformat:"s" == 'blog' %}
 <div class="content-section">
-  <h3>Your Reading List </h3>
-  
   <div class="list-group">
+    <li class="list-group-item active">Your Reading List</li>
     {% for obj in readlist %}
     <a href="{% url 'blog:blog-detail' obj.pk %}" class="list-group-item list-group-item-action flex-column align-items-start">
       <small><strong>{{obj.author.profile.fullname}}</strong></small>
@@ -40,17 +39,18 @@
 </div>
 {% elif type|stringformat:"s" == 'forum' %}
 <div class="content-section">
-  <h3>Your Reading List </h3>
   
   <div class="list-group">
-    {% for obj in readlist %}
-    <a href="{% url 'blog:blog-detail' obj.pk %}" class="list-group-item list-group-item-action flex-column align-items-start">
-      <small><strong>{{obj.author.profile.fullname}}</strong></small>
+    <li class="list-group-item active">Newest Forum Post</li>
+    {% for obj in forum_newest %}
+    <a href="{% url 'forum:forum-detail' obj.pk %}" class="list-group-item list-group-item-action flex-column align-items-start">
+      <small><strong>{{obj.author.profile.fullname}}</strong></small> 
+      <span class="badge badge-success">{{obj.subject.title}}</span>
       <div class="d-flex w-100 justify-content-between">
         <h6 class="mb-1">{{obj.title}}</h6>
         
       </div>
-      <small>{{ obj.created_on|date:"F d, Y" }}</small> <small><span id="rn-rt-{{obj.pk}}">2</span> min read</small>
+      <small>{{ obj.created_on|date:"F d, Y" }}</small> <small><span id="fr-{{obj.pk}}">{{obj.forumpost_parent.count}}</span> reply</small>
       <script>
         function truncateString(str, num) {
           if (str.length <= num) {
@@ -58,22 +58,67 @@
           }
           return str.slice(0, num) + '...'
         }
-
-        window.addEventListener("DOMContentLoaded", () => {
-          const text = "{{obj.body|escapejs}}";
-          const words = text.trim().split(/\s+/).length;
-          const wpm = 225;
-          const time = Math.ceil(words / wpm);
-          const readTime = document.getElementById("rn-rt-{{obj.pk}}");
-          readTime.innerHTML = time;
-        });
       </script>
     </a>
     {% endfor %}
-    {% if readlist_count > 4 %}
-    <a href="{% url 'blog:blog-readlist' %}" class="list-group-item list-group-item-action list-group-item-success">See All ({{readlist_count}})</a>
-    {% endif %}
   </div>
     
 </div>
+<div class="content-section">
+  <div class="list-group">
+    <li class="list-group-item active">Most Popular Forum Post</li>
+    {% for obj in forum_popular %}
+    <a href="{% url 'forum:forum-detail' obj.pk %}" class="list-group-item list-group-item-action flex-column align-items-start">
+      <small><strong>{{obj.author.profile.fullname}}</strong></small>
+      <span class="badge badge-success">{{obj.subject.title}}</span>
+      <div class="d-flex w-100 justify-content-between">
+        <h6 class="mb-1">{{obj.title}}</h6>
+        
+      </div>
+      <small>{{ obj.created_on|date:"F d, Y" }}</small> <small><span id="fr-{{obj.pk}}">{{obj.forumpost_parent.count}}</span> reply</small>
+      <script>
+        function truncateString(str, num) {
+          if (str.length <= num) {
+            return str
+          }
+          return str.slice(0, num) + '...'
+        }
+      </script>
+    </a>
+    {% endfor %}
+  </div>
+    
+</div>
+{% elif type|stringformat:"s" == 'marketplace' %}
+<div class="content-section">
+  <div class="list-group">
+    <li class="list-group-item active">Wishlist</li>
+    {% for obj in product %}
+    <a href="{% url 'marketplace:marketplace-detail' obj.pk %}" class="list-group-item list-group-item-action flex-column align-items-start">
+      <small><strong>{{obj.author.profile.fullname}}</strong></small>
+      <span class="badge badge-success">{{obj.category.name}}</span>
+      <div class="d-flex w-100 justify-content-between">
+        <h6 class="mb-1">{{obj.title}}</h6>
+      </div>
+      <div class="d-flex w-100 justify-content-between">
+        <h6 class="mb-1" style="color: grey">Rp.{{obj.price}}</h6>
+      </div>
+      <div class="d-flex w-100 justify-content-between">
+        <h6 class="mb-1" style="color: grey">{{obj.location}}</h6>
+      </div>
+      <small>{{ obj.created_on|date:"F d, Y" }}</small>
+      <script>
+        function truncateString(str, num) {
+          if (str.length <= num) {
+            return str
+          }
+          return str.slice(0, num) + '...'
+        }
+      </script>
+    </a>
+    {% endfor %}
+  </div>
+    
+</div>
+
 {% endif %}

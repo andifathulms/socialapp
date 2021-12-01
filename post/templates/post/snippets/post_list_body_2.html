@@ -146,7 +146,7 @@
     {% endif %}
 
     {% if result.price %} <!-- IF FROM MARKETPLACE -->
-    <div class="tweet-wrap infinite-item" style="background-color: #bec8e4;">
+    <div class="tweet-wrap infinite-item" style="background-color: #ddf0e2;">
       <div class="tweet-header">
         <a href="{% url 'account:view' user_id=result.author.profile.pk %}">
             <img class="mr-3 circle-rounded avator" style="float: left;margin-right: 1rem;" width="50" height="50" src="{{ result.author.profile_image.url }}" />
@@ -178,7 +178,7 @@
     {% endif %}
 
     {% if result.subject %} <!-- IF FROM THE FORUM -->
-    <div class="tweet-wrap infinite-item" style="background-color: #9baacf;">
+    <div class="tweet-wrap infinite-item" style="background-color: #e0ddf0;">
       <div class="tweet-header">
         <a href="{% url 'account:view' user_id=result.author.profile.pk %}">
             <img class="mr-3 circle-rounded avator" style="float: left;margin-right: 1rem;" width="50" height="50" src="{{ result.author.profile_image.url }}" />
@@ -223,7 +223,7 @@
                         }
                         return str.slice(0, num) + '...'
                       }
-
+                      
                       window.addEventListener("DOMContentLoaded", () => {
                         const postBody = document.getElementById("blog-body-{{result.pk}}");
                         const postBodyImg = document.getElementById("blog-body-img-{{result.pk}}");
