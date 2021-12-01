@@ -28,35 +28,20 @@ def fillRightNav(request,context):
 
     context["readlist"] = readlist
     context["readlist_count"] = count
+    context["type"] = "blog"
 
 class PostListView(LoginRequiredMixin, View):
-    login_url = '/login/'
-    redirect_field_name = 'redirect_to'
-    def get(self, request, *args, **kwargs):
-        
-        posts = Post.objects.filter(
-            author__userfollow__followers__in=[request.user.id] #Fix later
-        )
-
+    
+    def postlist_populated(self, request, context):
+        #posts = Post.objects.filter(author__userfollow__followers__in=[request.user.id])#Fix later #For reference
+        posts = Post.objects.all().order_by('-created_on') #Fix later
         product = Product.objects.all()
-
-        subject = Subject.objects.get(pk=1) #Fix later
-        forum = ForumPost.objects.filter(subject=subject)
+        subject = Subject.objects.filter(subscriber__in=[request.user.id])
+        forum = ForumPost.objects.filter(subject__in=subject)
         blog = Blog.objects.filter(is_draft=False) #Fix later
-
-        form = PostForm(request.POST, request.FILES)
-        share_form = ShareForm() # For now obsolete?
-        posts = Post.objects.all().order_by('-created_on')
-
-        post_list = []
-        for post in posts:
-            comment = Comment.objects.filter(post=post).count()
-            post_list.append((post,comment))
-
         result_list = sorted(chain(posts, product, forum, blog),key=attrgetter('created_on'), reverse=True)
-
-        page = request.GET.get('page', 1)
         join_paginator = Paginator(result_list,10)
+        page = request.GET.get('page', 1)
         
         try:
             join_pagination = join_paginator.page(page)
@@ -65,24 +50,21 @@ class PostListView(LoginRequiredMixin, View):
         except EmptyPage:
             join_pagination = join_paginator.page(join_paginator.num_pages)
 
-        context = {
-            'shareform': share_form,
-            'form': form,
-            'results' : join_pagination,
-        }
+        context["results"] = join_pagination
 
+    def get(self, request, *args, **kwargs):
         
+        context = {}
+
         fillRightNav(request, context)
+        self.postlist_populated(request, context)
 
         return render(request, 'post/post_list_2.html', context)
 
     def post(self, request, *args, **kwargs):
-        logged_in_user = request.user
-        
-        posts = Post.objects.all().order_by('-created_on') #Fix later
+        context = {}
         form = PostForm(request.POST, request.FILES)
         files = request.FILES.getlist('image')
-        share_form = ShareForm()
         
         if form.is_valid():
             new_post = form.save(commit=False)
@@ -101,39 +83,8 @@ class PostListView(LoginRequiredMixin, View):
         else:
             print(form.errors)
         
-        product = Product.objects.all()
-
-        subject = Subject.objects.get(pk=1)
-        forum = ForumPost.objects.filter(subject=subject)
-        blog = Blog.objects.filter(is_draft=False) #Fix later
-
-        post_list = []
-        for post in posts:
-            comment = Comment.objects.filter(post=post).count()
-            user = UserProfile.objects.get(account=post.author)
-            is_like = False
-            if request.user in post.likes.all():
-                is_like = True
-            post_list.append((post,comment,user,is_like))
-
-        result_list = sorted(chain(posts, product, forum, blog),key=attrgetter('created_on'), reverse=True)
-        page = request.GET.get('page', 1)
-        join_paginator = Paginator(result_list,10)
-        
-        try:
-            join_pagination = join_paginator.page(page)
-        except PageNotAnInteger:
-            join_pagination = join_paginator.page(1)
-        except EmptyPage:
-            join_pagination = join_paginator.page(join_paginator.num_pages)
-
-        context = {
-            'results': join_pagination,
-            'shareform': share_form,
-            'form': form,
-        }
-        
         fillRightNav(request, context)
+        self.postlist_populated(request, context)
 
         return render(request, 'post/snippets/post_list_body_2.html', context)
 

@@ -30,7 +30,7 @@ class ForumReply(MPTTModel):
 
 	reply = models.TextField()
 	created = models.DateTimeField(default=timezone.now)
-	post = models.ForeignKey('ForumPost', on_delete=models.CASCADE)
+	post = models.ForeignKey('ForumPost', on_delete=models.CASCADE, related_name="forumpost_parent")
 	author = models.ForeignKey(Account, on_delete=models.CASCADE)
 	upvote = models.ManyToManyField(Account, blank=True, related_name='upvote_reply')
 	downvote = models.ManyToManyField(Account, blank=True, related_name='downvote_reply')

@@ -2,13 +2,19 @@ from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from django.http import HttpResponseRedirect
-from django.db.models import F, Sum
+from django.db.models import F, Sum, Count
 
 from chat.utils import calculate_timestamp
 
 from .models import Subject, ForumPost, ForumReply
 from account_profile.models import UserProfile
 from .forms import ForumPostForm, ForumReplyForm
+
+def fillRightNav(request,context):
+    subject = Subject.objects.filter(subscriber__in=[request.user.id])
+    forum = ForumPost.objects.filter(subject__in=subject)
+    forump = ForumPost.objects.annotate(count=Count('forumpost_parent')).order_by('-count')
+    print(forump)
 
 class SubjectListView(LoginRequiredMixin, View):
 	login_url = '/login/'
@@ -17,7 +23,7 @@ class SubjectListView(LoginRequiredMixin, View):
 	def get(self, request, *args, **kwargs):
 		logged_in_user = request.user
 		context = {}
-
+		fillRightNav(request,context)
 		general_subject = Subject.objects.filter(type='General')
 		faculty_subject = Subject.objects.filter(type='Faculty')
 
