@@ -14,7 +14,7 @@ from account_profile.models import UserSavedPost
 def fillRightNav(request,context):
 	user_product = UserSavedPost.objects.get(account = request.user)
 	product = user_product.products_saved.all()
-	context["product"] = product
+	context["products"] = product
 	context["type"] = "marketplace"
 
 class MarketplaceListView(LoginRequiredMixin, View):
@@ -59,6 +59,7 @@ class MarketplaceDetailView(LoginRequiredMixin, View):
 
 		context["is_wishlist"] = is_wishlist 
 		fillRightNav(request,context)
+		print(context)
 		return render(request, 'marketplace/marketplace_detail.html', context)
 
 	def post(self, request, *args, **kwargs):

@@ -93,7 +93,7 @@
 <div class="content-section">
   <div class="list-group">
     <li class="list-group-item active">Wishlist</li>
-    {% for obj in product %}
+    {% for obj in products %}
     <a href="{% url 'marketplace:marketplace-detail' obj.pk %}" class="list-group-item list-group-item-action flex-column align-items-start">
       <small><strong>{{obj.author.profile.fullname}}</strong></small>
       <span class="badge badge-success">{{obj.category.name}}</span>

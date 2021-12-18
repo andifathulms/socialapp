@@ -4,15 +4,32 @@
 {% for result in results %}
     {% if result.likes %} <!-- IF A POST -->
     <div class="tweet-wrap infinite-item mb-1">
-      <div class="tweet-header">
-        <a href="{% url 'account:view' user_id=result.author.profile.pk %}">
-            <img class="mr-3 circle-rounded avator" style="float: left;margin-right: 1rem;" width="50" height="50" src="{{ result.author.profile_image.url }}" />
-        </a>
-        
-        <div class="tweet-header-info">
-          <span style="color: black;">{{result.author.profile.fullname}}</span><span>@{{ result.author }}</span><span> {{ result.created_on|naturaltime }}</span>
-          <div class="body-post" id="body-post-{{result.pk}}" style="font-weight:normal; transform: rotate(0);">
+      <article style="padding-right: 16px; padding-left: 16px; overflow: hidden; flex-direction: row; display: flex; font-size: 20px;">
+        <div>
+          <a href="{% url 'account:view' user_id=result.author.profile.pk %}">
+              <img class="mr-3 circle-rounded avator" style="float: left;margin-right: 1rem;" width="50" height="50" src="{{ result.author.profile_image.url }}" />
+          </a>
+        </div>
+        <div style="display: flex; flex-direction: column;">
+          <!-- User -->
+          <div style="margin-bottom: 2px; flex-direction: row;">
+            <div>
+              <a href="{% url 'account:view' user_id=result.author.profile.pk %}" style="text-decoration: none;">
+                <span style="color: black;"><strong>{{result.author.profile.fullname}}</strong>
+                  <span style="color:#657786;"> @{{ result.author }}</span>
+                </span>
+              </a>
+              <span style="color:#657786;"> {{ result.created_on|naturaltime }}</span>
+            </div>
+            <div></div>
+          </div>
+          <!-- Body -->
+          <div style="position: relative;">
+            <a href="{% url 'post:post-detail' result.pk %}" style="text-decoration: none;">
+              <span style="position: absolute;width: 100%;height: 100%;top: 0;left: 0;z-index: 1;"></span> 
+            </a>
             <p id="body-p-{{results.pk}}">{{ result.body|safe }}</p>
+
             {% if result.image.count > 0 %}
               <div class="row">
                 {% for img in result.image.all %}
@@ -22,144 +39,152 @@
                 {% endfor %}
               </div>
             {% endif %}
+
             {% if result.has_url %}
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js" integrity="sha512-WNLxfP/8cVYL9sj8Jnp6et0BkubLP31jhTG9vhL/F5uEZmg5wEzKoXp1kJslzPQWwPT1eyMiSxlKCgzHLOTOTQ==" crossorigin="anonymous"></script>
+
             <script>
-            var target = '{{result.url}}';
-            var apikey = 'd40cf1a8290e74c03567253ecc253f5c';
+              var target = '{{result.url}}';
+              var apikey = 'd40cf1a8290e74c03567253ecc253f5c';
 
-            $.ajax({
-              url: "https://api.linkpreview.net",
-              dataType: 'jsonp',
-              data: {q: target, key: apikey},
-              success: function (response) {
-                console.log(response);
+              $.ajax({
+                url: "https://api.linkpreview.net",
+                dataType: 'jsonp',
+                data: {q: target, key: apikey},
+                success: function (response) {
+                  console.log(response);
 
-                const img = document.createElement('img');
-                img.src = response.image;
+                  const img = document.createElement('img');
+                  img.src = response.image;
 
-                const title = document.createElement('h5');
-                var truncatedTitle = truncateString(response.title,60);
-                title.innerHTML = truncatedTitle;
+                  const title = document.createElement('h5');
+                  var truncatedTitle = truncateString(response.title,60);
+                  title.innerHTML = truncatedTitle;
 
-                const desc = document.createElement('p');
-                var truncatedDesc = truncateString(response.description,150);
-                desc.innerHTML = truncatedDesc;
-                desc.style.textAlign = "justify";
+                  const desc = document.createElement('p');
+                  var truncatedDesc = truncateString(response.description,150);
+                  desc.innerHTML = truncatedDesc;
+                  desc.style.textAlign = "justify";
 
-                const url = document.createElement('p');
-                var truncatedURL = truncateString(response.url,100);
-                url.innerHTML = truncatedURL;
+                  const url = document.createElement('p');
+                  var truncatedURL = truncateString(response.url,100);
+                  url.innerHTML = truncatedURL;
 
-                const left_content = document.createElement('div');
-                /*left_content.classList.add('border-end');*/
+                  const left_content = document.createElement('div');
+                  /*left_content.classList.add('border-end');*/
 
-                const left_col = document.createElement('div');
-                left_col.classList.add('col-md-3', 'p-2');
+                  const left_col = document.createElement('div');
+                  left_col.classList.add('col-md-3', 'p-2');
 
-                left_content.appendChild(img);
-                left_col.appendChild(left_content);
+                  left_content.appendChild(img);
+                  left_col.appendChild(left_content);
 
-                const right_content = document.createElement('div');
+                  const right_content = document.createElement('div');
 
-                const right_col = document.createElement('div');
-                right_col.classList.add('col-md-9', 'p-2');
+                  const right_col = document.createElement('div');
+                  right_col.classList.add('col-md-9', 'p-2');
 
-                right_content.appendChild(title);
-                right_content.appendChild(desc);
-                right_content.appendChild(url);
-                right_col.appendChild(right_content);
+                  right_content.appendChild(title);
+                  right_content.appendChild(desc);
+                  right_content.appendChild(url);
+                  right_col.appendChild(right_content);
 
-                const body = document.querySelector('#body-post-{{result.pk}}');
-                const container = document.createElement('div');
-                container.classList.add('container', 'border', 'rounded', 'p-0', 'bg-light');
-                body.appendChild(container);
+                  const body = document.querySelector('#body-post-{{result.pk}}');
+                  const container = document.createElement('div');
+                  container.classList.add('container', 'border', 'rounded', 'p-0', 'bg-light');
+                  body.appendChild(container);
 
-                const row = document.createElement('div');
-                row.classList.add('row', 'no-gutters');
-                row.appendChild(left_col);
-                row.appendChild(right_col);
+                  const row = document.createElement('div');
+                  row.classList.add('row', 'no-gutters');
+                  row.appendChild(left_col);
+                  row.appendChild(right_col);
 
-                container.appendChild(row);
+                  container.appendChild(row);
 
-                const urlLink = document.createElement('a');
-                urlLink.href = response.url;
-                const span = document.createElement('span');
-                span.style.position = "absolute";
-                span.style.width = "100%";
-                span.style.height = "100%";
-                span.style.top = "0";
-                span.style.left = "0";
-                span.style.zIndex = "1";
-                urlLink.appendChild(span);
+                  const urlLink = document.createElement('a');
+                  urlLink.href = response.url;
+                  const span = document.createElement('span');
+                  span.style.position = "absolute";
+                  span.style.width = "100%";
+                  span.style.height = "100%";
+                  span.style.top = "0";
+                  span.style.left = "0";
+                  span.style.zIndex = "1";
+                  urlLink.appendChild(span);
 
-                container.appendChild(urlLink);
+                  container.appendChild(urlLink);
 
-              }
-            });
+                }
+              });
             </script>
-            <!--
-            <div class="container border rounded p-0">
-              <div class="row no-gutters">
-                <div class="col-md-3 p-0">
-                  <div class="border-end bg-light">
-                    <img src="https://static.djangoproject.com/img/icon-touch.e4872c4da341.png" alt="">
-                  </div>
-                </div>
-                <div class="col-md-9 p-0">
-                  <div class="bg-light">
-                    <p><strong>Model field reference | Django documentation | Django</strong></p>
-                    <p>This document contains all the API references of Field including the field options and field types Django offers.</p>
-                  </div>
-                </div>
-              </div>
-            </div>-->
             {% endif %}
+          </div>
+          <!-- Count -->
+          <div style="display: flex; flex-direction: row; flex-shrink: 0; justify-content: space-between;">
+            <div style="display: flex;">
+              <div>
+                <svg class="feather feather-message-circle sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+              </div>
+              <div style="display: inline-flex;">
+                <span style="padding-right: 12px; padding-left: 12px;">{{result.comment_parent.count}}</span>
+              </div>
+            </div>
+
+            <div style="display: flex;">
+              <div>
+                <svg class="feather feather-repeat sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
+              </div>
+              <div style="display: inline-flex;">
+                <span id="rt-count-{{result.pk}}" style="padding-right: 12px; padding-left: 12px;">0</span>
+              </div>
+            </div>
+
+            <div style="display: flex;">
+              <div>
+                <button class="btn btn-transparent p-0 " type="submit" onclick="sentAJAX_like({{result.pk}})">
+                    <span class="{% if request.user in result.likes.all %} heart-clicked {% else %} heart {% endif %}" id="like-button-{{result.pk}}"><i class='fas fa-heart'></i></span>
+                </button>
+              </div>
+              <div style="display: inline-flex;">
+                <span id="likes-count-{{result.pk}}" style="padding-right: 12px; padding-left: 12px;">{{ result.likes.all.count }}</span>
+              </div>
+            </div>
+        
           </div>
         </div>
         
-      </div>
-      
-      <div class="tweet-info-counts">
-        
-        <div class="comments">
-          <a href="{% url 'post:post-detail' result.pk %}" style="text-decoration: none;">
-          <svg class="feather feather-message-circle sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></a>
-          <div class="comment-count">{{result.comment_parent.count}}</div>
-        </div>
-        
-        <div class="likes">
-            <button class="btn btn-transparent p-0 mr-3" type="submit" onclick="sentAJAX_like({{result.pk}})">
-                <span class="{% if request.user in result.likes.all %} heart-clicked {% else %} heart {% endif %}" id="like-button-{{result.pk}}"><i class='fas fa-heart'></i></span>
-            </button>
-            <div class="likes-count">
-              <span id="likes-count-{{result.pk}}">{{ result.likes.all.count }}</span>
-            </div>
-        </div>
-
-        <div class="message">
-          <svg class="feather feather-send sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-          <div class="share-count">0</div>
-        </div>
-      </div>
+      </article>
     </div>
     {% endif %}
 
     {% if result.price %} <!-- IF FROM MARKETPLACE -->
-    <div class="tweet-wrap infinite-item" style="background-color: #ddf0e2;">
-      <div class="tweet-header">
-        <a href="{% url 'account:view' user_id=result.author.profile.pk %}">
-            <img class="mr-3 circle-rounded avator" style="float: left;margin-right: 1rem;" width="50" height="50" src="{{ result.author.profile_image.url }}" />
-        </a>
-        
-        <div class="tweet-header-info">
-          <span style="color: black;">{{result.author.profile.fullname}}</span><span>@{{ result.author }}</span><span> has posted to marketplace at {{ result.created_on|naturaltime }}</span><span class="label label-success">Marketplace</span>
-          <div class="body-post" style="font-weight:normal; transform: rotate(0);">
-            <a href="{% url 'marketplace:marketplace-detail' result.pk %}" style="color: black;">
+    <div class="tweet-wrap infinite-item">
+      <article style="padding-right: 16px; padding-left: 16px; overflow: hidden; flex-direction: row; display: flex; font-size: 20px;">
+        <div>
+          <a href="{% url 'account:view' user_id=result.author.profile.pk %}">
+              <img class="mr-3 circle-rounded avator" style="float: left;margin-right: 1rem;" width="50" height="50" src="{{ result.author.profile_image.url }}" />
+          </a>
+        </div>
+        <div style="flex-direction: column;">
+          <div style="margin-bottom: 2px; flex-direction: row;">
+            <div>
+              <a href="{% url 'account:view' user_id=result.author.profile.pk %}" style="text-decoration: none;">
+                <span style="color: black;"><strong>{{result.author.profile.fullname}}</strong>
+                  <span style="color:#657786;"> @{{ result.author }}</span>
+                </span>
+              </a>
+              <span style="color:#657786;"> {{ result.created_on|naturaltime }}</span>
+              
+            </div>
+            <div>
+              <span class="badge badge-pill badge-success">Marketplace</span>
+              <span class="badge badge-pill badge-success">Category : {{result.category.category.name}}</span>
+            </div>
+          </div>
+          <a href="{% url 'marketplace:marketplace-detail' result.pk %}" style="color: black; text-decoration: none;">
+          <div>
             <p><strong>{{ result.title|safe }}</strong></p>
             <p><strong>Rp. {{result.price|intcomma}}</strong></p>
-            </a>
-            
             {% if result.image.count == 2 %}
                 <div class="row">
                   {% for img in result.image.all %}
@@ -169,11 +194,11 @@
                   {% endfor %}
                 </div>
             {% endif %}
-            
           </div>
+          </a>
         </div>
-        
-      </div>
+
+      </article>
     </div>
     {% endif %}
 
