@@ -9,10 +9,19 @@ from django.views import View
 from django.contrib import messages
 from django.views.generic import ListView, UpdateView, DeleteView
 
+import json
+import re
+
 from .models import Blog
 from .forms import BlogForm
 
 from post.views import fillRightNav
+
+CLEANR = re.compile('<.*?>')
+
+def cleanhtml(raw_html):
+  cleantext = re.sub(CLEANR, '', raw_html)
+  return cleantext
 
 def home(request):
     if request.method=="POST":
@@ -216,3 +225,60 @@ def upload_link_view(request):
     return JsonResponse({'success':1,'meta':
     {"description":description,"title":title, "image":{"url":image}
         }})
+
+class load_blog_preview(LoginRequiredMixin, View):
+    def get(self, request, pk, *args, **kwargs):
+        context = {}
+        blog = Blog.objects.get(pk=pk)
+        text = blog.body
+
+        #find read time
+        words = len(text.split())
+        time = words//225
+
+        #find the image and text
+        body = json.loads(text)
+        blocks = body["blocks"]
+        textBody = ""
+        imgFlag = False
+        image = ""
+
+        for block in blocks:
+            if block["type"] == "paragraph":
+                textBody += block["data"]["text"]
+
+            if block["type"] == "Image":
+                if not imgFlag:
+                    image = block["data"]["file"]["url"];
+                    imgFlag = True
+
+        context["time"] = time
+        context["text"] = cleanhtml(truncateString(textBody, 180))
+        context["image"] = image
+        context["imgFlag"] = imgFlag
+        context["title"] = blog.title
+        context["pk"] = pk
+
+        return render(request, 'blog/snippets/blog_preview_body.html', context)
+
+class load_blog_span_preview(LoginRequiredMixin, View):
+    def get(self, request, pk, *args, **kwargs):
+        context = {}
+        blog = Blog.objects.get(pk=pk)
+        text = blog.body
+
+        #find read time
+        words = len(text.split())
+        time = words//225
+
+        context["time"] = time
+        context["pk"] = pk
+        context["date"] = blog.created_on
+
+        return render(request, 'blog/snippets/blog_span_sidebar.html', context)
+
+
+def truncateString(str, num):
+    if len(str) <= num:
+        return str
+    return str[0:num] + '...'

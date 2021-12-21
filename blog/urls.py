@@ -1,4 +1,4 @@
-from .views import home, postdetail, AddReadList, AddClaps, ReadingList, ManageBlog, BlogUpdate, BlogDelete
+from .views import home, postdetail, AddReadList, AddClaps, ReadingList, ManageBlog, BlogUpdate, BlogDelete, load_blog_preview, load_blog_span_preview
 
 from django.urls import path
 
@@ -14,4 +14,6 @@ urlpatterns = [
 	path('<int:id>/',postdetail, name='blog-detail' ),
 	path('<int:pk>/read-list', AddReadList.as_view(), name='blog-readlist'),
 	path('<int:pk>/claps', AddClaps.as_view(), name='blog-claps'),
+	path('load-blog-preview/<int:pk>',load_blog_preview.as_view(), name='load-blog-preview'),
+	path('load-blog-span-sidebar/<int:pk>',load_blog_span_preview.as_view(), name='load-blog-span-sidebar'),
 ]

@@ -1,5 +1,6 @@
 {% load static %}
 {% load humanize %}
+{% load custom_tags %}
 
 {% for result in results %}
     {% if result.likes %} <!-- IF A POST -->
@@ -19,13 +20,13 @@
                   <div class="css-1dbjc4n r-1wbh5a2 r-dnmrzs">
                     <a href="{% url 'account:view' user_id=result.author.profile.pk %}" 
                     class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1loqt21 r-1wbh5a2 r-dnmrzs r-1ny4l3l">
-                      <span style="color: black;"><strong>{{result.author.profile.fullname}}</strong>
+                      <span class="post-name-color"><strong>{{result.author.profile.fullname}}</strong>
                         <span style="color:#657786;"> @{{ result.author }} </span>
                       </span>
                     </a>
                   </div>
                   
-                  <span style="color:#657786;">&nbsp;&nbsp; {{ result.created_on|naturaltime }}</span>
+                  <span style="color:#657786;">&nbsp;&nbsp; {{ result.created_on|naturaltime|shorten_naturaltime }}</span>
                 </div>
                 <div class="css-1dbjc4n r-1joea0r">
                   <!-- OPTIONS MARKER -->
@@ -40,7 +41,7 @@
             <a href="{% url 'post:post-detail' result.pk %}" style="text-decoration: none;">
               <span style="position: absolute;width: 100%;height: 100%;top: 0;left: 0;z-index: 1;"></span> 
             </a>
-            <p id="body-p-{{results.pk}}">{{ result.body|safe }}</p>
+            <p id="body-p-{{results.pk}}" class="post-name-color">{{ result.body|safe }}</p>
             <!--
             {% if result.image.count > 0 %}
               <div class="row">
@@ -253,7 +254,7 @@
             <div class="css-1dbjc4n r-1ta3fxp r-18u37iz r-1wtj0ep r-1s2bzr4 r-1mdbhws">
               <div class="css-1dbjc4n r-18u37iz r-1h0z5md">
                 <div class="css-18t94o4 css-1dbjc4n r-1777fci r-bt1l66 r-1ny4l3l r-bztko3 r-lrvibr">
-                  <div class="css-901oao r-1awozwy r-9ilb82 r-6koalj r-37j5jr r-a023e6 r-16dba41 r-1h0z5md r-rjixqe r-bcqeeo r-o7ynqc r-clp7b1 r-3s2u2q r-qvutc0">
+                  <div class="css-901oao r-1awozwy r-9ilb82 r-6koalj r-37j5jr r-a023e6 r-16dba41 r-1h0z5md r-rjixqe r-bcqeeo r-o7ynqc r-clp7b1 r-3s2u2q r-qvutc0 comment-hoverable">
                     <div class="css-1dbjc4n r-xoduu5">
                       <svg class="feather feather-message-circle sc-dnqmqq jxshSx r-4qtqp9 r-yyyyoo r-1xvli5t r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1hdv0qi" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
                     </div>
@@ -267,7 +268,7 @@
 
               <div class="css-1dbjc4n r-18u37iz r-1h0z5md">
                 <div class="css-18t94o4 css-1dbjc4n r-1777fci r-bt1l66 r-1ny4l3l r-bztko3 r-lrvibr">
-                  <div class="css-901oao r-1awozwy r-9ilb82 r-6koalj r-37j5jr r-a023e6 r-16dba41 r-1h0z5md r-rjixqe r-bcqeeo r-o7ynqc r-clp7b1 r-3s2u2q r-qvutc0">
+                  <div class="css-901oao r-1awozwy r-9ilb82 r-6koalj r-37j5jr r-a023e6 r-16dba41 r-1h0z5md r-rjixqe r-bcqeeo r-o7ynqc r-clp7b1 r-3s2u2q r-qvutc0 rt-hoverable">
                     <div class="css-1dbjc4n r-xoduu5">
                       <svg class="feather feather-repeat sc-dnqmqq jxshSx r-4qtqp9 r-yyyyoo r-1xvli5t r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1hdv0qi" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
                     </div>
@@ -281,7 +282,7 @@
 
               <div class="css-1dbjc4n r-18u37iz r-1h0z5md">
                 <div class="css-18t94o4 css-1dbjc4n r-1777fci r-bt1l66 r-1ny4l3l r-bztko3 r-lrvibr">
-                  <div class="css-901oao r-1awozwy r-9ilb82 r-6koalj r-37j5jr r-a023e6 r-16dba41 r-1h0z5md r-rjixqe r-bcqeeo r-o7ynqc r-clp7b1 r-3s2u2q r-qvutc0">
+                  <div class="css-901oao r-1awozwy r-9ilb82 r-6koalj r-37j5jr r-a023e6 r-16dba41 r-1h0z5md r-rjixqe r-bcqeeo r-o7ynqc r-clp7b1 r-3s2u2q r-qvutc0 like-hoverable">
                     <div class="css-1dbjc4n r-xoduu5">
                       <button class="btn btn-transparent p-0 " type="submit" onclick="sentAJAX_like({{result.pk}})">
                           <span class="{% if request.user in result.likes.all %} heart-clicked {% else %} heart {% endif %}" id="like-button-{{result.pk}}"><i class='fas fa-heart'></i></span>
@@ -313,7 +314,7 @@
           <div style="margin-bottom: 2px; flex-direction: row;">
             <div>
               <a href="{% url 'account:view' user_id=result.author.profile.pk %}" style="text-decoration: none;">
-                <span style="color: black;"><strong>{{result.author.profile.fullname}}</strong>
+                <span class="post-name-color"><strong>{{result.author.profile.fullname}}</strong>
                   <span style="color:#657786;"> @{{ result.author }}</span>
                 </span>
               </a>
@@ -321,14 +322,14 @@
               
             </div>
             <div>
-              <span class="badge badge-pill badge-success">Marketplace</span>
-              <span class="badge badge-pill badge-success">Category : {{result.category.category.name}}</span>
+              <span class="badge badge-pill badge-success" style="color: #000;">Marketplace</span>
+              <span class="badge badge-pill badge-success" style="color: #000;">Category : {{result.category.category.name}}</span>
             </div>
           </div>
           <a href="{% url 'marketplace:marketplace-detail' result.pk %}" style="color: black; text-decoration: none;">
           <div>
-            <p><strong>{{ result.title|safe }}</strong></p>
-            <p><strong>Rp. {{result.price|intcomma}}</strong></p>
+            <p class="post-name-color"><strong>{{ result.title|safe }}</strong></p>
+            <p class="post-name-color"><strong>Rp. {{result.price|intcomma}}</strong></p>
             {% if result.image.count == 2 %}
                 <div class="row">
                   {% for img in result.image.all %}
@@ -367,97 +368,90 @@
     {% endif %}
 
     {% if result.claps %} <!-- IF FROM THE BLOG -->
-    <div class="tweet-wrap infinite-item">
-      <div class="tweet-header">
-        <a href="{% url 'account:view' user_id=result.author.profile.pk %}">
-            <img class="mr-3 circle-rounded avator" style="float: left;margin-right: 2rem;" width="50" height="50" src="{{ result.author.profile_image.url }}" />
-        </a>
-        
-        <div class="tweet-header-info" style="clear: both;">
-          <span style="color: black;">{{result.author.profile.fullname}}</span><span>@{{ result.author }} posted to Blog {{ result.created_on|naturaltime }}</span><span class="label label-warning">Blog</span>
-          <div class="body-post" style="font-weight:normal; transform: rotate(0);">
-            <div class="container border rounded p-0 mt-4">
-              <div class="row g-0">
-                <a href="{% url 'blog:blog-detail' result.pk %}" style="color: black;">
-                  <span style="position: absolute;width: 100%;height: 100%;top: 0;left: 0;z-index: 1;"></span> 
-                </a>
-                <div class="col-md-9 p-2">
-                  <div class="border-end">
-                    <p><strong>{{ result.title|safe }}</strong></p>
-                    <p id="blog-body-{{result.pk}}"></p>
-                    <script>
-                      function truncateString(str, num) {
-                        if (str.length <= num) {
-                          return str
-                        }
-                        return str.slice(0, num) + '...'
-                      }
-                      
-                      window.addEventListener("DOMContentLoaded", () => {
-                        const postBody = document.getElementById("blog-body-{{result.pk}}");
-                        const postBodyImg = document.getElementById("blog-body-img-{{result.pk}}");
+    <div class="tweet-wrap infinite-item" >
+      <article style="padding-right: 18px; padding-left: 18px; overflow: hidden; flex-direction: row; display: flex; font-size: 20px;">
+        <div class="css-1dbjc4n r-1awozwy r-1hwvwag r-18kxxzh r-1b7u577">
+          <a href="{% url 'account:view' user_id=result.author.profile.pk %}">
+              <img class="mr-3 circle-rounded avator" style="float: left;margin-right: 1rem;" width="50" height="50" src="{{ result.author.profile_image.url }}" />
+          </a>
+        </div>
+        <div class="css-1dbjc4n r-1iusvr4 r-16y2uox r-1777fci r-kzbkwu">  
+          
+          <!-- User -->
+          <div class="css-1dbjc4n">
+            <div class="css-1dbjc4n r-zl2h9q">
+              <div class="css-1dbjc4n r-k4xj1c r-18u37iz r-1wtj0ep">
+                <div class="css-1dbjc4n r-1d09ksm r-18u37iz r-1wbh5a2">
+                  <div class="css-1dbjc4n r-1wbh5a2 r-dnmrzs">
+                    <a href="{% url 'account:view' user_id=result.author.profile.pk %}" 
+                    class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1loqt21 r-1wbh5a2 r-dnmrzs r-1ny4l3l">
+                      <span class="post-name-color"><strong>{{result.author.profile.fullname}}</strong>
+                        <span style="color:#657786;"> @{{ result.author }} </span>
+                      </span>
+                    </a>
+                  </div>
+                  <span style="color:#657786;">&nbsp;&nbsp; {{ result.created_on|naturaltime|shorten_naturaltime }}</span>
+                </div>
+                <div class="css-1dbjc4n r-1joea0r">
+                  <button class="btn btn-transparent p-0" type="submit" onclick="sentAJAX_readList({{result.pk}})">
+                      <span style="float: right;" class="{% if request.user in result.read_list.all %} heart-clicked {% else %} heart {% endif %}" id="read-list-button-{{result.pk}}"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="book-open" class="svg-inline--fa fa-book-open" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M144.3 32.04C106.9 31.29 63.7 41.44 18.6 61.29c-11.42 5.026-18.6 16.67-18.6 29.15l0 357.6c0 11.55 11.99 19.55 22.45 14.65c126.3-59.14 219.8 11 223.8 14.01C249.1 478.9 252.5 480 256 480c12.4 0 16-11.38 16-15.98V80.04c0-5.203-2.531-10.08-6.781-13.08C263.3 65.58 216.7 33.35 144.3 32.04zM557.4 61.29c-45.11-19.79-88.48-29.61-125.7-29.26c-72.44 1.312-118.1 33.55-120.9 34.92C306.5 69.96 304 74.83 304 80.04v383.1C304 468.4 307.5 480 320 480c3.484 0 6.938-1.125 9.781-3.328c3.925-3.018 97.44-73.16 223.8-14c10.46 4.896 22.45-3.105 22.45-14.65l.0001-357.6C575.1 77.97 568.8 66.31 557.4 61.29z"></path></svg></span>
+                  </button>
+                </div>
+              </div>
+              <div>
+                <span class="badge badge-pill badge-info">Blog</span>
+              </div>
+            </div>
+            <div></div>
+          </div>
 
-                        const text = "{{result.body|escapejs}}";
-                        const words = text.trim().split(/\s+/).length;
-                        const wpm = 225;
-                        const time = Math.ceil(words / wpm);
-                        const readTime = document.getElementById("blog-min-read-{{result.pk}}");
-                        readTime.innerHTML = time;
-
-                        let body = JSON.parse(text);
-                        let blocks = body.blocks;
-                        let imageFlag = false;
-                        let textBody = "";
-                        postBody.style = "color: grey";
-                        for (let index = 0; index <= blocks.length; index++) {
-                          switch (blocks[index].type) {
-                            case "Header":
-                              break;
-
-                            case "Image":
-                              if(!imageFlag){
-                                let div = document.createElement("div");
-                                let image = document.createElement("img");
-                                image.src = `${blocks[index].data.file.url}`;
-                                image.style = "vertical-align: middle; width: 100%; height: 100%; object-fit: cover;"
-                                postBodyImg.appendChild(image);
-                                imageFlag = true;
-                              }
-                              break;
-
-                            case "List":
-                              break;
-
-                            case "Raw":
-                              break;
-
-                            case "Attaches":
-                              break;
-
-                            case "paragraph":
-                              let temp = blocks[index].data.text;
-                              textBody += temp;
-                              postBody.innerHTML = truncateString(textBody,180);
-                              break;
-
-                            case "Link":
-                              break;
-
-                            default:
-                              break;
-                          }
-                        }
-                      });
-                    </script>
-                    
+          <!-- Body -->
+          <div class="css-1dbjc4n" hx-get="{% url 'blog:load-blog-preview' result.pk %}" hx-trigger="load">
+             
+          </div>
+          
+          <!-- Count -->
+          <div class="css-1dbjc4n">
+            <div class="css-1dbjc4n r-1ta3fxp r-18u37iz r-1wtj0ep r-1s2bzr4 r-1mdbhws">
+              <div class="css-1dbjc4n r-18u37iz r-1h0z5md">
+                <div class="css-18t94o4 css-1dbjc4n r-1777fci r-bt1l66 r-1ny4l3l r-bztko3 r-lrvibr">
+                  <div class="css-901oao r-1awozwy r-9ilb82 r-6koalj r-37j5jr r-a023e6 r-16dba41 r-1h0z5md r-rjixqe r-bcqeeo r-o7ynqc r-clp7b1 r-3s2u2q r-qvutc0 comment-hoverable">
+                    <div class="css-1dbjc4n r-xoduu5">
+                      <svg class="feather feather-message-circle sc-dnqmqq jxshSx r-4qtqp9 r-yyyyoo r-1xvli5t r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1hdv0qi" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                    </div>
+                    <div class="css-1dbjc4n r-xoduu5 r-1udh08x">
+                      <span style="padding-right: 12px; padding-left: 12px;">{{result.comment_parent.count}}</span>
+                    </div>
                   </div>
                 </div>
-                <div class="col-md-3 p-0">
-                  <div class="bg-light" style="height: 100%;">
-                    <div id="blog-body-img-{{result.pk}}" style="height: 100%;">
-                      
+                
+              </div>
+
+              <div class="css-1dbjc4n r-18u37iz r-1h0z5md">
+                <div class="css-18t94o4 css-1dbjc4n r-1777fci r-bt1l66 r-1ny4l3l r-bztko3 r-lrvibr">
+                  <div class="css-901oao r-1awozwy r-9ilb82 r-6koalj r-37j5jr r-a023e6 r-16dba41 r-1h0z5md r-rjixqe r-bcqeeo r-o7ynqc r-clp7b1 r-3s2u2q r-qvutc0 rt-hoverable">
+                    <div class="css-1dbjc4n r-xoduu5">
+                      <svg class="feather feather-repeat sc-dnqmqq jxshSx r-4qtqp9 r-yyyyoo r-1xvli5t r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1hdv0qi" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
                     </div>
-                    
+                    <div class="css-1dbjc4n r-xoduu5 r-1udh08x">
+                      <span id="rt-count-{{result.pk}}" style="padding-right: 12px; padding-left: 12px;">0</span>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+
+              <div class="css-1dbjc4n r-18u37iz r-1h0z5md">
+                <div class="css-18t94o4 css-1dbjc4n r-1777fci r-bt1l66 r-1ny4l3l r-bztko3 r-lrvibr">
+                  <div class="css-901oao r-1awozwy r-9ilb82 r-6koalj r-37j5jr r-a023e6 r-16dba41 r-1h0z5md r-rjixqe r-bcqeeo r-o7ynqc r-clp7b1 r-3s2u2q r-qvutc0 like-hoverable">
+                    <div class="css-1dbjc4n r-xoduu5">
+                      <button class="btn btn-transparent p-0 mr-1" type="submit" onclick="sentAJAX_claps({{result.pk}})">
+                          <span class="{% if request.user in result.claps.all %} heart-clicked {% else %} heart {% endif %}" id="claps-button-{{result.pk}}"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="hands-clapping" class="svg-inline--fa fa-hands-clapping" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M320 96c8.844 0 16-7.156 16-16v-64C336 7.156 328.8 0 320 0s-16 7.156-16 16v64C304 88.84 311.2 96 320 96zM383.4 96c5.125 0 10.16-2.453 13.25-7.016l32.56-48c1.854-2.746 2.744-5.865 2.744-8.951c0-8.947-7.273-16.04-15.97-16.04c-5.125 0-10.17 2.465-13.27 7.02l-32.56 48C368.3 73.76 367.4 76.88 367.4 79.97C367.4 88.88 374.7 96 383.4 96zM384 357.5l0-163.9c0-6.016-4.672-33.69-32-33.69c-17.69 0-32.07 14.33-32.07 31.1L320 268.1L169.2 117.3C164.5 112.6 158.3 110.3 152.2 110.3c-13.71 0-24 11.21-24 24c0 6.141 2.344 12.28 7.031 16.97l89.3 89.3C227.4 243.4 228.9 247.2 228.9 251c0 3.8-1.45 7.6-4.349 10.5c-2.899 2.899-6.7 4.349-10.5 4.349c-3.8 0-7.6-1.45-10.5-4.349l-107.6-107.6C91.22 149.2 85.08 146.9 78.94 146.9c-13.71 0-24 11.21-24 24c0 6.141 2.344 12.28 7.031 16.97l107.6 107.6C172.5 298.4 173.9 302.2 173.9 305.1c0 3.8-1.45 7.6-4.349 10.5c-2.899 2.9-6.7 4.349-10.5 4.349c-3.8 0-7.6-1.45-10.5-4.349L59.28 227.2C54.59 222.5 48.45 220.1 42.31 220.1c-13.71 0-24 11.21-24 24c0 6.141 2.344 12.28 7.031 16.97l89.3 89.3c2.9 2.899 4.349 6.7 4.349 10.5c0 3.8-1.45 7.6-4.349 10.5c-2.899 2.899-6.7 4.349-10.5 4.349c-3.8 0-7.6-1.45-10.5-4.349L40.97 318.7C36.28 314 30.14 311.7 24 311.7c-13.71 0-23.99 11.26-23.99 24.05c0 6.141 2.332 12.23 7.02 16.92C112.6 458.2 151.3 512 232.3 512C318.1 512 384 440.9 384 357.5zM243.3 88.98C246.4 93.55 251.4 96 256.6 96c8.762 0 15.99-7.117 15.99-16.03c0-3.088-.8906-6.205-2.744-8.951l-32.56-48C234.2 18.46 229.1 15.98 223.1 15.98c-8.664 0-15.98 7.074-15.98 16.05c0 3.086 .8906 6.205 2.744 8.951L243.3 88.98zM480 160c-17.69 0-32 14.33-32 32v76.14l-32-32v121.4c0 94.01-63.31 141.5-78.32 152.2C345.1 510.9 352.6 512 360.3 512C446.1 512 512 440.9 512 357.5l-.0625-165.6C511.9 174.3 497.7 160 480 160z"></path></svg></span>
+                      </button>
+                    </div>
+                    <div class="css-1dbjc4n r-xoduu5 r-1udh08x">
+                      <span style="font-size: 20px;" id="claps-count-{{result.pk}}">{{result.claps.all.count}}</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -465,15 +459,9 @@
           </div>
         </div>
         
-
-      </div>
-      <div class="tweet-info-counts">
-        <span class="mr-4">{{ result.created_on|date:"M d, Y" }} </span>
-        <span class="mr-4"><span id="blog-min-read-{{result.pk}}"></span> min read </span>
-        <button class="btn btn-transparent p-0" type="submit" onclick="sentAJAX_readList({{result.pk}})">
-            <span style="float: right;" class="{% if request.user in result.read_list.all %} heart-clicked {% else %} heart {% endif %}" id="read-list-button-{{result.pk}}"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="book-open" class="svg-inline--fa fa-book-open" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M144.3 32.04C106.9 31.29 63.7 41.44 18.6 61.29c-11.42 5.026-18.6 16.67-18.6 29.15l0 357.6c0 11.55 11.99 19.55 22.45 14.65c126.3-59.14 219.8 11 223.8 14.01C249.1 478.9 252.5 480 256 480c12.4 0 16-11.38 16-15.98V80.04c0-5.203-2.531-10.08-6.781-13.08C263.3 65.58 216.7 33.35 144.3 32.04zM557.4 61.29c-45.11-19.79-88.48-29.61-125.7-29.26c-72.44 1.312-118.1 33.55-120.9 34.92C306.5 69.96 304 74.83 304 80.04v383.1C304 468.4 307.5 480 320 480c3.484 0 6.938-1.125 9.781-3.328c3.925-3.018 97.44-73.16 223.8-14c10.46 4.896 22.45-3.105 22.45-14.65l.0001-357.6C575.1 77.97 568.8 66.31 557.4 61.29z"></path></svg></span>
-        </button>
-      </div>  
+      </article>  
     </div>
     {% endif %}
 {% endfor %}
+{% include 'snippets/csrftoken.html' %}
+{% include 'blog/snippets/readlist_js.html' %}
