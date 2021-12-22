@@ -42,16 +42,6 @@
               <span style="position: absolute;width: 100%;height: 100%;top: 0;left: 0;z-index: 1;"></span> 
             </a>
             <p id="body-p-{{results.pk}}" class="post-name-color">{{ result.body|safe }}</p>
-            <!--
-            {% if result.image.count > 0 %}
-              <div class="row">
-                {% for img in result.image.all %}
-                    <div class="col-md-auto col-xs-12">
-                        <img src="{{ img.image.url }}" class="post-image" />
-                    </div>
-                {% endfor %}
-              </div>
-            {% endif %} -->
 
             {% if result.has_url %}
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js" integrity="sha512-WNLxfP/8cVYL9sj8Jnp6et0BkubLP31jhTG9vhL/F5uEZmg5wEzKoXp1kJslzPQWwPT1eyMiSxlKCgzHLOTOTQ==" crossorigin="anonymous"></script>
@@ -305,42 +295,75 @@
     {% if result.price %} <!-- IF FROM MARKETPLACE -->
     <div class="tweet-wrap infinite-item">
       <article style="padding-right: 16px; padding-left: 16px; overflow: hidden; flex-direction: row; display: flex; font-size: 20px;">
-        <div>
+        <div class="css-1dbjc4n r-1awozwy r-1hwvwag r-18kxxzh r-1b7u577">
           <a href="{% url 'account:view' user_id=result.author.profile.pk %}">
               <img class="mr-3 circle-rounded avator" style="float: left;margin-right: 1rem;" width="50" height="50" src="{{ result.author.profile_image.url }}" />
           </a>
         </div>
-        <div style="flex-direction: column;">
-          <div style="margin-bottom: 2px; flex-direction: row;">
-            <div>
-              <a href="{% url 'account:view' user_id=result.author.profile.pk %}" style="text-decoration: none;">
-                <span class="post-name-color"><strong>{{result.author.profile.fullname}}</strong>
-                  <span style="color:#657786;"> @{{ result.author }}</span>
-                </span>
-              </a>
-              <span style="color:#657786;"> {{ result.created_on|naturaltime }}</span>
-              
+        <div class="css-1dbjc4n r-1iusvr4 r-16y2uox r-1777fci r-kzbkwu">
+          <!--User-->
+          <div class="css-1dbjc4n">
+            <div class="css-1dbjc4n r-zl2h9q">
+              <div class="css-1dbjc4n r-k4xj1c r-18u37iz r-1wtj0ep">
+                <div class="css-1dbjc4n r-1d09ksm r-18u37iz r-1wbh5a2">
+                  <div class="css-1dbjc4n r-1wbh5a2 r-dnmrzs">
+                    <a href="{% url 'account:view' user_id=result.author.profile.pk %}" 
+                    class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1loqt21 r-1wbh5a2 r-dnmrzs r-1ny4l3l">
+                      <span class="post-name-color"><strong>{{result.author.profile.fullname}}</strong>
+                        <span style="color:#657786;"> @{{ result.author }} </span>
+                      </span>
+                    </a>
+                  </div>
+                  
+                  <span style="color:#657786;">&nbsp;&nbsp; {{ result.created_on|naturaltime|shorten_naturaltime }}</span>
+                </div>
+                <div class="css-1dbjc4n r-1joea0r">
+                  <!-- OPTIONS MARKER -->
+                  <span style="float: right;" class="{% if result in request.user.user_wish.products_saved.all %} heart-clicked {% else %} heart {% endif %}" id="read-list-button-{{result.pk}}"><i class='fas fa-heart'></i></span>
+                </div>
+              </div>
+              <div>
+                <span class="badge badge-pill badge-success" style="color: #000;">Marketplace</span>
+                <span class="badge badge-pill badge-success" style="color: #000;">Category : {{result.category.category.name}}</span>
+              </div>
             </div>
-            <div>
-              <span class="badge badge-pill badge-success" style="color: #000;">Marketplace</span>
-              <span class="badge badge-pill badge-success" style="color: #000;">Category : {{result.category.category.name}}</span>
-            </div>
+            <div></div>
           </div>
-          <a href="{% url 'marketplace:marketplace-detail' result.pk %}" style="color: black; text-decoration: none;">
-          <div>
-            <p class="post-name-color"><strong>{{ result.title|safe }}</strong></p>
-            <p class="post-name-color"><strong>Rp. {{result.price|intcomma}}</strong></p>
-            {% if result.image.count == 2 %}
-                <div class="row">
+          <!--Body-->
+          <div style="position: relative;">
+            <a href="{% url 'marketplace:marketplace-detail' result.pk %}" style="text-decoration: none;">
+              <span style="position: absolute;width: 100%;height: 100%;top: 0;left: 0;z-index: 1;"></span> 
+            </a>
+          
+            <div>
+              <p class="post-name-color"><strong>Rp. {{result.price|intcomma}}</strong></p>
+              <p class="post-name-color">{{ result.title|safe }}</p>
+              <p class="post-name-color" style="font-size: 15px;">{{ result.location|safe }}</p>
+              
+              <div id="carouselExampleIndicators{{result.pk}}" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
                   {% for img in result.image.all %}
-                      <div class="col-md-6 col-xs-12">
-                          <img src="{{ img.image.url }}" class="post-image" />
-                      </div>
+                  <button type="button" data-bs-target="#carouselExampleIndicators{{result.pk}}" data-bs-slide-to="{{forloop.counter0}}" class="{% if forloop.first %}active{% endif %}" aria-current="{% if forloop.first %}true{% endif %}" aria-label="Slide {{forloop.counter}}"></button>
                   {% endfor %}
                 </div>
-            {% endif %}
+                <div class="carousel-inner">
+                  {% for img in result.image.all %}
+                  <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <img src="{{ img.image.url }}" class="css-9pa8cd d-block w-100" />
+                  </div>
+                  {% endfor %}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators{{result.pk}}" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators{{result.pk}}" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+            </div>
           </div>
-          </a>
         </div>
 
       </article>

@@ -27,7 +27,7 @@ class UserProfile(models.Model):
 	prodi		= models.CharField(max_length=50, blank=True, null=True)
 
 class UserSavedPost(models.Model):
-	account        = models.OneToOneField(Account, primary_key=True, on_delete=models.CASCADE)
+	account        = models.OneToOneField(Account, primary_key=True, on_delete=models.CASCADE, related_name='user_wish')
 	products_saved = models.ManyToManyField(Product, blank=True)
 
 
