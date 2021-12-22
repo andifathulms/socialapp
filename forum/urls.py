@@ -9,6 +9,11 @@ from .views import(
 	AddReplyUpvote,
 	AddReplyDownvote,
 	AddSubscribe,
+	UpvoteForumPostList,
+	DownvoteForumPostList,
+	ChangeRightNav1,
+	ChangeRightNav2,
+	ChangeRightNav0,
 	)
 
 app_name = 'forum'
@@ -23,4 +28,9 @@ urlpatterns = [
     path('<int:pk>/downvote', AddDownvote.as_view(), name='forum-downvote'),
     path('<int:post_pk>/reply/<int:pk>/upvote', AddReplyUpvote.as_view(), name='reply-upvote'),
     path('<int:post_pk>/reply/<int:pk>/downvote', AddReplyDownvote.as_view(), name='reply-downvote'),
+    path('upvote-from-post/<int:pk>/', UpvoteForumPostList.as_view(), name='upvote-from-post'),
+    path('downvote-from-post/<int:pk>/', DownvoteForumPostList.as_view(), name='downvote-from-post'),
+    path('change-right-nav-1/', ChangeRightNav1.as_view(), name='change-right-nav-1'),
+    path('change-right-nav-2/', ChangeRightNav2.as_view(), name='change-right-nav-2'),
+    path('change-right-nav-0/', ChangeRightNav0.as_view(), name='change-right-nav-0'),
 ]

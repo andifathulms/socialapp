@@ -1,13 +1,11 @@
 {% load humanize %}
 {% include 'snippets/css/twitter_style.html' %}
-
 <style>
   .htmx.htmx-swapping{
     opacity: 0;
     transition: opacity 1s ease-out;
   }
 </style>
-
 <div class="css-1dbjc4n r-1ysxnx4 r-k0dy70 r-1867qdf r-1phboty r-rs99b7 r-1ifxtd0 r-1udh08x htmx" id="right-nav">
    <div class="css-1dbjc4n">
       <div class="css-1dbjc4n">
@@ -19,11 +17,11 @@
                         <div class="css-1dbjc4n r-1wtj0ep r-ymttw5 r-1f1sjgu">
                            <h2 aria-level="2" role="heading" class="css-4rbku5 css-1dbjc4n r-18u37iz">
                               <div class="css-1dbjc4n r-k200y r-z80fyv r-1777fci r-1bymd8e"></div>
-                              <div dir="auto" class="css-901oao css-cens5h r-1habvwh r-1fmj7o5 r-16y2uox r-1wbh5a2 r-37j5jr r-adyw6z r-1vr29t4 r-1pi2tsx r-1777fci r-135wba7 r-bcqeeo r-qvutc0" style="-webkit-line-clamp: 3;"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Reading List</span></div>
+                              <div dir="auto" class="css-901oao css-cens5h r-1habvwh r-1fmj7o5 r-16y2uox r-1wbh5a2 r-37j5jr r-adyw6z r-1vr29t4 r-1pi2tsx r-1777fci r-135wba7 r-bcqeeo r-qvutc0" style="-webkit-line-clamp: 3;"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Newest Forum</span></div>
                               <!-- Not needed? -->
-                              <div class="css-1dbjc4n r-k200y r-z80fyv r-1777fci r-1bymd8e" hx-get="{% url 'forum:change-right-nav-1'%}" hx-target="#right-nav" hx-swap="outerHTML swap:0.5s">
-                                <div dir="auto" class="css-901oao r-1awozwy r-6koalj r-18u37iz r-16y2uox r-37j5jr r-a023e6 r-b88u0q r-1777fci r-rjixqe r-bcqeeo r-q4m81j r-qvutc0" style="color: rgb(239, 243, 244);">
-                                   <svg version="1.1" aria-hidden="true" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 473.654 473.654" style="enable-background:new 0 0 473.654 473.654;" xml:space="preserve" class="r-4qtqp9 r-yyyyoo r-z80fyv r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-19wmn03">
+                              <div class="css-1dbjc4n r-k200y r-z80fyv r-1777fci r-1bymd8e" hx-get="{% url 'forum:change-right-nav-0'%}" hx-target="#right-nav" hx-swap="outerHTML swap:0.5s">
+                                 <div dir="auto" class="css-901oao r-1awozwy r-6koalj r-18u37iz r-16y2uox r-37j5jr r-a023e6 r-b88u0q r-1777fci r-rjixqe r-bcqeeo r-q4m81j r-qvutc0" style="color: rgb(239, 243, 244);">
+                                    <svg version="1.1" aria-hidden="true" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 473.654 473.654" style="enable-background:new 0 0 473.654 473.654;" xml:space="preserve" class="r-4qtqp9 r-yyyyoo r-z80fyv r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-19wmn03">
                                     <circle style="fill:#4ABC96;" cx="236.827" cy="236.827" r="236.827"/>
                                     <path style="fill:#FFFFFF;" d="M358.075,216.091c-27.011-27.011-54.018-54.022-81.029-81.033
                                       c-25.56-25.564-65.08,14.259-39.456,39.883c11.009,11.009,22.019,22.019,33.028,33.032c-43.353,0-86.706,0-130.055,0
@@ -31,23 +29,23 @@
                                       c-25.564,25.56,14.259,65.08,39.883,39.456c27.011-27.007,54.018-54.014,81.029-81.025
                                       C369.133,244.916,368.838,226.85,358.075,216.091z"/><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g>
                                     </svg>
-                                   <span class="css-901oao css-16my406 css-bfa6kz r-poiln3 r-a023e6 r-rjixqe r-bcqeeo r-qvutc0" style="border-bottom: 2px solid rgb(239, 243, 244);"></span>
-                                </div>
+                                    <span class="css-901oao css-16my406 css-bfa6kz r-poiln3 r-a023e6 r-rjixqe r-bcqeeo r-qvutc0" style="border-bottom: 2px solid rgb(239, 243, 244);"></span>
+                                 </div>
                               </div>
                               <!-- End not needed -->
                            </h2>
                         </div>
-                        {% for obj in readlist %}
+                        {% for obj in forum_newest %}
                         <div class="css-1dbjc4n r-1adg3ll r-1ny4l3l">
-                           <a href="{% url 'blog:blog-detail' obj.pk %}" rel="noopener noreferrer" target="_blank" role="link" class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1loqt21 r-1ny4l3l r-1udh08x r-o7ynqc r-6416eg r-13qz1uu">
+                           <a href="{% url 'forum:forum-detail' obj.pk %}" rel="noopener noreferrer" target="_blank" role="link" class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1loqt21 r-1ny4l3l r-1udh08x r-o7ynqc r-6416eg r-13qz1uu">
                            <div tabindex="0" class="css-1dbjc4n r-1loqt21 r-6koalj r-1ny4l3l r-ymttw5 r-1f1sjgu r-o7ynqc r-6416eg hoverable" data-testid="trend" role="link">
                               <div class="css-1dbjc4n r-16y2uox r-bnwqim">
                                  <div class="css-1dbjc4n r-1d09ksm r-18u37iz r-1wbh5a2">
-                                    <div dir="auto" class="css-901oao r-9ilb82 r-37j5jr r-n6v787 r-16dba41 r-1cwl3u0 r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">{{obj.author.profile.fullname}}</span></div>
+                                    <div dir="auto" class="css-901oao r-9ilb82 r-37j5jr r-n6v787 r-16dba41 r-1cwl3u0 r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">{{obj.author.profile.fullname}} at {{obj.subject.title}}</span></div>
                                  </div>
                                  <div dir="ltr" class="css-901oao r-1fmj7o5 r-37j5jr r-a023e6 r-b88u0q r-rjixqe r-bcqeeo r-vmopo1 r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">{{obj.title}}</span></div>
-                                 <div dir="ltr" class="css-901oao r-9ilb82 r-37j5jr r-n6v787 r-16dba41 r-1cwl3u0 r-14gqq1x r-bcqeeo r-qvutc0" data-testid="metadata" hx-get="{% url 'blog:load-blog-span-sidebar' obj.pk %}" hx-trigger="load">
-                                  <span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">7.135 Tweet</span>
+                                 <div dir="ltr" class="css-901oao r-9ilb82 r-37j5jr r-n6v787 r-16dba41 r-1cwl3u0 r-14gqq1x r-bcqeeo r-qvutc0" data-testid="metadata" style="white-space: normal;">
+                                  <span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">{{obj.created_on|date:"d M"}}   {{obj.forumpost_parent.count}} reply   {{obj.upvote.count}} upvote</span>
                                  </div>
                                  <div class="css-1dbjc4n r-u8s1d r-zchlnj r-1jy2w8o">
                                     <div class="css-1dbjc4n r-18u37iz r-1h0z5md r-1joea0r">
@@ -72,13 +70,6 @@
                            </a>
                         </div>
                         {% endfor %}
-                        {% if readlist_count > 4 %}
-                        <div role="button" tabindex="0" class="css-18t94o4 css-1dbjc4n r-1pp923h r-1moyyf3 r-1ny4l3l r-ymttw5 r-1yzf0co r-o7ynqc r-6416eg">
-                           <a href="{% url 'blog:blog-readlist' %}" class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1loqt21 r-1ny4l3l r-1udh08x r-o7ynqc r-6416eg r-13qz1uu">
-                           <div dir="auto" class="css-901oao r-o6sn0f r-37j5jr r-a023e6 r-16dba41 r-rjixqe r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Tampilkan lebih banyak  ({{readlist_count}})</span></div>
-                           </a>
-                        </div>
-                        {% endif %}
                      </div>
                   </div>
                </div>

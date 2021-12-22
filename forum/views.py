@@ -10,6 +10,8 @@ from .models import Subject, ForumPost, ForumReply
 from account_profile.models import UserProfile
 from .forms import ForumPostForm, ForumReplyForm
 
+from blog.models import Blog
+
 def fillRightNav(request,context):
     subject = Subject.objects.filter(subscriber__in=[request.user.id])
     forum = ForumPost.objects.filter(subject__in=subject).order_by('-created_on')[:4]
@@ -332,3 +334,105 @@ class AddSubscribe(LoginRequiredMixin, View):
 
 		next = request.POST.get('next', '/')
 		return HttpResponseRedirect(next)
+
+class UpvoteForumPostList(LoginRequiredMixin, View):
+
+	def post(self, request, pk, *args, **kwargs):
+		context = {}
+		forum_post = ForumPost.objects.get(pk=pk)
+
+		is_upvote = False
+		is_downvote = False
+
+		if request.user in forum_post.upvote.all():
+			is_upvote = True
+
+		if is_upvote:
+			forum_post.upvote.remove(request.user)
+			is_upvote = False
+		else:
+			forum_post.upvote.add(request.user)
+			is_upvote = True
+			
+		if request.user in forum_post.downvote.all():
+			is_downvote = True
+
+		if is_downvote:
+			forum_post.downvote.remove(request.user)
+			is_downvote = False
+
+		context["is_upvote"] = is_upvote #this two is reversing, careful
+		context["is_downvote"] = is_downvote
+		context["upvote"] = forum_post.upvote.all().count 
+		context["downvote"] = forum_post.downvote.all().count
+		context["reply"] = forum_post.forumpost_parent.count
+		context["pk"] = pk
+		
+		return render(request, 'forum/snippets/forum_count_post_list.html', context)
+
+class DownvoteForumPostList(LoginRequiredMixin, View):
+
+	def post(self, request, pk, *args, **kwargs):
+		context = {}
+		forum_post = ForumPost.objects.get(pk=pk)
+
+		is_downvote = False
+		is_upvote = False
+
+		if request.user in forum_post.downvote.all():
+			is_downvote = True
+
+		if is_downvote:
+			forum_post.downvote.remove(request.user)
+			is_downvote = False
+		else:
+			forum_post.downvote.add(request.user)
+			is_downvote = True
+
+		if request.user in forum_post.upvote.all():
+			is_upvote = True
+
+		if is_upvote:
+			forum_post.upvote.remove(request.user)
+			is_upvote = False
+
+		context["is_upvote"] = is_upvote #this two is reversing, careful
+		context["is_downvote"] = is_downvote
+		context["upvote"] = forum_post.upvote.all().count 
+		context["downvote"] = forum_post.downvote.all().count
+		context["reply"] = forum_post.forumpost_parent.count
+		context["pk"] = pk
+		
+		return render(request, 'forum/snippets/forum_count_post_list.html', context)
+
+class ChangeRightNav1(LoginRequiredMixin, View):
+
+	def get(self, request, *args, **kwargs):
+		context = {}
+
+		subject = Subject.objects.filter(subscriber__in=[request.user.id])
+		forump = ForumPost.objects.annotate(count=Count('forumpost_parent')).order_by('-count')[:5]
+		context["forum_popular"] = forump
+		return render(request, 'snippets/right-sidebar-test-1.html', context)
+
+class ChangeRightNav2(LoginRequiredMixin, View):
+
+	def get(self, request, *args, **kwargs):
+		context = {}
+
+		subject = Subject.objects.filter(subscriber__in=[request.user.id])
+		forum = ForumPost.objects.filter(subject__in=subject).order_by('-created_on')[:5]
+		context["forum_newest"] = forum
+		return render(request, 'snippets/right-sidebar-test-2.html', context)
+
+### MASSIVE OFFSIDE BY A MARGIN ###
+class ChangeRightNav0(LoginRequiredMixin, View):
+
+	def get(self, request, *args, **kwargs):
+		context = {}
+		readlist = Blog.objects.filter(read_list__in=[request.user.id], is_draft=False)[:4]
+		count = Blog.objects.filter(read_list__in=[request.user.id], is_draft=False).count()
+
+		context["readlist"] = readlist
+		context["readlist_count"] = count
+		return render(request, 'snippets/right-sidebar.html', context)
