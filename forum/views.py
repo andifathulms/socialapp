@@ -12,6 +12,8 @@ from .forms import ForumPostForm, ForumReplyForm
 
 from blog.models import Blog
 
+from itertools import chain
+
 def fillRightNav(request,context):
     subject = Subject.objects.filter(subscriber__in=[request.user.id])
     forum = ForumPost.objects.filter(subject__in=subject).order_by('-created_on')[:4]
@@ -46,8 +48,9 @@ class SubjectListView(LoginRequiredMixin, View):
 
 			fac_container.append((subject,total,count['view__sum']))
 
-		context['general_subject'] = gen_container
-		context['faculty_subject'] = fac_container
+		results = list(chain(gen_container, fac_container))
+
+		context['results'] = results
 		fillRightNav(request,context)
 		return render(request, 'forum/forum_home.html', context)
 
@@ -327,13 +330,16 @@ class AddSubscribe(LoginRequiredMixin, View):
 	def post(self, request, pk, *args, **kwargs):
 		subject = Subject.objects.get(pk=pk)
 
+		subscribe = False
 		if request.user in subject.subscriber.all():
 			subject.subscriber.remove(request.user)
+			subscribe = False
 		else:
 			subject.subscriber.add(request.user)
-
-		next = request.POST.get('next', '/')
-		return HttpResponseRedirect(next)
+			subscribe = True
+		context={}
+		context["subscribe"] = subscribe
+		return render(request, 'forum/snippets/subscribe_button.html', context)
 
 class UpvoteForumPostList(LoginRequiredMixin, View):
 
