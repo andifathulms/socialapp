@@ -251,6 +251,11 @@
         }
     }
 
+    function scrollTop(){
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    }
+
 </script>
 
 <script>
@@ -340,7 +345,7 @@
 </script>
 <script>
     function onClickedImage(){
-        $(".css-9pa8cd").click(function(){
+        $(".css-9pa8cd-qqq").click(function(){
           $("#full-image").attr("src", $(this).attr("src"));
           $('#image-viewer').show();
         });

@@ -4,7 +4,7 @@
 
 {% for result in results %}
     {% if result.likes %} <!-- IF A POST -->
-    <div class="tweet-wrap infinite-item mb-1">
+    <div class="tweet-wrap infinite-item ">
       <article style="padding-right: 18px; padding-left: 18px; overflow: hidden; flex-direction: row; display: flex; font-size: 20px;">
         <div class="css-1dbjc4n r-1awozwy r-1hwvwag r-18kxxzh r-1b7u577">
           <a href="{% url 'account:view' user_id=result.author.profile.pk %}">
@@ -37,90 +37,11 @@
           </div>
 
           <!-- Body -->
-          <div style="position: relative;">
+          <div style="position: relative;" >
             <a href="{% url 'post:post-detail' result.pk %}" style="text-decoration: none;">
               <span style="position: absolute;width: 100%;height: 100%;top: 0;left: 0;z-index: 1;"></span> 
             </a>
             <p id="body-p-{{results.pk}}" class="post-name-color">{{ result.body|safe }}</p>
-
-            {% if result.has_url %}
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js" integrity="sha512-WNLxfP/8cVYL9sj8Jnp6et0BkubLP31jhTG9vhL/F5uEZmg5wEzKoXp1kJslzPQWwPT1eyMiSxlKCgzHLOTOTQ==" crossorigin="anonymous"></script>
-
-            <script>
-              var target = '{{result.url}}';
-              var apikey = 'd40cf1a8290e74c03567253ecc253f5c';
-
-              $.ajax({
-                url: "https://api.linkpreview.net",
-                dataType: 'jsonp',
-                data: {q: target, key: apikey},
-                success: function (response) {
-                  console.log(response);
-
-                  const img = document.createElement('img');
-                  img.src = response.image;
-
-                  const title = document.createElement('h5');
-                  var truncatedTitle = truncateString(response.title,60);
-                  title.innerHTML = truncatedTitle;
-
-                  const desc = document.createElement('p');
-                  var truncatedDesc = truncateString(response.description,150);
-                  desc.innerHTML = truncatedDesc;
-                  desc.style.textAlign = "justify";
-
-                  const url = document.createElement('p');
-                  var truncatedURL = truncateString(response.url,100);
-                  url.innerHTML = truncatedURL;
-
-                  const left_content = document.createElement('div');
-                  /*left_content.classList.add('border-end');*/
-
-                  const left_col = document.createElement('div');
-                  left_col.classList.add('col-md-3', 'p-2');
-
-                  left_content.appendChild(img);
-                  left_col.appendChild(left_content);
-
-                  const right_content = document.createElement('div');
-
-                  const right_col = document.createElement('div');
-                  right_col.classList.add('col-md-9', 'p-2');
-
-                  right_content.appendChild(title);
-                  right_content.appendChild(desc);
-                  right_content.appendChild(url);
-                  right_col.appendChild(right_content);
-
-                  const body = document.querySelector('#body-post-{{result.pk}}');
-                  const container = document.createElement('div');
-                  container.classList.add('container', 'border', 'rounded', 'p-0', 'bg-light');
-                  body.appendChild(container);
-
-                  const row = document.createElement('div');
-                  row.classList.add('row', 'no-gutters');
-                  row.appendChild(left_col);
-                  row.appendChild(right_col);
-
-                  container.appendChild(row);
-
-                  const urlLink = document.createElement('a');
-                  urlLink.href = response.url;
-                  const span = document.createElement('span');
-                  span.style.position = "absolute";
-                  span.style.width = "100%";
-                  span.style.height = "100%";
-                  span.style.top = "0";
-                  span.style.left = "0";
-                  span.style.zIndex = "1";
-                  urlLink.appendChild(span);
-
-                  container.appendChild(urlLink);
-
-                }
-              });
-            </script>
-            {% endif %}
           </div>
           {% if result.image.count == 1 %}
             <div class="css-1dbjc4n">
@@ -176,68 +97,73 @@
             </div>
           {% endif %}
           {% if result.image.count == 4 %}
-          <div class="css-1dbjc4n">
-           <div aria-labelledby="id__rvxauwc65jg id__yvu8doqubr" class="css-1dbjc4n" id="id__2fl5t0jgzmb">
-              <div class="css-1dbjc4n r-1s2bzr4">
-                 <div class="css-1dbjc4n r-1kqtdi0 r-1867qdf r-1phboty r-rs99b7 r-1ny4l3l r-1udh08x r-o7ynqc r-6416eg">
-                    <div class="css-1dbjc4n">
-                       <div class="css-1dbjc4n r-1adg3ll r-1udh08x">
-                          <div class="r-1adg3ll r-13qz1uu" style="padding-bottom: 56.25%;"></div>
-                          <div class="r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-ipm5af r-13qz1uu">
-                             <div class="css-1dbjc4n r-18u37iz r-1pi2tsx r-13qz1uu">
-                                <div class="css-1dbjc4n r-1iusvr4 r-eqz5dr r-16y2uox r-a5pmau">
-                                   <div class="css-1dbjc4n r-1iusvr4 r-16y2uox r-zl2h9q r-bnwqim">
-                                      <a href="/AnfieldIndex/status/1472636130822696963/photo/1" role="link" class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1loqt21 r-1pi2tsx r-1ny4l3l">
-                                         <div class="css-1dbjc4n r-1p0dtai r-1d2f490 r-1udh08x r-u8s1d r-zchlnj r-ipm5af" style="">
-                                            <div aria-label="Gambar" class="css-1dbjc4n r-1p0dtai r-1mlwlqe r-1d2f490 r-p1pxzi r-11wrixw r-61z16t r-1udh08x r-u8s1d r-zchlnj r-ipm5af r-417010" style="margin-top: 0px;" data-testid="tweetPhoto">
-                                               <div class="css-1dbjc4n r-1niwhzg r-vvn4in r-u6sd8q r-4gszlv r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-zchlnj r-ipm5af r-13qz1uu r-1wyyakw" style="background-image: url(&quot;{{ result.image.all.0.image.url }}&quot;);"></div>
-                                               <img alt="Gambar" draggable="true" src="{{ result.image.all.0.image.url }}" class="css-9pa8cd">
-                                            </div>
-                                         </div>
-                                      </a>
-                                   </div>
-                                   <div class="css-1dbjc4n r-1iusvr4 r-16y2uox r-bnwqim">
-                                      <a href="/AnfieldIndex/status/1472636130822696963/photo/3" role="link" class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1loqt21 r-1pi2tsx r-1ny4l3l">
-                                         <div class="css-1dbjc4n r-1p0dtai r-1d2f490 r-1udh08x r-u8s1d r-zchlnj r-ipm5af" style="">
-                                            <div aria-label="Gambar" class="css-1dbjc4n r-1p0dtai r-1mlwlqe r-1d2f490 r-p1pxzi r-11wrixw r-61z16t r-1udh08x r-u8s1d r-zchlnj r-ipm5af r-417010" style="margin-top: 0px;" data-testid="tweetPhoto">
-                                               <div class="css-1dbjc4n r-1niwhzg r-vvn4in r-u6sd8q r-4gszlv r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-zchlnj r-ipm5af r-13qz1uu r-1wyyakw" style="background-image: url(&quot;{{ result.image.all.1.image.url }}&quot;);"></div>
-                                               <img alt="Gambar" draggable="true" src="{{ result.image.all.1.image.url }}" class="css-9pa8cd">
-                                            </div>
-                                         </div>
-                                      </a>
-                                   </div>
-                                </div>
-                                <div class="css-1dbjc4n r-1iusvr4 r-eqz5dr r-16y2uox">
-                                   <div class="css-1dbjc4n r-1iusvr4 r-16y2uox r-zl2h9q r-bnwqim">
-                                      <a href="/AnfieldIndex/status/1472636130822696963/photo/2" role="link" class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1loqt21 r-1pi2tsx r-1ny4l3l">
-                                         <div class="css-1dbjc4n r-1p0dtai r-1d2f490 r-1udh08x r-u8s1d r-zchlnj r-ipm5af" style="">
-                                            <div aria-label="Gambar" class="css-1dbjc4n r-1p0dtai r-1mlwlqe r-1d2f490 r-p1pxzi r-11wrixw r-61z16t r-1udh08x r-u8s1d r-zchlnj r-ipm5af r-417010" style="margin-top: 0px;" data-testid="tweetPhoto">
-                                               <div class="css-1dbjc4n r-1niwhzg r-vvn4in r-u6sd8q r-4gszlv r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-zchlnj r-ipm5af r-13qz1uu r-1wyyakw" style="background-image: url(&quot;{{ result.image.all.2.image.url }}&quot;);"></div>
-                                               <img alt="Gambar" draggable="true" src="{{ result.image.all.2.image.url }}" class="css-9pa8cd">
-                                            </div>
-                                         </div>
-                                      </a>
-                                   </div>
-                                   <div class="css-1dbjc4n r-1iusvr4 r-16y2uox r-bnwqim">
-                                      <a href="/AnfieldIndex/status/1472636130822696963/photo/4" role="link" class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1loqt21 r-1pi2tsx r-1ny4l3l">
-                                         <div class="css-1dbjc4n r-1p0dtai r-1d2f490 r-1udh08x r-u8s1d r-zchlnj r-ipm5af" style="">
-                                            <div aria-label="Gambar" class="css-1dbjc4n r-1p0dtai r-1mlwlqe r-1d2f490 r-p1pxzi r-11wrixw r-61z16t r-1udh08x r-u8s1d r-zchlnj r-ipm5af r-417010" style="margin-top: 0px;" data-testid="tweetPhoto">
-                                               <div class="css-1dbjc4n r-1niwhzg r-vvn4in r-u6sd8q r-4gszlv r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-zchlnj r-ipm5af r-13qz1uu r-1wyyakw" style="background-image: url(&quot;{{ result.image.all.3.image.url }}&quot;);"></div>
-                                               <img alt="Gambar" draggable="true" src="{{ result.image.all.3.image.url }}" class="css-9pa8cd">
-                                            </div>
-                                         </div>
-                                      </a>
-                                   </div>
-                                </div>
-                             </div>
-                          </div>
-                       </div>
-                    </div>
-                 </div>
-              </div>
-           </div>
-          </div>
+            <div class="css-1dbjc4n">
+             <div aria-labelledby="id__rvxauwc65jg id__yvu8doqubr" class="css-1dbjc4n" id="id__2fl5t0jgzmb">
+                <div class="css-1dbjc4n r-1s2bzr4">
+                   <div class="css-1dbjc4n r-1kqtdi0 r-1867qdf r-1phboty r-rs99b7 r-1ny4l3l r-1udh08x r-o7ynqc r-6416eg">
+                      <div class="css-1dbjc4n">
+                         <div class="css-1dbjc4n r-1adg3ll r-1udh08x">
+                            <div class="r-1adg3ll r-13qz1uu" style="padding-bottom: 56.25%;"></div>
+                            <div class="r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-ipm5af r-13qz1uu">
+                               <div class="css-1dbjc4n r-18u37iz r-1pi2tsx r-13qz1uu">
+                                  <div class="css-1dbjc4n r-1iusvr4 r-eqz5dr r-16y2uox r-a5pmau">
+                                     <div class="css-1dbjc4n r-1iusvr4 r-16y2uox r-zl2h9q r-bnwqim">
+                                        <a href="/AnfieldIndex/status/1472636130822696963/photo/1" role="link" class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1loqt21 r-1pi2tsx r-1ny4l3l">
+                                           <div class="css-1dbjc4n r-1p0dtai r-1d2f490 r-1udh08x r-u8s1d r-zchlnj r-ipm5af" style="">
+                                              <div aria-label="Gambar" class="css-1dbjc4n r-1p0dtai r-1mlwlqe r-1d2f490 r-p1pxzi r-11wrixw r-61z16t r-1udh08x r-u8s1d r-zchlnj r-ipm5af r-417010" style="margin-top: 0px;" data-testid="tweetPhoto">
+                                                 <div class="css-1dbjc4n r-1niwhzg r-vvn4in r-u6sd8q r-4gszlv r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-zchlnj r-ipm5af r-13qz1uu r-1wyyakw" style="background-image: url(&quot;{{ result.image.all.0.image.url }}&quot;);"></div>
+                                                 <img alt="Gambar" draggable="true" src="{{ result.image.all.0.image.url }}" class="css-9pa8cd">
+                                              </div>
+                                           </div>
+                                        </a>
+                                     </div>
+                                     <div class="css-1dbjc4n r-1iusvr4 r-16y2uox r-bnwqim">
+                                        <a href="/AnfieldIndex/status/1472636130822696963/photo/3" role="link" class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1loqt21 r-1pi2tsx r-1ny4l3l">
+                                           <div class="css-1dbjc4n r-1p0dtai r-1d2f490 r-1udh08x r-u8s1d r-zchlnj r-ipm5af" style="">
+                                              <div aria-label="Gambar" class="css-1dbjc4n r-1p0dtai r-1mlwlqe r-1d2f490 r-p1pxzi r-11wrixw r-61z16t r-1udh08x r-u8s1d r-zchlnj r-ipm5af r-417010" style="margin-top: 0px;" data-testid="tweetPhoto">
+                                                 <div class="css-1dbjc4n r-1niwhzg r-vvn4in r-u6sd8q r-4gszlv r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-zchlnj r-ipm5af r-13qz1uu r-1wyyakw" style="background-image: url(&quot;{{ result.image.all.1.image.url }}&quot;);"></div>
+                                                 <img alt="Gambar" draggable="true" src="{{ result.image.all.1.image.url }}" class="css-9pa8cd">
+                                              </div>
+                                           </div>
+                                        </a>
+                                     </div>
+                                  </div>
+                                  <div class="css-1dbjc4n r-1iusvr4 r-eqz5dr r-16y2uox">
+                                     <div class="css-1dbjc4n r-1iusvr4 r-16y2uox r-zl2h9q r-bnwqim">
+                                        <a href="/AnfieldIndex/status/1472636130822696963/photo/2" role="link" class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1loqt21 r-1pi2tsx r-1ny4l3l">
+                                           <div class="css-1dbjc4n r-1p0dtai r-1d2f490 r-1udh08x r-u8s1d r-zchlnj r-ipm5af" style="">
+                                              <div aria-label="Gambar" class="css-1dbjc4n r-1p0dtai r-1mlwlqe r-1d2f490 r-p1pxzi r-11wrixw r-61z16t r-1udh08x r-u8s1d r-zchlnj r-ipm5af r-417010" style="margin-top: 0px;" data-testid="tweetPhoto">
+                                                 <div class="css-1dbjc4n r-1niwhzg r-vvn4in r-u6sd8q r-4gszlv r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-zchlnj r-ipm5af r-13qz1uu r-1wyyakw" style="background-image: url(&quot;{{ result.image.all.2.image.url }}&quot;);"></div>
+                                                 <img alt="Gambar" draggable="true" src="{{ result.image.all.2.image.url }}" class="css-9pa8cd">
+                                              </div>
+                                           </div>
+                                        </a>
+                                     </div>
+                                     <div class="css-1dbjc4n r-1iusvr4 r-16y2uox r-bnwqim">
+                                        <a href="/AnfieldIndex/status/1472636130822696963/photo/4" role="link" class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1loqt21 r-1pi2tsx r-1ny4l3l">
+                                           <div class="css-1dbjc4n r-1p0dtai r-1d2f490 r-1udh08x r-u8s1d r-zchlnj r-ipm5af" style="">
+                                              <div aria-label="Gambar" class="css-1dbjc4n r-1p0dtai r-1mlwlqe r-1d2f490 r-p1pxzi r-11wrixw r-61z16t r-1udh08x r-u8s1d r-zchlnj r-ipm5af r-417010" style="margin-top: 0px;" data-testid="tweetPhoto">
+                                                 <div class="css-1dbjc4n r-1niwhzg r-vvn4in r-u6sd8q r-4gszlv r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-zchlnj r-ipm5af r-13qz1uu r-1wyyakw" style="background-image: url(&quot;{{ result.image.all.3.image.url }}&quot;);"></div>
+                                                 <img alt="Gambar" draggable="true" src="{{ result.image.all.3.image.url }}" class="css-9pa8cd">
+                                              </div>
+                                           </div>
+                                        </a>
+                                     </div>
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+             </div>
+            </div>
               
+          {% endif %}
+          {% if result.has_url %}
+            <div class="css-1dbjc4n" hx-get="{% url 'post:load-url-preview' result.pk %}" hx-trigger="revealed">
+             
+            </div>
           {% endif %}
           <!-- Count -->
           <div class="css-1dbjc4n">
@@ -471,7 +397,7 @@
     {% endif %}
 
     {% if result.claps %} <!-- IF FROM THE BLOG -->
-    <div class="tweet-wrap infinite-item" >
+    <div class="tweet-wrap infinite-item">
       <article style="padding-right: 18px; padding-left: 18px; overflow: hidden; flex-direction: row; display: flex; font-size: 20px;">
         <div class="css-1dbjc4n r-1awozwy r-1hwvwag r-18kxxzh r-1b7u577">
           <a href="{% url 'account:view' user_id=result.author.profile.pk %}">
@@ -565,6 +491,7 @@
       </article>  
     </div>
     {% endif %}
+
 {% endfor %}
 {% include 'snippets/csrftoken.html' %}
 {% include 'blog/snippets/readlist_js.html' %}

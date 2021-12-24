@@ -51,6 +51,7 @@ class PostListView(LoginRequiredMixin, View):
             join_pagination = join_paginator.page(join_paginator.num_pages)
 
         context["results"] = join_pagination
+        context["is_home"] = True
 
     def get(self, request, *args, **kwargs):
         
@@ -445,3 +446,79 @@ class Explore(View):
                 }
             return HttpResponseRedirect(f'/explore?query={query}')
         return HttpResponseRedirect('/explore')
+
+def populateURL(post, context):
+    import requests
+    from bs4 import BeautifulSoup
+
+    url = post.url
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text,features="html.parser")
+    metas = soup.find_all('meta')
+
+    description = ""
+    title = ""
+    image = ""
+    site = ""
+    for meta in metas:
+        if 'property' in meta.attrs:
+            #print(meta.attrs['property'])
+            if(meta.attrs['property']=='og:image'):
+                image=meta.attrs['content']
+            if(meta.attrs['property']=='og:site_name'):
+                site=meta.attrs['content']
+        elif 'name' in meta.attrs:
+            #print(meta.attrs['name'])
+            if(meta.attrs['name']=='description'):
+                description=meta.attrs['content']
+            if(meta.attrs['name']=='title'):
+                title=meta.attrs['content']
+
+    context["description"] = description
+    context["title"] = title
+    context["image"] = image
+    context["url"] = url
+    context["site"] = site
+
+class LoadUrlPreview(View):
+
+    def get(self, request, pk, *args, **kwargs):
+        import requests
+        from bs4 import BeautifulSoup
+
+        print("Fired from " + str(pk))
+
+        context = {}
+
+        post = Post.objects.get(pk=pk)
+        url = post.url
+        response = requests.get(url)
+        soup = BeautifulSoup(response.text,features="html.parser")
+        metas = soup.find_all('meta')
+        
+        description = ""
+        title = ""
+        image = ""
+        site = ""
+        for meta in metas:
+            
+            if 'property' in meta.attrs:
+                #print(meta.attrs['property'])
+                if(meta.attrs['property']=='og:image'):
+                    image=meta.attrs['content']
+                if(meta.attrs['property']=='og:site_name'):
+                    site=meta.attrs['content']
+            elif 'name' in meta.attrs:
+                #print(meta.attrs['name'])
+                if(meta.attrs['name']=='description'):
+                    description=meta.attrs['content']
+                if(meta.attrs['name']=='title'):
+                    title=meta.attrs['content']
+
+        context["description"] = description
+        context["title"] = title
+        context["image"] = image
+        context["url"] = url
+        context["site"] = site
+
+        return render(request, 'post/snippets/load_url_preview.html', context)

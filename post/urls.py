@@ -14,6 +14,7 @@ from .views import(
 	AddCommentDislike, 
 	CommentReplyView,
 	SharedPostView,
+	LoadUrlPreview,
 )
 
 app_name = 'post'
@@ -30,4 +31,5 @@ urlpatterns = [
     path('<int:post_pk>/comment/<int:pk>/dislike', AddCommentDislike.as_view(), name='comment-dislike'),
     path('<int:post_pk>/comment/<int:pk>/reply', CommentReplyView.as_view(), name='comment-reply'),
     path('<int:pk>/share', SharedPostView.as_view(), name='share-post'),
+    path('load-url-preview/<int:pk>/', LoadUrlPreview.as_view(), name='load-url-preview'),
 ]
