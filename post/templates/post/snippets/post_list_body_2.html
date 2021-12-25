@@ -196,13 +196,11 @@
                 
               </div>
 
-              <div class="css-1dbjc4n r-18u37iz r-1h0z5md">
+              <div class="css-1dbjc4n r-18u37iz r-1h0z5md" hx-post="{% url 'post:post-like' result.pk %}">
                 <div class="css-18t94o4 css-1dbjc4n r-1777fci r-bt1l66 r-1ny4l3l r-bztko3 r-lrvibr">
                   <div class="css-901oao r-1awozwy r-9ilb82 r-6koalj r-37j5jr r-a023e6 r-16dba41 r-1h0z5md r-rjixqe r-bcqeeo r-o7ynqc r-clp7b1 r-3s2u2q r-qvutc0 like-hoverable">
                     <div class="css-1dbjc4n r-xoduu5">
-                      <button class="btn btn-transparent p-0 " type="submit" onclick="sentAJAX_like({{result.pk}})">
-                          <span class="{% if request.user in result.likes.all %} heart-clicked {% else %} heart {% endif %}" id="like-button-{{result.pk}}"><i class='fas fa-heart'></i></span>
-                      </button>
+                       <span class="{% if request.user in result.likes.all %} heart-clicked {% else %} heart {% endif %}" id="like-button-{{result.pk}}"><i class='fas fa-heart'></i></span>
                     </div>
                     <div class="css-1dbjc4n r-xoduu5 r-1udh08x">
                       <span id="likes-count-{{result.pk}}" style="padding-right: 12px; padding-left: 12px;">{{ result.likes.all.count }}</span>

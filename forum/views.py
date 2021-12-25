@@ -15,13 +15,18 @@ from blog.models import Blog
 from itertools import chain
 
 def fillRightNav(request,context):
-    subject = Subject.objects.filter(subscriber__in=[request.user.id])
-    forum = ForumPost.objects.filter(subject__in=subject).order_by('-created_on')[:4]
-    forump = ForumPost.objects.annotate(count=Count('forumpost_parent')).order_by('-count')[:4]
-    
-    context["forum_newest"] = forum
-    context["forum_popular"] = forump
-    context["type"] = "forum"
+	readlist = Blog.objects.filter(read_list__in=[request.user.id], is_draft=False)[:4]
+	count = Blog.objects.filter(read_list__in=[request.user.id], is_draft=False).count()
+
+	subject = Subject.objects.filter(subscriber__in=[request.user.id])
+	forum = ForumPost.objects.filter(subject__in=subject).order_by('-created_on')[:4]
+	forump = ForumPost.objects.annotate(count=Count('forumpost_parent')).order_by('-count')[:4]
+
+	context["readlist"] = readlist
+	context["readlist_count"] = count
+	context["forum_newest"] = forum
+	context["forum_popular"] = forump
+	context["type"] = "forum"
 
 class SubjectListView(LoginRequiredMixin, View):
 	login_url = '/login/'

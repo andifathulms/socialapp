@@ -14,20 +14,18 @@
     {% for result in published_posts %}
       <div class="tweet-wrap infinite-item" id="p_post" >
         <div class="tweet-header">
-          <a href="{% url 'account:view' user_id=result.author.profile.pk %}">
-              <img class="mr-3 circle-rounded avator" style="float: left;margin-right: 2rem;" width="50" height="50" src="{{ result.author.profile_image.url }}" />
-          </a>
+          
           
           <div class="tweet-header-info" style="clear: both;">
-            <span style="color: black;">{{result.author.profile.fullname}}</span><span>@{{ result.author }} posted to Blog {{ result.created_on|naturaltime }}</span><span class="label label-warning">Blog</span>
+            
             <div class="body-post" style="font-weight:normal; transform: rotate(0);">
-              <div class="container border rounded p-0 mt-4">
+              <div class="container p-0 mt-4" >
                 <div class="row no-gutters">
                   <a href="{% url 'blog:blog-detail' result.pk %}" style="color: black;">
                     <span style="position: absolute;width: 100%;height: 100%;top: 0;left: 0;z-index: 1;"></span> 
                   </a>
                   <div class="col-md-9 p-2">
-                    <div class="border-end">
+                    <div class="border-end" style="color: white;">
                       <p><strong>{{ result.title|safe }}</strong></p>
                       <p id="blog-body-{{result.pk}}"></p>
                       <script>
@@ -53,7 +51,7 @@
                           let blocks = body.blocks;
                           let imageFlag = false;
                           let textBody = "";
-                          postBody.style = "color: grey";
+                          postBody.style = "color: white";
                           for (let index = 0; index <= blocks.length; index++) {
                             switch (blocks[index].type) {
                               case "Header":
@@ -112,7 +110,7 @@
           
 
         </div>
-        <div class="tweet-info-counts">
+        <div class="tweet-info-counts" style="color: white;">
           <span class="mr-4">{{ result.created_on|date:"F d, Y" }} </span>
           <span class="mr-4"><span id="blog-min-read-{{result.pk}}"></span> min read </span>
           <button class="btn btn-transparent p-0 mr-2" type="submit" onclick="sentAJAX_readList({{result.pk}})">
@@ -133,26 +131,24 @@
           </form>
         </div>  
       </div>
+
+
     {% endfor %}
   </div>
   <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
     {% for result in drafted_posts %}
       <div class="tweet-wrap infinite-item">
         <div class="tweet-header">
-          <a href="{% url 'account:view' user_id=result.author.profile.pk %}">
-              <img class="mr-3 circle-rounded avator" style="float: left;margin-right: 2rem;" width="50" height="50" src="{{ result.author.profile_image.url }}" />
-          </a>
           
           <div class="tweet-header-info" style="clear: both;">
-            <span style="color: black;">{{result.author.profile.fullname}}</span><span>@{{ result.author }} posted to Blog {{ result.created_on|naturaltime }}</span><span class="label label-warning">Blog</span><span class="label label-info">Draft</span>
             <div class="body-post" style="font-weight:normal; transform: rotate(0);">
-              <div class="container border rounded p-0 mt-4">
+              <div class="container p-0 mt-4">
                 <div class="row no-gutters">
-                  <a href="{% url 'blog:blog-detail' result.pk %}" style="color: black;">
+                  <a href="{% url 'blog:blog-detail' result.pk %}" >
                     <span style="position: absolute;width: 100%;height: 100%;top: 0;left: 0;z-index: 1;"></span> 
                   </a>
                   <div class="col-md-9 p-2">
-                    <div class="border-end">
+                    <div class="border-end" style="color: white;">
                       <p><strong>{{ result.title|safe }}</strong></p>
                       <p id="blog-body-{{result.pk}}"></p>
                       <script>
@@ -178,7 +174,7 @@
                           let blocks = body.blocks;
                           let imageFlag = false;
                           let textBody = "";
-                          postBody.style = "color: grey";
+                          postBody.style = "color: white";
                           for (let index = 0; index <= blocks.length; index++) {
                             switch (blocks[index].type) {
                               case "Header":
@@ -237,7 +233,7 @@
           
 
         </div>
-        <div class="tweet-info-counts">
+        <div class="tweet-info-counts" style="color: white;">
           <span class="mr-4">{{ result.created_on|date:"F d, Y" }} </span>
           <span class="mr-4"><span id="blog-min-read-{{result.pk}}"></span> min read </span>
           <button class="btn btn-transparent p-0 mr-2" type="submit" onclick="sentAJAX_readList({{result.pk}})">

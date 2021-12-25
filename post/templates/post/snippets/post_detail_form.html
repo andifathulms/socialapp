@@ -9,11 +9,11 @@
       background: #1da1f2;
     }
     .wrapper{
-      background: #fff;
+      background: #000;
       width: 100%;
       border-radius: 15px;
       padding: 25px 25px 15px 25px;
-      box-shadow: 0px 10px 15px rgba(0,0,0,0.1);
+      box-shadow: 0.1rem 0.1rem 0.1rem var(--greyLight-2), -0.1rem -0.1rem 0.8rem var(--white);
     }
     .input-box{
       padding-top: 10px;
@@ -144,7 +144,7 @@
       <div class="tweet-area">
         <span class="placeholder">Reply to this post</span>
         <textarea name="comment" id="hiddenTextarea" cols="30" rows="10" style="display: none;"></textarea>
-        <div class="input editable" contenteditable="true" spellcheck="false" id="tweet-box"></div>
+        <div class="input editable" contenteditable="true" spellcheck="false" id="tweet-box" style="color: #fff;"></div>
         <div class="input readonly" contenteditable="true" spellcheck="false"></div>
       </div>
     </div>

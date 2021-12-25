@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from django.conf import settings
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.views import View
@@ -14,8 +13,6 @@ from .forms import PostForm, CommentForm, ShareForm, ExploreForm
 from marketplace.models import Product
 from forum.models import ForumPost, Subject
 from blog.models import Blog
-
-from account_profile.models import UserProfile
 
 from itertools import chain
 from operator import attrgetter
@@ -120,10 +117,12 @@ class PostDetailView(LoginRequiredMixin, View):
 
         context = {
             'post': post,
+            'result': post,
             'form': form,
             'comments': comment_list,
             'is_post_like' : is_post_like,
-        }        
+        } 
+        fillRightNav(request, context)       
         return render(request, 'post/post_detail.html', context)
     def post(self, request, pk, *args, **kwargs):
         
@@ -155,6 +154,7 @@ class PostDetailView(LoginRequiredMixin, View):
             'form': form,
             'comments': comments,
         }
+        fillRightNav(request, context)
         print(context)
         return render(request, 'post/snippets/post_detail_new_comment.html', context)
 
@@ -246,7 +246,7 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 class AddLike(LoginRequiredMixin, View):
     def post(self, request, pk, *args, **kwargs):
-        print("POST")
+        context = {}
         post = Post.objects.get(pk=pk)
 
         is_dislike = False
@@ -272,8 +272,8 @@ class AddLike(LoginRequiredMixin, View):
         if is_like:
             post.likes.remove(request.user)
 
-        next = request.POST.get('next', '/')
-        return HttpResponseRedirect(next)
+        context["result"] = post
+        return render(request,"post/snippets/like_post_button.html",context)
 
 class AddDislike(LoginRequiredMixin, View):
     def post(self, request, pk, *args, **kwargs):
