@@ -16,6 +16,9 @@ class Product(models.Model):
 	availability = models.ForeignKey('ProductAvailability', on_delete=models.CASCADE)
 	location = models.CharField(max_length=200)
 	view = models.IntegerField(default=1)
+	
+	def __str__(self):
+		return self.title
 
 class ProductImage(models.Model):
     image = models.ImageField(upload_to='uploads/marketplace_photos/', blank=True, null=True)

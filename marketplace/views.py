@@ -32,7 +32,7 @@ class MarketplaceListView(LoginRequiredMixin, View):
 		context["products"] = product
 		context["categories"] = category
 		context["conditions"] = condition
-		fillRightNav(request,context)
+		
 		return render(request, 'marketplace/marketplace.html', context)
 
 	def post(self, request, *args, **kwargs):

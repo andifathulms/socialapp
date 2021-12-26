@@ -6,14 +6,14 @@
     .post-module {
         position: relative;
         display: block;
-        background: #FFFFFF;
-        max-width: 350px;
+        background: #000;
+        max-width: 450px;
         height: 500px;
         border-radius: 5px;
-        box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.1);
-        -webkit-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.15);
+        box-shadow: 0px 0px 25px rgb(255, 255, 255);
+        -webkit-box-shadow: 0px 1px 2px 0px rgba(255, 255, 255, 0.15);
         -moz-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.15);
-        box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.15);
+        border: 2px solid antiquewhite;
         -webkit-transition: all 0.3s linear 0s;
         -moz-transition: all 0.3s linear 0s;
         -ms-transition: all 0.3s linear 0s;
@@ -21,9 +21,9 @@
         transition: all 0.3s linear 0s;
         overflow: hidden;
         position: relative;
-        margin-left: 3px;
-        margin-bottom: 3px;
+        margin: auto;
         cursor: pointer;
+        
     }
 
     .post-module:hover,
@@ -88,7 +88,7 @@
     .post-module .post-content {
         position: absolute;
         bottom: 0;
-        background: #FFFFFF;
+        background: #000;
         width: 100%;
         padding: 15px;
         -webkti-box-sizing: border-box;
@@ -116,7 +116,7 @@
     .post-module .post-content .title {
         margin: 0;
         padding: 0 0 20px;
-        color: #333333;
+        color: #fff;
         font-size: 20px;
         font-weight: 400;
         float: left;
@@ -125,7 +125,7 @@
     .post-module .post-content .price {
         margin: 0;
         padding: 0 0 10px;
-        color: #333333;
+        color: darkseagreen;
         font-size: 26px;
         font-weight: 700;
         float: left;
@@ -134,14 +134,14 @@
     .post-module .post-content .location {
         margin: 0;
         padding: 0 0 20px;
-        color: #666666;
+        color: azure;
         font-size: 16px;
         font-weight: 200;
     }
 
     .post-module .post-content .description {
         display: none;
-        color: #666666;
+        color: blanchedalmond;
         font-size: 16px;
         line-height: 1.8em;
     }
@@ -273,73 +273,49 @@
 </style>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 
-    {% if hide %}
-    <div class="row mb-5">
-        <h3 class="m-auto">Your Wishlist Product</h3>
-    </div>
-    {% else %}
-    <!--
-    <div class="row">
-        <div class="select ml-5 mb-5">
-          <select>
-            {% for category in categories %}
-            <option value="{{category.name}}">{{category.name}}</option>
-            {% endfor %}
-          </select>
-        </div>
-        <div class="select ml-5 mb-5">
-          <select>
-            {% for condition in conditions %}
-            <option value="{{condition.name}}">{{condition.name}}</option>
-            {% endfor %}
-          </select>
-        </div>
-        <div class="select-btn ml-5 mb-5">
-            <button type="button" class="btn btn-block btn-outline-primary">Apply Filter </button>
-        </div>
-    </div>-->
-    {% endif %}
     
-    <div class="row">
-        {% for product in products %}
-        <div class="post-module">
-            <!-- Thumbnail-->
-            <a href="{% url 'marketplace:marketplace-detail' product.pk %}">
-            <div class="thumbnail">
-                <!--
-                <div class="date">
-                    <div class="day">New</div>
-                </div>
-                
-                {% for img in product.image.all %}
-                    <img src="{{img.image.url}}" />
-                {% endfor %}-->
-                {% with product.image.all|first as first_image %}
-                    <img src="{{first_image.image.url}}" />
-                {% endwith %}
-            </div><!-- Post Content-->
-            <div class="post-content">
-                <div class="category"> {{product.category.category.name}} - {{product.category.name}} </div>
-                <!--<div class="category"> {{product.category.name}} </div>-->
-                <div style="display: flex; align-items: middle; flex-direction: column;">
-                    <li>
-                        <h2 class="price">Rp. {{ product.price|intcomma }}</h2>
-                    </li>
-                    <li>
-                        <h1 class="title">{{ product.title }}</h1>
-                    </li>
-                    <li>
-                        <h2 class="location">{{ product.location }}</h2>
-                    </li>
-                    
-                </div>
-                <p class="description">{{ product.description }}</p>
-                <div class="post-meta"><span class="timestamp"><i class="fa fa-clock"></i> {{ product.created_on|naturaltime }}</span><span class="comments" style="float: right;"><i class="far fa-eye"></i> {{ product.view }}</span></div>
+<div class="row">
+    {% for product in products %}
+    <div class="post-module mb-3">
+        <!-- Thumbnail-->
+        <a href="{% url 'marketplace:marketplace-detail' product.pk %}">
+        <div class="thumbnail">
+            <!--
+            <div class="date">
+                <div class="day">New</div>
             </div>
-            </a>
+            
+            {% for img in product.image.all %}
+                <img src="{{img.image.url}}" />
+            {% endfor %}-->
+            {% with product.image.all|first as first_image %}
+                <img src="{{first_image.image.url}}" />
+            {% endwith %}
+        </div><!-- Post Content-->
+        <div class="post-content">
+            <div class="category"> {{product.category.category.name}} - {{product.category.name}} </div>
+            <!--<div class="category"> {{product.category.name}} </div>-->
+            <div style="display: flex; align-items: middle; flex-direction: column;">
+                <li>
+                    <h2 class="price">Rp. {{ product.price|intcomma }}</h2>
+                </li>
+                <li>
+                    <h1 class="title">{{ product.title }}</h1>
+                </li>
+                <li>
+                    <h2 class="location">{{ product.location }}</h2>
+                </li>
+                
+            </div>
+            <p class="description">{{ product.description }}</p>
+            <div class="post-meta">
+                <span class="timestamp"><i class="fa fa-clock"></i> {{ product.created_on|naturaltime }}</span>
+            </div>
         </div>
-        {% endfor %}
+        </a>
     </div>
+    {% endfor %}
+</div>
 
 {% endblock post %}
 {% block javascript %}

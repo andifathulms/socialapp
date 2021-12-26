@@ -3,10 +3,20 @@
 {% load humanize %}
 {% block post %}
 <style>
-
+    h3{
+        color: ghostwhite;
+    }
+    p{
+        font-size: 20px;
+    }
+    .fw-bold{
+        color: lightgoldenrodyellow;
+    }
     .card {
-        border: none;
-        overflow: hidden
+        border: 2px solid antiquewhite !important;
+        overflow: hidden;
+        background-color: #000 !important;
+        color: floralwhite;
     }
 
     .thumbnail_images ul {
@@ -34,9 +44,9 @@
         justify-content: center;
         align-items: center;
         border-bottom: 1px solid #eee;
-        height: 400px;
+        height: 500px;
         width: 100%;
-        overflow: hidden
+        overflow: hidden;
     }
 
     .heart {
@@ -79,7 +89,7 @@
             <div class="col-md-6 border-end">
                 <div class="d-flex flex-column justify-content-center">
                     {% with product.image.all|first as first_image %}
-                        <div class="main_image"> <img src="{{first_image.image.url}}" id="main_product_image" width="350"> </div>
+                        <div class="main_image"> <img src="{{first_image.image.url}}" id="main_product_image" width="100%" height="100%"> </div>
                     {% endwith %}
                     <div class="thumbnail_images">
                         <ul id="thumbnail">
@@ -99,8 +109,7 @@
                         </button>
                     </div>
                     <h3>Rp. {{product.price|intcomma}}</h3>
-                    <div class="mt-1" style="font-size: 12px;">
-                        <p>Dilihat sebanyak {{product.view}} kali</p>
+                    <div class="mt-1" style="font-size: 12px !important;">
                         <p>Diterbitkan pada {{product.created_on}}</p>
                     </div>
                     <hr>
@@ -134,7 +143,7 @@
                         <p>Joined PNP Social since {{product.author.date_joined|naturaltime}}</p>
                     </div>
                     <hr>
-                    <a href="{% url 'marketplace:marketplace-home' %}" class="btn mb-1 mr-1 btn-outline-dark">Back to marketplace <span class="btn-icon-right"><i class="fas fa-sign-out-alt"></i></span></a>
+                    <a href="{% url 'marketplace:marketplace-home' %}" class="btn mb-1 mr-1 btn-outline-light">Back to marketplace <span class="btn-icon-right"><i class="fas fa-sign-out-alt"></i></span></a>
                     {% if product.author == request.user %}
                     <a href="{% url 'marketplace:marketplace-edit' product.pk %}" class="btn mb-1 mr-1 btn-outline-warning">Edit <span class="btn-icon-right"><i class="far fa-edit"></i></span></a>
                     <button type="button" class="btn mb-1 btn-outline-danger" data-toggle="modal" data-target="#deleteModal">Delete <span class="btn-icon-right"><i class="fas fa-trash-alt"></i></span></button>
