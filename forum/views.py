@@ -26,7 +26,7 @@ def fillRightNav(request,context):
 	context["readlist_count"] = count
 	context["forum_newest"] = forum
 	context["forum_popular"] = forump
-	context["type"] = "forum"
+	
 
 class SubjectListView(LoginRequiredMixin, View):
 	login_url = '/login/'
@@ -91,7 +91,9 @@ class ForumListView(LoginRequiredMixin, View):
 			is_downvote = False
 
 		context["subject"] = subject
-		context["posts"] = p_list
+		#context["posts"] = p_list
+		context["posts"] = post
+		context["type"] = "content"
 		fillRightNav(request,context)
 
 		return render(request, 'forum/forum_content.html', context)

@@ -162,6 +162,7 @@
       position: relative;
       display:block;
       padding: 2px 0;
+      color: floralwhite;
     }
 </style>
 {% include 'forum/snippets/css/tweet_box_css.html' %}
@@ -174,21 +175,12 @@
 <div class="main-body p-0">
     
     {% include 'forum/snippets/forum_header.html' %}
-
-    <a href="{% url 'forum:forum-content' post.subject.pk %}" class="btn btn-light btn-sm mb-3 has-icon"><i class="fa fa-arrow-left mr-2"></i>Back</a>
+    {% include 'forum/snippets/forum_header_back_to_home.html' %}
     
     {% include 'forum/snippets/forum_detail_post.html' %}
 
+    {% include 'forum/snippets/forum_detail_new_discussion.html' %}
     
-    <div class="inner-sidebar-header justify-content-center">
-        <button class="btn btn-primary has-icon btn-block" type="button" id="btnReply">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus mr-2">
-                <line x1="12" y1="5" x2="12" y2="19"></line>
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-            </svg>
-            Reply to this question
-        </button>
-    </div>
     
     {% include 'forum/snippets/forum_detail_form.html' %}
 
@@ -218,12 +210,12 @@
 <script>
     $('#btnReply').click(function(){
         $('#replyForm').css('display','block');
-        $('#btnReply').css('display','none');
+        //$('#btnReply').css('display','none');
     });
 
     $('#cancelForm').click(function(){
         $('#replyForm').css('display','none');
-        $('#btnReply').css('display','block');
+        //$('#btnReply').css('display','block');
     });
 </script>
 

@@ -15,12 +15,12 @@
                     <div class="comment-voting">
                         <button class="btn btn-transparent p-0" type="submit" id="upvote-reply-{{reply.pk}}" onclick="sentAJAX_upvote_reply({{reply.pk}}, {{post.pk}})">
                           <div id="upvote-reply-div-{{reply.pk}}" class="{% if request.user in reply.upvote.all %}up{% else %}inactive{% endif %}">
-                            <i class="fas fa-chevron-circle-up"></i>
+                            <i class="fas fa-chevron-circle-up" style="margin-right: 0px;"></i>
                           </div>
                         </button>
                         <button class="btn btn-transparent p-0" type="submit" id="downvote-reply-{{reply.pk}}" onclick="sentAJAX_downvote_reply({{reply.pk}}, {{post.pk}})">
                             <div id="downvote-reply-div-{{reply.pk}}" class="{% if request.user in reply.downvote.all %}down{% else %}inactive{% endif %}">
-                              <i class="fas fa-chevron-circle-down"></i>
+                              <i class="fas fa-chevron-circle-down" style="margin-right: 0px;"></i>
                             </div>
                         </button>
                     </div>
@@ -29,7 +29,7 @@
                             <img src="{{reply.author.profile_image.url}}" class="mr-3 circle-rounded avator" style="float: left;margin-right: 1rem;" width="50" height="50" alt="User" />
                         </a>
                         <a href="#" class="comment-author">{{reply.author.username}}</a>
-                        <span>replied {{ reply.created|naturaltime }} </span>
+                        <span style="color: cadetblue;">replied {{ reply.created|naturaltime }} </span>
                         {% with point=reply.upvote.all.count|sub:reply.downvote.all.count %}
                         <p id="score-{{reply.pk}}" class="points {% if point > 0 %}up{% endif %} {% if point < 0 %}down{% endif %}"><span id="score-reply-{{reply.pk}}">{{point}}</span> points</p>
                         {% endwith %}

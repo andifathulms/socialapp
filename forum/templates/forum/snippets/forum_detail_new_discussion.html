@@ -1,0 +1,19 @@
+<style>
+    .wrapper{
+      background: #000;
+      width: 100%;
+      border-radius: 15px;
+      padding: 15px 15px 5px 15px;
+      box-shadow: 0.1rem 0.1rem 0.1rem var(--greyLight-2), -0.1rem -0.1rem 0.8rem var(--white);
+    }
+</style>
+
+{% if type == 'content' %}
+<div class="wrapper mb-1" data-toggle="modal" data-target="#threadModal" style="cursor: pointer;">
+    <h3 style="color: aliceblue !important;">New Discussion</h3>
+</div>
+{% else %}
+<div class="wrapper mb-1" style="cursor: pointer;" id="btnReply">
+  <h3 style="color: aliceblue !important;">Reply</h3>
+</div>
+{% endif %}

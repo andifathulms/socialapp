@@ -1,9 +1,19 @@
-<div style="display: none;" id="replyForm">
+<style>
+    .wrapper{
+      background: #000;
+      width: 100%;
+      border-radius: 15px;
+      padding: 15px 15px 5px 15px;
+      box-shadow: 0.1rem 0.1rem 0.1rem var(--greyLight-2), -0.1rem -0.1rem 0.8rem var(--white);
+    }
+</style>
+
+<div class="wrapper" style="display: none;" id="replyForm">
     <form method="POST"> {% csrf_token %}
     <!--<form onsubmit='copyContent()' method= "post" hx-post= "{% url 'forum:forum-detail' post.pk %}" hx-swap="innerHTML" hx-target = "#comment-list">-->
         <div class="modal-body">
             <div class="form-group">
-                <label for="threadTitle">Your Answer</label>
+                <label for="threadTitle" style="color: oldlace;">Your Answer</label>
                 <textarea name="reply" class="form-control summernote" placeholder="Input your answer here"></textarea>
             </div>
         </div>
