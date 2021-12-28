@@ -4,7 +4,7 @@
 {% for result in posts %}
 
 {% if forloop.last %}
-<div class="tweet-wrap" hx-get="{% url 'account:view' user_id=result.author.profile.pk %}?page=2" hx-trigger="revealed" hx-swap="afterend" hx-target="this">
+<div class="tweet-wrap" hx-get="{% url 'account:view' user_id=result.author.profile.pk %}?page={{ posts.next_page_number }}" hx-trigger="revealed" hx-swap="afterend" hx-target="this">
 {% else %}
 <div class="tweet-wrap">
 {% endif %}

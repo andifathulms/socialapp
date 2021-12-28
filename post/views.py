@@ -57,6 +57,10 @@ class PostListView(LoginRequiredMixin, View):
         fillRightNav(request, context)
         self.postlist_populated(request, context)
 
+        if request.htmx:
+            print(context["results"])
+            return render(request, "post/snippets/post_list_body_2.html", context)
+
         return render(request, 'post/post_list_2.html', context)
 
     def post(self, request, *args, **kwargs):

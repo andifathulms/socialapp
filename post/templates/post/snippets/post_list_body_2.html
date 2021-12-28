@@ -3,8 +3,14 @@
 {% load custom_tags %}
 
 {% for result in results %}
+    {% if forloop.last %}
+    <div class="tweet-wrap" hx-get="{% url 'home' %}?page={{ results.next_page_number }}" hx-trigger="revealed" hx-swap="afterend" hx-target="this">
+    {% else %}
+    <div class="tweet-wrap">
+    {% endif %}
+    <!-- <div class="tweet-wrap infinite-item "> -->
     {% if result.likes %} <!-- IF A POST -->
-    <div class="tweet-wrap infinite-item ">
+    
       <article style="padding-right: 18px; padding-left: 18px; overflow: hidden; flex-direction: row; display: flex; font-size: 20px;">
         <div class="css-1dbjc4n r-1awozwy r-1hwvwag r-18kxxzh r-1b7u577">
           <a href="{% url 'account:view' user_id=result.author.profile.pk %}">
@@ -213,11 +219,11 @@
         </div>
         
       </article>
-    </div>
+    
     {% endif %}
 
     {% if result.price %} <!-- IF FROM MARKETPLACE -->
-    <div class="tweet-wrap infinite-item">
+    
       <article style="padding-right: 16px; padding-left: 16px; overflow: hidden; flex-direction: row; display: flex; font-size: 20px;">
         <div class="css-1dbjc4n r-1awozwy r-1hwvwag r-18kxxzh r-1b7u577">
           <a href="{% url 'account:view' user_id=result.author.profile.pk %}">
@@ -292,11 +298,11 @@
         </div>
 
       </article>
-    </div>
+    
     {% endif %}
 
     {% if result.subject %} <!-- IF FROM THE FORUM -->
-    <div class="tweet-wrap infinite-item">
+    
       <article style="padding-right: 16px; padding-left: 16px; overflow: hidden; flex-direction: row; display: flex; font-size: 20px;">
         <div class="css-1dbjc4n r-1awozwy r-1hwvwag r-18kxxzh r-1b7u577">
           <a href="{% url 'account:view' user_id=result.author.profile.pk %}">
@@ -390,12 +396,12 @@
         </div>
 
       </article>
-    </div>
+    
     
     {% endif %}
 
     {% if result.claps %} <!-- IF FROM THE BLOG -->
-    <div class="tweet-wrap infinite-item">
+    
       <article style="padding-right: 18px; padding-left: 18px; overflow: hidden; flex-direction: row; display: flex; font-size: 20px;">
         <div class="css-1dbjc4n r-1awozwy r-1hwvwag r-18kxxzh r-1b7u577">
           <a href="{% url 'account:view' user_id=result.author.profile.pk %}">
@@ -487,8 +493,9 @@
         </div>
         
       </article>  
-    </div>
+
     {% endif %}
+    </div>
 
 {% endfor %}
 {% include 'snippets/csrftoken.html' %}
