@@ -138,7 +138,7 @@
 </style>
 {% endblock head %}
 
-<div class="wrapper">  
+<div class="wrapper comment-form">  
     <form onsubmit='return copyContent()' method= "post" hx-encoding="multipart/form-data" hx-post= "{% url 'post:post-detail' post.pk %}" hx-swap="innerHTML" hx-target = "#post-comment-content">
     <div class="input-box">
       <div class="tweet-area">

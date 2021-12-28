@@ -72,12 +72,12 @@
 {% block javascript %}
 
 <script>
-    const wrapper = document.querySelector(".wrapper"),
-    editableInput = wrapper.querySelector(".editable"),
-    readonlyInput = wrapper.querySelector(".readonly"),
-    placeholder = wrapper.querySelector(".placeholder"),
-    counter = wrapper.querySelector(".counter"),
-    button = wrapper.querySelector("button");
+    const wrapper = document.querySelector(".comment-form");
+    const editableInput = wrapper.querySelector(".editable");
+    const readonlyInput = wrapper.querySelector(".readonly");
+    const placeholder = wrapper.querySelector(".placeholder");
+    const counter = wrapper.querySelector(".counter");
+    const button = wrapper.querySelector("button");
 
     editableInput.onfocus = ()=>{
       placeholder.style.color = "#c5ccd3";
@@ -222,12 +222,12 @@
     });
     
     document.body.addEventListener('htmx:configRequest', function(evt) {
-        evt.detail.parameters['body'] = document.getElementById("tweet-box-IE").innerHTML;
+        // evt.detail.parameters['body'] = document.getElementById("tweet-box-IE").innerHTML;
         evt.detail.parameters['author'] = {{request.user.pk}};
     });
     comment.addEventListener('htmx:configRequest', function(evt){
         console.log("456")
-        evt.detail.parameters['comment'] = document.getElementById("tweet-box-comment-IE").innerHTML;
+        // evt.detail.parameters['comment'] = document.getElementById("tweet-box-comment-IE").innerHTML;
         evt.detail.parameters['author'] = {{request.user.pk}};
         evt.detail.parameters['post'] = {{post.pk}};
     });

@@ -8,6 +8,11 @@ from django.core.files.storage import default_storage
 from django.core.files.storage import FileSystemStorage
 from django.core import files
 
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views import View
+
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 import os
 import cv2
 import json
@@ -27,6 +32,11 @@ from friend.friend_request_status import FriendRequestStatus
 from friend.models import FriendList, FriendRequest
 
 from follower.models import FollowerList, FollowingList
+
+from blog.models import Blog
+from forum.models import ForumPost, ForumReply
+
+from post.views import fillRightNav
 
 TEMP_PROFILE_IMAGE_NAME = "temp_profile_image.png"
 
@@ -172,7 +182,10 @@ def account_view(request, *args, **kwargs):
 		context['status'] = profile.status
 		context['nobp'] = profile.nobp
 		context['prodi'] = profile.prodi
-		context['posts'] = posts
+
+		context["account"] = account
+		context["profile"] = profile
+		
 
 		try:
 			friend_list = FriendList.objects.get(user=account)
@@ -248,7 +261,91 @@ def account_view(request, *args, **kwargs):
 		context['request_sent'] = request_sent
 		context['friend_requests'] = friend_requests
 		context['BASE_URL'] = settings.BASE_URL
-		return render(request, "account/account_backup.html", context)
+		
+		join_paginator = Paginator(posts,10)
+		page = request.GET.get('page', 1)
+		
+		try:
+			join_pagination = join_paginator.page(page)
+		except PageNotAnInteger:
+			join_pagination = join_paginator.page(1)
+		except EmptyPage:
+			join_pagination = join_paginator.page(join_paginator.num_pages)
+		
+		context['posts'] = join_pagination
+
+		fillRightNav(request,context)
+		return render(request, "account/account_profile.html", context)
+
+class load_blog_this_user(LoginRequiredMixin, View):
+	def get(self, request, user_id, *args, **kwargs):
+		context = {}
+		user = Account.objects.get(pk=user_id)
+		blogs = Blog.objects.filter(author=user)
+		context["blogs"] = blogs
+		
+		return render(request, 'account/snippets/account_list_blog.html', context)
+
+class load_qask_this_user(LoginRequiredMixin, View):
+	def get(self, request, user_id, *args, **kwargs):
+		context = {}
+		user = Account.objects.get(pk=user_id)
+		qasks = ForumPost.objects.filter(author=user)
+		context["results"] = qasks
+		
+		return render(request, 'account/snippets/account_list_qask.html', context)
+
+class load_qrep_this_user(LoginRequiredMixin, View):
+	def get(self, request, user_id, *args, **kwargs):
+		context = {}
+		user = Account.objects.get(pk=user_id)
+		qreps = ForumReply.objects.filter(author=user)
+		context["results"] = qreps
+		
+		return render(request, 'account/snippets/account_list_qrep.html', context)
+
+class load_post_this_user(LoginRequiredMixin, View):
+	def get(self, request, user_id, *args, **kwargs):
+		context = {}
+		user = Account.objects.get(pk=user_id)
+		posts   = Post.objects.filter(author=user).order_by('-created_on')
+		context["results"] = posts
+		
+		return render(request, 'account/snippets/account_list_post.html', context)
+
+class load_like_this_user(LoginRequiredMixin, View):
+	def get(self, request, user_id, *args, **kwargs):
+		context = {}
+		user = Account.objects.get(pk=user_id)
+		posts   = Post.objects.filter(likes__in = [user.id]).order_by('-created_on')
+		context["results"] = posts
+		context["this_user"] = user
+		return render(request, 'account/snippets/account_list_likes.html', context)
+
+def load_qask_header(request, *args, **kwargs):
+	user_id = kwargs.get("user_id")
+	account = Account.objects.get(pk=user_id)
+	return render(request, 'account/snippets/qask_nav.html', {"account":account})
+
+def load_qrep_header(request, *args, **kwargs):
+	user_id = kwargs.get("user_id")
+	account = Account.objects.get(pk=user_id)
+	return render(request, 'account/snippets/qrep_nav.html', {"account":account})
+
+def load_blog_header(request, *args, **kwargs):
+	user_id = kwargs.get("user_id")
+	account = Account.objects.get(pk=user_id)
+	return render(request, 'account/snippets/blog_nav.html', {"account":account})
+
+def load_like_header(request, *args, **kwargs):
+	user_id = kwargs.get("user_id")
+	account = Account.objects.get(pk=user_id)
+	return render(request, 'account/snippets/like_nav.html', {"account":account})
+
+def load_post_header(request, *args, **kwargs):
+	user_id = kwargs.get("user_id")
+	account = Account.objects.get(pk=user_id)
+	return render(request, 'account/snippets/post_nav.html', {"account":account})
 
 @login_required
 def account_search_view(request, *args, **kwargs):

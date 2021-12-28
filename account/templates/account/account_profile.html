@@ -1,0 +1,579 @@
+{% extends 'personal/home.html' %}
+{% load static %}
+{% load humanize %}
+{% load custom_tags %}
+
+{% block head %}
+{% include 'snippets/css/twitter_style.html' %}
+{% include 'post/snippets/tweet_style.html' %}
+{% endblock head %}
+
+{% block post %}
+
+<div class="css-1dbjc4n">
+    <div class="css-1dbjc4n r-16y2uox">
+       <div class="css-1dbjc4n r-1jgb5lz r-1ye8kvj r-13qz1uu">
+          <div class="css-1dbjc4n">
+            
+            <!--Header-->
+            <div class="css-1dbjc4n r-1adg3ll r-1udh08x" style="">
+               <div class="r-1adg3ll r-13qz1uu" style="padding-bottom: 33.3333%;"></div>
+               <div class="r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-ipm5af r-13qz1uu">
+                  <div aria-label="" class="css-1dbjc4n r-1p0dtai r-1mlwlqe r-1d2f490 r-1udh08x r-u8s1d r-zchlnj r-ipm5af r-417010">
+                     <div class="css-1dbjc4n r-1niwhzg r-vvn4in r-u6sd8q r-4gszlv r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-zchlnj r-ipm5af r-13qz1uu r-1wyyakw" style="background-image: url(&quot;https://pbs.twimg.com/profile_banners/19583545/1640358203/1080x360&quot;);"></div>
+                     <img alt="" draggable="true" src="https://pbs.twimg.com/profile_banners/19583545/1640358203/1080x360" class="css-9pa8cd">
+                  </div>
+               </div>
+            </div>
+             <!--FP and Follow Button-->
+             <div class="css-1dbjc4n r-1ifxtd0 r-ymttw5 r-ttdzmv">
+                <!--FP-->
+                <div class="css-1dbjc4n r-1habvwh r-18u37iz r-1w6e6rj r-1wtj0ep">
+                   <div class="css-1dbjc4n r-1adg3ll r-16l9doz r-6gpygo r-2o1y69 r-1v6e3re r-bztko3 r-1xce0ei">
+                      <div class="r-1adg3ll r-13qz1uu" style="padding-bottom: 100%;"></div>
+                      <div class="r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-ipm5af r-13qz1uu">
+                         <div class="css-1dbjc4n r-1adg3ll r-1pi2tsx r-1wyvozj r-bztko3 r-u8s1d r-1v2oles r-desppf r-13qz1uu">
+                            <div class="r-1adg3ll r-13qz1uu" style="padding-bottom: 100%;"></div>
+                            <div class="r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-ipm5af r-13qz1uu">
+                               <div class="css-1dbjc4n r-sdzlij r-ggadg3 r-1udh08x r-u8s1d r-8jfcpp" style="height: calc(100% + 4px); width: calc(100% + 4px);">
+                                  <a href="{{account.profile_image.url}}" role="link" class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1niwhzg r-1loqt21 r-1pi2tsx r-1ny4l3l r-o7ynqc r-6416eg r-13qz1uu">
+                                     <div class="css-1dbjc4n r-sdzlij r-1wyvozj r-1udh08x r-633pao r-u8s1d r-1v2oles r-desppf" style="height: calc(100% - 4px); width: calc(100% - 4px);">
+                                        <div class="css-1dbjc4n r-kemksi r-1pi2tsx r-13qz1uu"></div>
+                                     </div>
+                                     <div class="css-1dbjc4n r-sdzlij r-1wyvozj r-1udh08x r-633pao r-u8s1d r-1v2oles r-desppf" style="height: calc(100% - 12px); width: calc(100% - 12px);">
+                                        <div class="css-1dbjc4n r-kemksi r-1pi2tsx r-13qz1uu"></div>
+                                     </div>
+                                     <div class="css-1dbjc4n r-kemksi r-sdzlij r-1wyvozj r-1udh08x r-633pao r-u8s1d r-1v2oles r-desppf" style="height: calc(100% - 12px); width: calc(100% - 12px);">
+                                        <div class="css-1dbjc4n r-1adg3ll r-1udh08x" style="">
+                                           <div class="r-1adg3ll r-13qz1uu" style="padding-bottom: 100%;"></div>
+                                           <div class="r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-ipm5af r-13qz1uu">
+                                              <div aria-label="" class="css-1dbjc4n r-1p0dtai r-1mlwlqe r-1d2f490 r-1udh08x r-u8s1d r-zchlnj r-ipm5af r-417010">
+                                                 <div class="css-1dbjc4n r-1niwhzg r-vvn4in r-u6sd8q r-4gszlv r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-zchlnj r-ipm5af r-13qz1uu r-1wyyakw" style="background-image: url(&quot;https://pbs.twimg.com/profile_images/1247889793255538688/NqA3Fe7q_200x200.jpg&quot;);"></div>
+                                                 <img alt="" draggable="true" src="{{account.profile_image.url}}">
+                                              </div>
+                                           </div>
+                                        </div>
+                                     </div>
+                                     <div class="css-1dbjc4n r-sdzlij r-1wyvozj r-1udh08x r-u8s1d r-1v2oles r-desppf" style="height: calc(100% - 12px); width: calc(100% - 12px);">
+                                        <div class="css-1dbjc4n r-172uzmj r-1pi2tsx r-1ny4l3l r-o7ynqc r-6416eg r-13qz1uu"></div>
+                                     </div>
+                                  </a>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+
+                   <div class="css-1dbjc4n r-obd0qt r-18u37iz r-1w6e6rj r-1h0z5md r-dnmrzs">
+                      <div aria-expanded="false" aria-haspopup="menu" aria-label="Selengkapnya" role="button" tabindex="0" class="css-18t94o4 css-1dbjc4n r-1niwhzg r-sdzlij r-1phboty r-rs99b7 r-6gpygo r-1kb76zh r-2yi16 r-1qi8awa r-1ny4l3l r-o7ynqc r-6416eg r-lrvibr" style="border-color: rgb(83, 100, 113);" data-testid="userActions">
+                         <div dir="auto" class="css-901oao r-1awozwy r-6koalj r-18u37iz r-16y2uox r-37j5jr r-a023e6 r-b88u0q r-1777fci r-rjixqe r-bcqeeo r-q4m81j r-qvutc0" style="color: rgb(239, 243, 244);">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" class="r-4qtqp9 r-yyyyoo r-z80fyv r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-19wmn03" style="color: rgb(239, 243, 244);">
+                               <g>
+                                  <circle cx="5" cy="12" r="2"></circle>
+                                  <circle cx="12" cy="12" r="2"></circle>
+                                  <circle cx="19" cy="12" r="2"></circle>
+                               </g>
+                            </svg>
+                            <span class="css-901oao css-16my406 css-bfa6kz r-poiln3 r-a023e6 r-rjixqe r-bcqeeo r-qvutc0"></span>
+                         </div>
+                      </div>
+                      <!--Follow Button-->
+                      <div class="css-1dbjc4n" data-testid="placementTracking">
+                         <div class="css-1dbjc4n r-6gpygo" style="min-width: 65px;">
+                            <div aria-label="Follow" role="button" tabindex="0" class="css-18t94o4 css-1dbjc4n r-42olwf r-sdzlij r-1phboty r-rs99b7 r-2yi16 r-1qi8awa r-1ny4l3l r-ymttw5 r-o7ynqc r-6416eg r-lrvibr" style="background-color: rgb(239, 243, 244);">
+                               <div dir="auto" class="css-901oao r-1awozwy r-6koalj r-18u37iz r-16y2uox r-37j5jr r-a023e6 r-b88u0q r-1777fci r-rjixqe r-bcqeeo r-q4m81j r-qvutc0" style="color: rgb(15, 20, 25);" ><span class="css-901oao css-16my406 css-bfa6kz r-poiln3 r-a023e6 r-rjixqe r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Followed</span></span></div>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+                <div class="css-1dbjc4n r-6gpygo r-14gqq1x" data-testid="UserName">
+                   <div class="css-1dbjc4n r-1wbh5a2 r-dnmrzs r-1ny4l3l">
+                      <div class="css-1dbjc4n r-1wbh5a2 r-dnmrzs r-1ny4l3l">
+                         <div class="css-1dbjc4n r-1awozwy r-18u37iz r-dnmrzs">
+                            <div dir="auto" class="css-901oao r-1awozwy r-1fmj7o5 r-6koalj r-37j5jr r-adyw6z r-1vr29t4 r-135wba7 r-bcqeeo r-1udh08x r-qvutc0">
+                               <span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">{{profile.fullname}}</span></span>
+                               <!-- Verif Icon -->
+                               <span class="css-901oao css-16my406 r-xoduu5 r-18u37iz r-1q142lx r-poiln3 r-adyw6z r-135wba7 r-bcqeeo r-qvutc0">
+                                  <div class="css-1dbjc4n r-xoduu5">
+                                     <div aria-label="Memberikan detail tentang akun terverifikasi." role="button" tabindex="0" class="css-18t94o4 css-1dbjc4n r-6koalj r-9cviqr r-1ny4l3l r-o7ynqc r-6416eg">
+                                        <svg viewBox="0 0 24 24" aria-label="Akun terverifikasi" class="r-1fmj7o5 r-4qtqp9 r-yyyyoo r-1xvli5t r-f9ja8p r-og9te1 r-bnwqim r-1plcrui r-lrvibr">
+                                           <g>
+                                              <path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.818-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.437 2.25c-.415-.165-.866-.25-1.336-.25-2.11 0-3.818 1.79-3.818 4 0 .494.083.964.237 1.4-1.272.65-2.147 2.018-2.147 3.6 0 1.495.782 2.798 1.942 3.486-.02.17-.032.34-.032.514 0 2.21 1.708 4 3.818 4 .47 0 .92-.086 1.335-.25.62 1.334 1.926 2.25 3.437 2.25 1.512 0 2.818-.916 3.437-2.25.415.163.865.248 1.336.248 2.11 0 3.818-1.79 3.818-4 0-.174-.012-.344-.033-.513 1.158-.687 1.943-1.99 1.943-3.484zm-6.616-3.334l-4.334 6.5c-.145.217-.382.334-.625.334-.143 0-.288-.04-.416-.126l-.115-.094-2.415-2.415c-.293-.293-.293-.768 0-1.06s.768-.294 1.06 0l1.77 1.767 3.825-5.74c.23-.345.696-.436 1.04-.207.346.23.44.696.21 1.04z"></path>
+                                           </g>
+                                        </svg>
+                                     </div>
+                                  </div>
+                               </span>
+                            </div>
+                         </div>
+                         <div class="css-1dbjc4n r-18u37iz r-1wbh5a2">
+                            <div dir="ltr" class="css-901oao css-bfa6kz r-9ilb82 r-18u37iz r-37j5jr r-a023e6 r-16dba41 r-rjixqe r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">@{{account.username}}</span></div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+                <div class="css-1dbjc4n r-1adg3ll r-6gpygo">
+                   <div class="css-1dbjc4n">
+                      <div dir="auto" class="css-901oao r-1fmj7o5 r-37j5jr r-a023e6 r-16dba41 r-rjixqe r-bcqeeo r-qvutc0" data-testid="UserDescription"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">{{profile.bio}}</span></div>
+                     <!-- Terjemahkan -->
+                     <!-- <div dir="auto" aria-expanded="false" role="button" tabindex="0" class="css-18t94o4 css-901oao r-6koalj r-1w6e6rj r-37j5jr r-n6v787 r-16dba41 r-1cwl3u0 r-14gqq1x r-bcqeeo r-qvutc0" style="color: rgb(0, 186, 124);"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Terjemahkan bio</span></div> -->
+                   </div>
+                </div>
+                <div class="css-1dbjc4n r-1adg3ll r-6gpygo">
+                   
+                   <div dir="auto" class="css-901oao r-1fmj7o5 r-37j5jr r-a023e6 r-16dba41 r-56xrmm r-bcqeeo r-qvutc0" data-testid="UserProfileHeader_Items" style="white-space: nowrap !important;">
+                     {% if profile.location %} 
+                     <span dir="ltr" role="presentation" class="css-901oao css-16my406 r-9ilb82 r-4qtqp9 r-poiln3 r-1b7u577 r-bcqeeo r-qvutc0" data-testid="UserLocation">
+                         <svg viewBox="0 0 24 24" aria-hidden="true" class="r-9ilb82 r-4qtqp9 r-yyyyoo r-1xvli5t r-1d4mawv r-dnmrzs r-bnwqim r-1plcrui r-lrvibr">
+                            <g>
+                               <path d="M12 14.315c-2.088 0-3.787-1.698-3.787-3.786S9.913 6.74 12 6.74s3.787 1.7 3.787 3.787-1.7 3.785-3.787 3.785zm0-6.073c-1.26 0-2.287 1.026-2.287 2.287S10.74 12.814 12 12.814s2.287-1.025 2.287-2.286S13.26 8.24 12 8.24z"></path>
+                               <path d="M20.692 10.69C20.692 5.9 16.792 2 12 2s-8.692 3.9-8.692 8.69c0 1.902.603 3.708 1.743 5.223l.003-.002.007.015c1.628 2.07 6.278 5.757 6.475 5.912.138.11.302.163.465.163.163 0 .327-.053.465-.162.197-.155 4.847-3.84 6.475-5.912l.007-.014.002.002c1.14-1.516 1.742-3.32 1.742-5.223zM12 20.29c-1.224-.99-4.52-3.715-5.756-5.285-.94-1.25-1.436-2.742-1.436-4.312C4.808 6.727 8.035 3.5 12 3.5s7.192 3.226 7.192 7.19c0 1.57-.497 3.062-1.436 4.313-1.236 1.57-4.532 4.294-5.756 5.285z"></path>
+                            </g>
+                         </svg>
+                         <span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">{{profile.location}}</span></span>
+                      </span>
+                      {% endif %}
+                      <!--
+                      <a dir="ltr" href="https://t.co/h1nETYYRzf" rel="noopener noreferrer" target="_blank" role="none" class="css-4rbku5 css-18t94o4 css-901oao css-16my406 r-1loqt21 r-4qtqp9 r-poiln3 r-1b7u577 r-bcqeeo r-qvutc0" style="color: rgb(0, 186, 124);" data-testid="UserUrl">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" class="r-9ilb82 r-4qtqp9 r-yyyyoo r-1xvli5t r-1d4mawv r-dnmrzs r-bnwqim r-1plcrui r-lrvibr">
+                           <g>
+                              <path d="M11.96 14.945c-.067 0-.136-.01-.203-.027-1.13-.318-2.097-.986-2.795-1.932-.832-1.125-1.176-2.508-.968-3.893s.942-2.605 2.068-3.438l3.53-2.608c2.322-1.716 5.61-1.224 7.33 1.1.83 1.127 1.175 2.51.967 3.895s-.943 2.605-2.07 3.438l-1.48 1.094c-.333.246-.804.175-1.05-.158-.246-.334-.176-.804.158-1.05l1.48-1.095c.803-.592 1.327-1.463 1.476-2.45.148-.988-.098-1.975-.69-2.778-1.225-1.656-3.572-2.01-5.23-.784l-3.53 2.608c-.802.593-1.326 1.464-1.475 2.45-.15.99.097 1.975.69 2.778.498.675 1.187 1.15 1.992 1.377.4.114.633.528.52.928-.092.33-.394.547-.722.547z"></path>
+                              <path d="M7.27 22.054c-1.61 0-3.197-.735-4.225-2.125-.832-1.127-1.176-2.51-.968-3.894s.943-2.605 2.07-3.438l1.478-1.094c.334-.245.805-.175 1.05.158s.177.804-.157 1.05l-1.48 1.095c-.803.593-1.326 1.464-1.475 2.45-.148.99.097 1.975.69 2.778 1.225 1.657 3.57 2.01 5.23.785l3.528-2.608c1.658-1.225 2.01-3.57.785-5.23-.498-.674-1.187-1.15-1.992-1.376-.4-.113-.633-.527-.52-.927.112-.4.528-.63.926-.522 1.13.318 2.096.986 2.794 1.932 1.717 2.324 1.224 5.612-1.1 7.33l-3.53 2.608c-.933.693-2.023 1.026-3.105 1.026z"></path>
+                           </g>
+                        </svg>
+                        <span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">sportbible.com</span>
+                     </a>-->
+                      <span dir="ltr" role="presentation" class="css-901oao css-16my406 r-9ilb82 r-4qtqp9 r-poiln3 r-1b7u577 r-bcqeeo r-qvutc0">
+                         <svg viewBox="0 0 24 24" aria-hidden="true" class="r-9ilb82 r-4qtqp9 r-yyyyoo r-1xvli5t r-1d4mawv r-dnmrzs r-bnwqim r-1plcrui r-lrvibr">
+                            <g>
+                               <path d="M19.708 2H4.292C3.028 2 2 3.028 2 4.292v15.416C2 20.972 3.028 22 4.292 22h15.416C20.972 22 22 20.972 22 19.708V4.292C22 3.028 20.972 2 19.708 2zm.792 17.708c0 .437-.355.792-.792.792H4.292c-.437 0-.792-.355-.792-.792V6.418c0-.437.354-.79.79-.792h15.42c.436 0 .79.355.79.79V19.71z"></path>
+                               <circle cx="7.032" cy="8.75" r="1.285"></circle>
+                               <circle cx="7.032" cy="13.156" r="1.285"></circle>
+                               <circle cx="16.968" cy="8.75" r="1.285"></circle>
+                               <circle cx="16.968" cy="13.156" r="1.285"></circle>
+                               <circle cx="12" cy="8.75" r="1.285"></circle>
+                               <circle cx="12" cy="13.156" r="1.285"></circle>
+                               <circle cx="7.032" cy="17.486" r="1.285"></circle>
+                               <circle cx="12" cy="17.486" r="1.285"></circle>
+                            </g>
+                         </svg>
+                         <span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Joined {{account.date_joined|date:"F Y"}}</span>
+                      </span>
+                   </div>
+                </div>
+                <div class="css-1dbjc4n r-13awgt0 r-18u37iz r-1w6e6rj">
+                   <div class="css-1dbjc4n r-1mf7evn"><a href="{% url 'follower:following-list' user_id=account.id %}" dir="auto" role="link" class="css-4rbku5 css-18t94o4 css-901oao r-1fmj7o5 r-1loqt21 r-37j5jr r-a023e6 r-16dba41 r-rjixqe r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-1fmj7o5 r-poiln3 r-b88u0q r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0" style="color: cornsilk;">{{account.followers.all.count}}</span></span> <span class="css-901oao css-16my406 r-9ilb82 r-poiln3 r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Following</span></span></a></div>
+                   <div class="css-1dbjc4n"><a href="{% url 'follower:follower-list' user_id=account.id %}" dir="auto" role="link" class="css-4rbku5 css-18t94o4 css-901oao r-1fmj7o5 r-1loqt21 r-37j5jr r-a023e6 r-16dba41 r-rjixqe r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-1fmj7o5 r-poiln3 r-b88u0q r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0" style="color: cornsilk;">{{account.following.all.count}}</span></span> <span class="css-901oao css-16my406 r-9ilb82 r-poiln3 r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Followers</span></span></a></div>
+                </div>
+                <!-- <div class="css-1dbjc4n r-1s2bzr4">
+                   <div class="css-1dbjc4n r-bt1l66">
+                      <div>
+                         <div class="css-1dbjc4n">
+                            <a href="/sportbible/followers_you_follow" aria-label="Pengikut yang Anda kenal" role="link" class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1loqt21 r-1ny4l3l">
+                               <div class="css-1dbjc4n r-18u37iz">
+                                  <div class="css-1dbjc4n r-18u37iz r-1q142lx r-1w6e6rj r-z80fyv r-1777fci r-1udh08x">
+                                     <div class="css-1dbjc4n r-1adg3ll r-z80fyv r-bztko3 r-19wmn03 r-1g40b8q">
+                                        <div class="r-1adg3ll r-13qz1uu" style="padding-bottom: 100%;"></div>
+                                        <div class="r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-ipm5af r-13qz1uu">
+                                           <div class="css-1dbjc4n r-1adg3ll r-1pi2tsx r-1wyvozj r-bztko3 r-u8s1d r-1v2oles r-desppf r-13qz1uu">
+                                              <div class="r-1adg3ll r-13qz1uu" style="padding-bottom: 100%;"></div>
+                                              <div class="r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-ipm5af r-13qz1uu">
+                                                 <div class="css-1dbjc4n r-sdzlij r-ggadg3 r-1udh08x r-u8s1d r-8jfcpp" style="height: calc(100% + 4px); width: calc(100% + 4px);">
+                                                    <div role="presentation" class="css-1dbjc4n r-1niwhzg r-1pi2tsx r-1ny4l3l r-13qz1uu">
+                                                       <div class="css-1dbjc4n r-sdzlij r-1wyvozj r-1udh08x r-633pao r-u8s1d r-1v2oles r-desppf" style="height: calc(100% - 4px); width: calc(100% - 4px);">
+                                                          <div class="css-1dbjc4n r-kemksi r-1pi2tsx r-13qz1uu"></div>
+                                                       </div>
+                                                       <div class="css-1dbjc4n r-sdzlij r-1wyvozj r-1udh08x r-633pao r-u8s1d r-1v2oles r-desppf" style="height: calc(100% - 6px); width: calc(100% - 6px);">
+                                                          <div class="css-1dbjc4n r-kemksi r-1pi2tsx r-13qz1uu"></div>
+                                                       </div>
+                                                       <div class="css-1dbjc4n r-sdzlij r-1wyvozj r-1udh08x r-633pao r-u8s1d r-1v2oles r-desppf" style="height: calc(100% - 6px); width: calc(100% - 6px);">
+                                                          <div class="css-1dbjc4n r-1adg3ll r-1udh08x">
+                                                             <div class="r-1adg3ll r-13qz1uu" style="padding-bottom: 100%;"></div>
+                                                             <div class="r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-ipm5af r-13qz1uu">
+                                                                <div aria-label="" class="css-1dbjc4n r-1p0dtai r-1mlwlqe r-1d2f490 r-1udh08x r-u8s1d r-zchlnj r-ipm5af r-417010">
+                                                                   <div class="css-1dbjc4n r-1niwhzg r-vvn4in r-u6sd8q r-4gszlv r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-zchlnj r-ipm5af r-13qz1uu r-1wyyakw" style="background-image: url(&quot;https://pbs.twimg.com/profile_images/1397655717440458754/29I0xdWG_normal.jpg&quot;);"></div>
+                                                                   <img alt="" draggable="true" src="https://pbs.twimg.com/profile_images/1397655717440458754/29I0xdWG_normal.jpg" class="css-9pa8cd">
+                                                                </div>
+                                                             </div>
+                                                          </div>
+                                                       </div>
+                                                       <div class="css-1dbjc4n r-sdzlij r-1wyvozj r-1udh08x r-u8s1d r-1v2oles r-desppf" style="height: calc(100% - 6px); width: calc(100% - 6px);">
+                                                          <div class="css-1dbjc4n r-172uzmj r-1pi2tsx r-1ny4l3l r-13qz1uu"></div>
+                                                       </div>
+                                                    </div>
+                                                 </div>
+                                              </div>
+                                           </div>
+                                        </div>
+                                     </div>
+                                     <div class="css-1dbjc4n r-1adg3ll r-z80fyv r-bztko3 r-19wmn03 r-136ojw6" style="margin-left: -12px;">
+                                        <div class="r-1adg3ll r-13qz1uu" style="padding-bottom: 100%;"></div>
+                                        <div class="r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-ipm5af r-13qz1uu">
+                                           <div class="css-1dbjc4n r-1adg3ll r-1pi2tsx r-1wyvozj r-bztko3 r-u8s1d r-1v2oles r-desppf r-13qz1uu">
+                                              <div class="r-1adg3ll r-13qz1uu" style="padding-bottom: 100%;"></div>
+                                              <div class="r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-ipm5af r-13qz1uu">
+                                                 <div class="css-1dbjc4n r-sdzlij r-ggadg3 r-1udh08x r-u8s1d r-8jfcpp" style="height: calc(100% + 4px); width: calc(100% + 4px);">
+                                                    <div role="presentation" class="css-1dbjc4n r-1niwhzg r-1pi2tsx r-1ny4l3l r-13qz1uu">
+                                                       <div class="css-1dbjc4n r-sdzlij r-1wyvozj r-1udh08x r-633pao r-u8s1d r-1v2oles r-desppf" style="height: calc(100% - 4px); width: calc(100% - 4px);">
+                                                          <div class="css-1dbjc4n r-kemksi r-1pi2tsx r-13qz1uu"></div>
+                                                       </div>
+                                                       <div class="css-1dbjc4n r-sdzlij r-1wyvozj r-1udh08x r-633pao r-u8s1d r-1v2oles r-desppf" style="height: calc(100% - 6px); width: calc(100% - 6px);">
+                                                          <div class="css-1dbjc4n r-kemksi r-1pi2tsx r-13qz1uu"></div>
+                                                       </div>
+                                                       <div class="css-1dbjc4n r-sdzlij r-1wyvozj r-1udh08x r-633pao r-u8s1d r-1v2oles r-desppf" style="height: calc(100% - 6px); width: calc(100% - 6px);">
+                                                          <div class="css-1dbjc4n r-1adg3ll r-1udh08x">
+                                                             <div class="r-1adg3ll r-13qz1uu" style="padding-bottom: 100%;"></div>
+                                                             <div class="r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-ipm5af r-13qz1uu">
+                                                                <div aria-label="" class="css-1dbjc4n r-1p0dtai r-1mlwlqe r-1d2f490 r-1udh08x r-u8s1d r-zchlnj r-ipm5af r-417010">
+                                                                   <div class="css-1dbjc4n r-1niwhzg r-vvn4in r-u6sd8q r-4gszlv r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-zchlnj r-ipm5af r-13qz1uu r-1wyyakw" style="background-image: url(&quot;https://pbs.twimg.com/profile_images/1418821672950501382/7EJ43NPj_normal.jpg&quot;);"></div>
+                                                                   <img alt="" draggable="true" src="https://pbs.twimg.com/profile_images/1418821672950501382/7EJ43NPj_normal.jpg" class="css-9pa8cd">
+                                                                </div>
+                                                             </div>
+                                                          </div>
+                                                       </div>
+                                                       <div class="css-1dbjc4n r-sdzlij r-1wyvozj r-1udh08x r-u8s1d r-1v2oles r-desppf" style="height: calc(100% - 6px); width: calc(100% - 6px);">
+                                                          <div class="css-1dbjc4n r-172uzmj r-1pi2tsx r-1ny4l3l r-13qz1uu"></div>
+                                                       </div>
+                                                    </div>
+                                                 </div>
+                                              </div>
+                                           </div>
+                                        </div>
+                                     </div>
+                                     <div class="css-1dbjc4n r-1adg3ll r-z80fyv r-bztko3 r-19wmn03 r-184en5c" style="margin-left: -12px;">
+                                        <div class="r-1adg3ll r-13qz1uu" style="padding-bottom: 100%;"></div>
+                                        <div class="r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-ipm5af r-13qz1uu">
+                                           <div class="css-1dbjc4n r-1adg3ll r-1pi2tsx r-1wyvozj r-bztko3 r-u8s1d r-1v2oles r-desppf r-13qz1uu">
+                                              <div class="r-1adg3ll r-13qz1uu" style="padding-bottom: 100%;"></div>
+                                              <div class="r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-ipm5af r-13qz1uu">
+                                                 <div class="css-1dbjc4n r-sdzlij r-ggadg3 r-1udh08x r-u8s1d r-8jfcpp" style="height: calc(100% + 4px); width: calc(100% + 4px);">
+                                                    <div role="presentation" class="css-1dbjc4n r-1niwhzg r-1pi2tsx r-1ny4l3l r-13qz1uu">
+                                                       <div class="css-1dbjc4n r-sdzlij r-1wyvozj r-1udh08x r-633pao r-u8s1d r-1v2oles r-desppf" style="height: calc(100% - 4px); width: calc(100% - 4px);">
+                                                          <div class="css-1dbjc4n r-kemksi r-1pi2tsx r-13qz1uu"></div>
+                                                       </div>
+                                                       <div class="css-1dbjc4n r-sdzlij r-1wyvozj r-1udh08x r-633pao r-u8s1d r-1v2oles r-desppf" style="height: calc(100% - 6px); width: calc(100% - 6px);">
+                                                          <div class="css-1dbjc4n r-kemksi r-1pi2tsx r-13qz1uu"></div>
+                                                       </div>
+                                                       <div class="css-1dbjc4n r-sdzlij r-1wyvozj r-1udh08x r-633pao r-u8s1d r-1v2oles r-desppf" style="height: calc(100% - 6px); width: calc(100% - 6px);">
+                                                          <div class="css-1dbjc4n r-1adg3ll r-1udh08x">
+                                                             <div class="r-1adg3ll r-13qz1uu" style="padding-bottom: 100%;"></div>
+                                                             <div class="r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-ipm5af r-13qz1uu">
+                                                                <div aria-label="" class="css-1dbjc4n r-1p0dtai r-1mlwlqe r-1d2f490 r-1udh08x r-u8s1d r-zchlnj r-ipm5af r-417010">
+                                                                   <div class="css-1dbjc4n r-1niwhzg r-vvn4in r-u6sd8q r-4gszlv r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-zchlnj r-ipm5af r-13qz1uu r-1wyyakw" style="background-image: url(&quot;https://pbs.twimg.com/profile_images/1466125716832104455/laILvJQz_normal.jpg&quot;);"></div>
+                                                                   <img alt="" draggable="true" src="https://pbs.twimg.com/profile_images/1466125716832104455/laILvJQz_normal.jpg" class="css-9pa8cd">
+                                                                </div>
+                                                             </div>
+                                                          </div>
+                                                       </div>
+                                                       <div class="css-1dbjc4n r-sdzlij r-1wyvozj r-1udh08x r-u8s1d r-1v2oles r-desppf" style="height: calc(100% - 6px); width: calc(100% - 6px);">
+                                                          <div class="css-1dbjc4n r-172uzmj r-1pi2tsx r-1ny4l3l r-13qz1uu"></div>
+                                                       </div>
+                                                    </div>
+                                                 </div>
+                                              </div>
+                                           </div>
+                                        </div>
+                                     </div>
+                                  </div>
+                                  <div dir="auto" class="css-901oao r-9ilb82 r-1wbh5a2 r-37j5jr r-n6v787 r-16dba41 r-1cwl3u0 r-19u6a5r r-bcqeeo r-qvutc0">Diikuti oleh <span class="css-901oao css-16my406 r-poiln3 r-16dba41 r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">The Reds Indonesia</span></span>, <span class="css-901oao css-16my406 r-poiln3 r-16dba41 r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">FPL GR</span></span>, dan 52 lainnya yang Anda ikuti</div>
+                               </div>
+                            </a>
+                         </div>
+                      </div>
+                   </div>
+                </div> -->
+             </div>
+          </div>
+          <nav aria-label="Timeline profil" role="navigation" class="css-1dbjc4n r-1awozwy r-1igl3o0 r-rull8r r-qklmqi r-18u37iz">
+            <div class="css-1dbjc4n r-1awozwy r-1ro0kt6 r-18u37iz r-16y2uox r-1pi2tsx r-1ny4l3l">
+               <div class="css-1dbjc4n r-4amgru r-orgf3d r-633pao r-u8s1d r-o7ynqc r-1i6wzkk r-184en5c" data-testid="ScrollSnap-prevButtonWrapper">
+                  <div aria-disabled="true" aria-label="Sebelumnya" role="button" class="css-1dbjc4n r-42olwf r-sdzlij r-1phboty r-rs99b7 r-2yi16 r-1qi8awa r-icoktb r-1ny4l3l r-o7ynqc r-6416eg r-lrvibr" style="background-color: rgba(15, 20, 25, 0.75);">
+                     <div dir="auto" class="css-901oao r-1awozwy r-jwli3a r-6koalj r-18u37iz r-16y2uox r-37j5jr r-a023e6 r-b88u0q r-1777fci r-rjixqe r-bcqeeo r-q4m81j r-qvutc0">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" class="r-13zfj0p r-4qtqp9 r-yyyyoo r-z80fyv r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-19wmn03">
+                           <g>
+                              <path d="M20 11H7.414l4.293-4.293c.39-.39.39-1.023 0-1.414s-1.023-.39-1.414 0l-6 6c-.39.39-.39 1.023 0 1.414l6 6c.195.195.45.293.707.293s.512-.098.707-.293c.39-.39.39-1.023 0-1.414L7.414 13H20c.553 0 1-.447 1-1s-.447-1-1-1z"></path>
+                           </g>
+                        </svg>
+                        <span class="css-901oao css-16my406 css-bfa6kz r-poiln3 r-a023e6 r-rjixqe r-bcqeeo r-qvutc0"></span>
+                     </div>
+                  </div>
+               </div>
+               <div class="css-1dbjc4n r-1adg3ll r-16y2uox r-1wbh5a2 r-1pi2tsx r-1udh08x" data-testid="ScrollSnap-SwipeableList">
+                  <div id="navTarget" role="tablist" class="css-1dbjc4n r-18u37iz r-16y2uox r-1wbh5a2 r-tzz3ar r-1pi2tsx r-lltvgl r-buy8e9 r-mfh4gg r-2eszeu r-hbs49y" data-testid="ScrollSnap-List" style="scroll-padding: 0px 36px;">
+                     <div role="presentation" class="css-1dbjc4n r-16y2uox r-6b64d0 r-cpa5s6">
+                        <a hx-get="{% url 'account:load-post-this-user' user_id=account.pk %}" hx-target="#contentTarget" aria-selected="true" role="tab" class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1awozwy r-1loqt21 r-6koalj r-eqz5dr r-16y2uox r-1h3ijdo r-1777fci r-s8bhmr r-1ny4l3l r-1qhn6m8 r-i023vh r-o7ynqc r-6416eg">
+                           <div dir="auto" class="css-901oao r-1fmj7o5 r-6koalj r-eqz5dr r-37j5jr r-a023e6 r-b88u0q r-1pi2tsx r-rjixqe r-bcqeeo r-1l7z4oj r-95jzfe r-bnwqim r-qvutc0">
+                              <span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Post</span>
+                              <div class="css-1dbjc4n r-1kihuf0 r-s224ru r-sdzlij r-1p0dtai r-xoduu5 r-hdaws3 r-s8bhmr r-u8s1d r-13qz1uu"></div>
+                           </div>
+                        </a>
+                     </div>
+                     <div role="presentation" class="css-1dbjc4n r-16y2uox r-6b64d0 r-cpa5s6">
+                        <a hx-get="{% url 'account:load-qask-this-user' user_id=account.pk %}" hx-target="#contentTarget" aria-selected="false" role="tab" tabindex="-1" class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1awozwy r-1loqt21 r-6koalj r-eqz5dr r-16y2uox r-1h3ijdo r-1777fci r-s8bhmr r-1ny4l3l r-1qhn6m8 r-i023vh r-o7ynqc r-6416eg">
+                           <div dir="auto" class="css-901oao r-9ilb82 r-6koalj r-eqz5dr r-37j5jr r-a023e6 r-majxgm r-1pi2tsx r-rjixqe r-bcqeeo r-1l7z4oj r-95jzfe r-bnwqim r-qvutc0">
+                              <span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Question Asked</span>
+                              <div class="css-1dbjc4n r-xoduu5"></div>
+                           </div>
+                        </a>
+                     </div>
+                     <div role="presentation" class="css-1dbjc4n r-16y2uox r-6b64d0 r-cpa5s6">
+                        <a hx-get="{% url 'account:load-qrep-this-user' user_id=account.pk %}" hx-target="#contentTarget" aria-selected="false" role="tab" tabindex="-1" class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1awozwy r-1loqt21 r-6koalj r-eqz5dr r-16y2uox r-1h3ijdo r-1777fci r-s8bhmr r-1ny4l3l r-1qhn6m8 r-i023vh r-o7ynqc r-6416eg">
+                           <div dir="auto" class="css-901oao r-9ilb82 r-6koalj r-eqz5dr r-37j5jr r-a023e6 r-majxgm r-1pi2tsx r-rjixqe r-bcqeeo r-1l7z4oj r-95jzfe r-bnwqim r-qvutc0">
+                              <span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Question Reply</span>
+                              <div class="css-1dbjc4n r-xoduu5"></div>
+                           </div>
+                        </a>
+                     </div>
+                     <div role="presentation" class="css-1dbjc4n r-16y2uox r-6b64d0 r-cpa5s6">
+                        <a hx-get="{% url 'account:load-blog-this-user' user_id=account.pk %}" hx-target="#contentTarget" aria-selected="false" role="tab" tabindex="-1" class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1awozwy r-1loqt21 r-6koalj r-eqz5dr r-16y2uox r-1h3ijdo r-1777fci r-s8bhmr r-1ny4l3l r-1qhn6m8 r-i023vh r-o7ynqc r-6416eg">
+                           <div dir="auto" class="css-901oao r-9ilb82 r-6koalj r-eqz5dr r-37j5jr r-a023e6 r-majxgm r-1pi2tsx r-rjixqe r-bcqeeo r-1l7z4oj r-95jzfe r-bnwqim r-qvutc0">
+                              <span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Blog</span>
+                              <div class="css-1dbjc4n r-xoduu5"></div>
+                           </div>
+                        </a>
+                     </div>
+                     <div role="presentation" class="css-1dbjc4n r-16y2uox r-6b64d0 r-cpa5s6">
+                        <a hx-get="{% url 'account:load-like-this-user' user_id=account.pk %}" hx-target="#contentTarget" aria-selected="false" role="tab" tabindex="-1" class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1awozwy r-1loqt21 r-6koalj r-eqz5dr r-16y2uox r-1h3ijdo r-1777fci r-s8bhmr r-1ny4l3l r-1qhn6m8 r-i023vh r-o7ynqc r-6416eg">
+                           <div dir="auto" class="css-901oao r-9ilb82 r-6koalj r-eqz5dr r-37j5jr r-a023e6 r-majxgm r-1pi2tsx r-rjixqe r-bcqeeo r-1l7z4oj r-95jzfe r-bnwqim r-qvutc0">
+                              <span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Liked</span>
+                              <div class="css-1dbjc4n r-xoduu5"></div>
+                           </div>
+                        </a>
+                     </div>
+                  </div>
+               </div>
+               <div class="css-1dbjc4n r-4amgru r-orgf3d r-633pao r-u8s1d r-zchlnj r-o7ynqc r-1i6wzkk r-184en5c" data-testid="ScrollSnap-nextButtonWrapper">
+                  <div aria-disabled="true" aria-label="Selanjutnya" role="button" class="css-1dbjc4n r-42olwf r-sdzlij r-1phboty r-rs99b7 r-2yi16 r-1qi8awa r-icoktb r-1ny4l3l r-o7ynqc r-6416eg r-lrvibr" style="background-color: rgba(15, 20, 25, 0.75);">
+                     <div dir="auto" class="css-901oao r-1awozwy r-jwli3a r-6koalj r-18u37iz r-16y2uox r-37j5jr r-a023e6 r-b88u0q r-1777fci r-rjixqe r-bcqeeo r-q4m81j r-qvutc0">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" class="r-13zfj0p r-4qtqp9 r-yyyyoo r-z80fyv r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-19wmn03">
+                           <g>
+                              <path d="M19.707 11.293l-6-6c-.39-.39-1.023-.39-1.414 0s-.39 1.023 0 1.414L16.586 11H4c-.553 0-1 .447-1 1s.447 1 1 1h12.586l-4.293 4.293c-.39.39-.39 1.023 0 1.414.195.195.45.293.707.293s.512-.098.707-.293l6-6c.39-.39.39-1.023 0-1.414z"></path>
+                           </g>
+                        </svg>
+                        <span class="css-901oao css-16my406 css-bfa6kz r-poiln3 r-a023e6 r-rjixqe r-bcqeeo r-qvutc0"></span>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </nav>
+         <!--POST-->
+          <div class="css-1dbjc4n mt-2" id="contentTarget">
+            {% for result in posts %}
+            <div class="tweet-wrap infinite-item ">
+               <article style="padding-right: 18px; padding-left: 18px; overflow: hidden; flex-direction: row; display: flex; font-size: 20px;">
+                 <div class="css-1dbjc4n r-1awozwy r-1hwvwag r-18kxxzh r-1b7u577">
+                   <a href="{% url 'account:view' user_id=result.author.profile.pk %}">
+                       <img class="mr-3 circle-rounded avator" style="float: left;margin-right: 1rem;" width="50" height="50" src="{{ result.author.profile_image.url }}" />
+                   </a>
+                 </div>
+                 <div class="css-1dbjc4n r-1iusvr4 r-16y2uox r-1777fci r-kzbkwu">
+                   <!-- User -->
+                   <div class="css-1dbjc4n">
+                     <div class="css-1dbjc4n r-zl2h9q">
+                       <div class="css-1dbjc4n r-k4xj1c r-18u37iz r-1wtj0ep">
+                         <div class="css-1dbjc4n r-1d09ksm r-18u37iz r-1wbh5a2">
+                           <div class="css-1dbjc4n r-1wbh5a2 r-dnmrzs">
+                             <a href="{% url 'account:view' user_id=result.author.profile.pk %}" 
+                             class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1loqt21 r-1wbh5a2 r-dnmrzs r-1ny4l3l">
+                               <span class="post-name-color"><strong>{{result.author.profile.fullname}}</strong>
+                                 <span style="color:#657786;"> @{{ result.author }} </span>
+                               </span>
+                             </a>
+                           </div>
+                           
+                           <span style="color:#657786;">&nbsp;&nbsp; {{ result.created_on|naturaltime|shorten_naturaltime }}</span>
+                         </div>
+                         <div class="css-1dbjc4n r-1joea0r">
+                           <!-- OPTIONS MARKER -->
+                         </div>
+                       </div>
+                     </div>
+                     <div></div>
+                   </div>
+         
+                   <!-- Body -->
+                   <div style="position: relative;" >
+                     <a href="{% url 'post:post-detail' result.pk %}" style="text-decoration: none;">
+                       <span style="position: absolute;width: 100%;height: 100%;top: 0;left: 0;z-index: 1;"></span> 
+                     </a>
+                     <p id="body-p-{{results.pk}}" class="post-name-color">{{ result.body|safe }}</p>
+                   </div>
+                   {% if result.image.count == 1 %}
+                     <div class="css-1dbjc4n">
+                       <div class="css-1dbjc4n" style="margin-top: 12px; overflow: hidden; border-radius: 16px;">
+                         <div class="css-1dbjc4n r-1kqtdi0 r-1867qdf r-1phboty r-rs99b7 r-1ny4l3l r-1udh08x r-o7ynqc r-6416eg">
+                           <img src="{{ result.image.all.0.image.url }}" class="css-9pa8cd" />
+                           
+                         </div>
+                       </div>
+                     </div>
+                   {% endif %}
+                   {% if result.image.count == 2 %}
+                     <div class="css-1dbjc4n">
+                       <div class="css-1dbjc4n" style="margin-top: 12px; overflow: hidden; border-radius: 16px;">
+                         <div class="css-1dbjc4n r-18u37iz r-1pi2tsx r-13qz1uu">
+                           <div class="css-1dbjc4n r-1iusvr4 r-16y2uox r-a5pmau r-bnwqim">
+                             <img src="{{ result.image.all.0.image.url }}" class="css-9pa8cd" />
+                           </div>
+                           <div class="css-1dbjc4n r-1iusvr4 r-16y2uox r-bnwqim">
+                             <img src="{{ result.image.all.1.image.url }}" class="css-9pa8cd" />
+                           </div>
+                         </div>
+                       </div>
+                     </div>
+                   {% endif %}
+                   {% if result.image.count == 3 %}
+                     <div class="css-1dbjc4n">
+                       <div class="css-1dbjc4n" style="margin-top: 12px; overflow: hidden; border-radius: 16px;">
+                         <div class="css-1dbjc4n r-18u37iz r-1pi2tsx r-13qz1uu">
+                           <!-- Left Part -->
+                           <div class="css-1dbjc4n r-1iusvr4 r-16y2uox r-a5pmau r-bnwqim">
+                             <img src="{{ result.image.all.0.image.url }}" class="css-9pa8cd" />
+                           </div>
+                           <!-- Right Part -->
+                           <div class="css-1dbjc4n r-1iusvr4 r-eqz5dr r-16y2uox">
+                             <div class="css-1dbjc4n r-1iusvr4 r-16y2uox r-zl2h9q r-bnwqim">
+                               <div class="css-1dbjc4n r-1p0dtai r-1d2f490 r-1udh08x r-u8s1d r-zchlnj r-ipm5af">
+                                 <div class="css-1dbjc4n r-1p0dtai r-1mlwlqe r-1d2f490 r-p1pxzi r-11wrixw r-61z16t r-1udh08x r-u8s1d r-zchlnj r-ipm5af r-417010">
+                                   <img src="{{ result.image.all.1.image.url }}" class="css-9pa8cd" />
+                                 </div>
+                               </div>
+                             </div>
+                             <div class="css-1dbjc4n r-1iusvr4 r-16y2uox r-bnwqim">
+                              <div class="css-1dbjc4n r-1p0dtai r-1d2f490 r-1udh08x r-u8s1d r-zchlnj r-ipm5af">
+                                 <div class="css-1dbjc4n r-1p0dtai r-1mlwlqe r-1d2f490 r-p1pxzi r-11wrixw r-61z16t r-1udh08x r-u8s1d r-zchlnj r-ipm5af r-417010">
+                                   <img src="{{ result.image.all.2.image.url }}" class="css-9pa8cd" />
+                                 </div>
+                               </div>
+                             </div>
+                           </div>
+                         </div>
+                       </div>
+                     </div>
+                   {% endif %}
+                   {% if result.image.count == 4 %}
+                     <div class="css-1dbjc4n">
+                      <div aria-labelledby="id__rvxauwc65jg id__yvu8doqubr" class="css-1dbjc4n" id="id__2fl5t0jgzmb">
+                         <div class="css-1dbjc4n r-1s2bzr4">
+                            <div class="css-1dbjc4n r-1kqtdi0 r-1867qdf r-1phboty r-rs99b7 r-1ny4l3l r-1udh08x r-o7ynqc r-6416eg">
+                               <div class="css-1dbjc4n">
+                                  <div class="css-1dbjc4n r-1adg3ll r-1udh08x">
+                                     <div class="r-1adg3ll r-13qz1uu" style="padding-bottom: 56.25%;"></div>
+                                     <div class="r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-ipm5af r-13qz1uu">
+                                        <div class="css-1dbjc4n r-18u37iz r-1pi2tsx r-13qz1uu">
+                                           <div class="css-1dbjc4n r-1iusvr4 r-eqz5dr r-16y2uox r-a5pmau">
+                                              <div class="css-1dbjc4n r-1iusvr4 r-16y2uox r-zl2h9q r-bnwqim">
+                                                 <a href="#" role="link" class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1loqt21 r-1pi2tsx r-1ny4l3l">
+                                                    <div class="css-1dbjc4n r-1p0dtai r-1d2f490 r-1udh08x r-u8s1d r-zchlnj r-ipm5af" style="">
+                                                       <div aria-label="Gambar" class="css-1dbjc4n r-1p0dtai r-1mlwlqe r-1d2f490 r-p1pxzi r-11wrixw r-61z16t r-1udh08x r-u8s1d r-zchlnj r-ipm5af r-417010" style="margin-top: 0px;" data-testid="tweetPhoto">
+                                                          <div class="css-1dbjc4n r-1niwhzg r-vvn4in r-u6sd8q r-4gszlv r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-zchlnj r-ipm5af r-13qz1uu r-1wyyakw" style="background-image: url(&quot;{{ result.image.all.0.image.url }}&quot;);"></div>
+                                                          <img alt="Gambar" draggable="true" src="{{ result.image.all.0.image.url }}" class="css-9pa8cd">
+                                                       </div>
+                                                    </div>
+                                                 </a>
+                                              </div>
+                                              <div class="css-1dbjc4n r-1iusvr4 r-16y2uox r-bnwqim">
+                                                 <a href="#" role="link" class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1loqt21 r-1pi2tsx r-1ny4l3l">
+                                                    <div class="css-1dbjc4n r-1p0dtai r-1d2f490 r-1udh08x r-u8s1d r-zchlnj r-ipm5af" style="">
+                                                       <div aria-label="Gambar" class="css-1dbjc4n r-1p0dtai r-1mlwlqe r-1d2f490 r-p1pxzi r-11wrixw r-61z16t r-1udh08x r-u8s1d r-zchlnj r-ipm5af r-417010" style="margin-top: 0px;" data-testid="tweetPhoto">
+                                                          <div class="css-1dbjc4n r-1niwhzg r-vvn4in r-u6sd8q r-4gszlv r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-zchlnj r-ipm5af r-13qz1uu r-1wyyakw" style="background-image: url(&quot;{{ result.image.all.1.image.url }}&quot;);"></div>
+                                                          <img alt="Gambar" draggable="true" src="{{ result.image.all.1.image.url }}" class="css-9pa8cd">
+                                                       </div>
+                                                    </div>
+                                                 </a>
+                                              </div>
+                                           </div>
+                                           <div class="css-1dbjc4n r-1iusvr4 r-eqz5dr r-16y2uox">
+                                              <div class="css-1dbjc4n r-1iusvr4 r-16y2uox r-zl2h9q r-bnwqim">
+                                                 <a href="#" role="link" class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1loqt21 r-1pi2tsx r-1ny4l3l">
+                                                    <div class="css-1dbjc4n r-1p0dtai r-1d2f490 r-1udh08x r-u8s1d r-zchlnj r-ipm5af" style="">
+                                                       <div aria-label="Gambar" class="css-1dbjc4n r-1p0dtai r-1mlwlqe r-1d2f490 r-p1pxzi r-11wrixw r-61z16t r-1udh08x r-u8s1d r-zchlnj r-ipm5af r-417010" style="margin-top: 0px;" data-testid="tweetPhoto">
+                                                          <div class="css-1dbjc4n r-1niwhzg r-vvn4in r-u6sd8q r-4gszlv r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-zchlnj r-ipm5af r-13qz1uu r-1wyyakw" style="background-image: url(&quot;{{ result.image.all.2.image.url }}&quot;);"></div>
+                                                          <img alt="Gambar" draggable="true" src="{{ result.image.all.2.image.url }}" class="css-9pa8cd">
+                                                       </div>
+                                                    </div>
+                                                 </a>
+                                              </div>
+                                              <div class="css-1dbjc4n r-1iusvr4 r-16y2uox r-bnwqim">
+                                                 <a href="#" role="link" class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1loqt21 r-1pi2tsx r-1ny4l3l">
+                                                    <div class="css-1dbjc4n r-1p0dtai r-1d2f490 r-1udh08x r-u8s1d r-zchlnj r-ipm5af" style="">
+                                                       <div aria-label="Gambar" class="css-1dbjc4n r-1p0dtai r-1mlwlqe r-1d2f490 r-p1pxzi r-11wrixw r-61z16t r-1udh08x r-u8s1d r-zchlnj r-ipm5af r-417010" style="margin-top: 0px;" data-testid="tweetPhoto">
+                                                          <div class="css-1dbjc4n r-1niwhzg r-vvn4in r-u6sd8q r-4gszlv r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-zchlnj r-ipm5af r-13qz1uu r-1wyyakw" style="background-image: url(&quot;{{ result.image.all.3.image.url }}&quot;);"></div>
+                                                          <img alt="Gambar" draggable="true" src="{{ result.image.all.3.image.url }}" class="css-9pa8cd">
+                                                       </div>
+                                                    </div>
+                                                 </a>
+                                              </div>
+                                           </div>
+                                        </div>
+                                     </div>
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                     </div>
+                       
+                   {% endif %}
+                   {% if result.has_url %}
+                     <div class="css-1dbjc4n" hx-get="{% url 'post:load-url-preview' result.pk %}" hx-trigger="revealed">
+                      
+                     </div>
+                   {% endif %}
+                   <!-- Count -->
+                   <div class="css-1dbjc4n">
+                     <div class="css-1dbjc4n r-1ta3fxp r-18u37iz r-1wtj0ep r-1s2bzr4 r-1mdbhws">
+                       <div class="css-1dbjc4n r-18u37iz r-1h0z5md">
+                         <div class="css-18t94o4 css-1dbjc4n r-1777fci r-bt1l66 r-1ny4l3l r-bztko3 r-lrvibr">
+                           <div class="css-901oao r-1awozwy r-9ilb82 r-6koalj r-37j5jr r-a023e6 r-16dba41 r-1h0z5md r-rjixqe r-bcqeeo r-o7ynqc r-clp7b1 r-3s2u2q r-qvutc0 comment-hoverable">
+                             <div class="css-1dbjc4n r-xoduu5">
+                               <svg class="feather feather-message-circle sc-dnqmqq jxshSx r-4qtqp9 r-yyyyoo r-1xvli5t r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1hdv0qi" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                             </div>
+                             <div class="css-1dbjc4n r-xoduu5 r-1udh08x">
+                               <span style="padding-right: 12px; padding-left: 12px;">{{result.comment_parent.count}}</span>
+                             </div>
+                           </div>
+                         </div>
+                         
+                       </div>
+         
+                       <div class="css-1dbjc4n r-18u37iz r-1h0z5md">
+                         <div class="css-18t94o4 css-1dbjc4n r-1777fci r-bt1l66 r-1ny4l3l r-bztko3 r-lrvibr">
+                           <div class="css-901oao r-1awozwy r-9ilb82 r-6koalj r-37j5jr r-a023e6 r-16dba41 r-1h0z5md r-rjixqe r-bcqeeo r-o7ynqc r-clp7b1 r-3s2u2q r-qvutc0 rt-hoverable">
+                             <div class="css-1dbjc4n r-xoduu5">
+                               <svg class="feather feather-repeat sc-dnqmqq jxshSx r-4qtqp9 r-yyyyoo r-1xvli5t r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1hdv0qi" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
+                             </div>
+                             <div class="css-1dbjc4n r-xoduu5 r-1udh08x">
+                               <span id="rt-count-{{result.pk}}" style="padding-right: 12px; padding-left: 12px;">0</span>
+                             </div>
+                           </div>
+                         </div>
+                         
+                       </div>
+         
+                       <div class="css-1dbjc4n r-18u37iz r-1h0z5md" hx-post="{% url 'post:post-like' result.pk %}">
+                         <div class="css-18t94o4 css-1dbjc4n r-1777fci r-bt1l66 r-1ny4l3l r-bztko3 r-lrvibr">
+                           <div class="css-901oao r-1awozwy r-9ilb82 r-6koalj r-37j5jr r-a023e6 r-16dba41 r-1h0z5md r-rjixqe r-bcqeeo r-o7ynqc r-clp7b1 r-3s2u2q r-qvutc0 like-hoverable">
+                             <div class="css-1dbjc4n r-xoduu5">
+                                <span class="{% if request.user in result.likes.all %} heart-clicked {% else %} heart {% endif %}" id="like-button-{{result.pk}}"><i class='fas fa-heart'></i></span>
+                             </div>
+                             <div class="css-1dbjc4n r-xoduu5 r-1udh08x">
+                               <span id="likes-count-{{result.pk}}" style="padding-right: 12px; padding-left: 12px;">{{ result.likes.all.count }}</span>
+                             </div>
+                           </div>
+                         </div>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+                 
+               </article>
+            </div>
+            {% endfor %}
+          </div>
+       </div>
+    </div>
+ </div>
+ 
+ {% endblock post %}

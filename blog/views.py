@@ -15,7 +15,7 @@ import re
 from .models import Blog
 from .forms import BlogForm
 
-from post.views import fillRightNav
+
 
 CLEANR = re.compile('<.*?>')
 
