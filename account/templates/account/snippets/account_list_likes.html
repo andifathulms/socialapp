@@ -1,6 +1,7 @@
 {% load humanize %}
 {% load custom_tags %}
 
+{% if results %}
 {% for result in results %}
 <div class="tweet-wrap infinite-item ">
 <article style="padding-right: 18px; padding-left: 18px; overflow: hidden; flex-direction: row; display: flex; font-size: 20px;">
@@ -216,3 +217,6 @@
 {% endif %}
 </div>
 {% endfor %}
+{% else %}
+<div hx-get="{% url 'account:load-like-header' user_id=this_user.pk %}" hx-target="#navTarget" hx-trigger="load">Nothing here yet</div>
+{% endif %}

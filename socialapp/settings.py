@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'mptt',
     'django_editorjs',
+    'django_htmx',
 
     'personal',
     'account',
@@ -92,6 +93,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django_htmx.middleware.HtmxMiddleware",
 ]
 
 ROOT_URLCONF = 'socialapp.urls'

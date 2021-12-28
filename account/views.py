@@ -275,6 +275,9 @@ def account_view(request, *args, **kwargs):
 		context['posts'] = join_pagination
 
 		fillRightNav(request,context)
+		if request.htmx:
+			return render(request, "account/snippets/partial_post_list.html", context)
+
 		return render(request, "account/account_profile.html", context)
 
 class load_blog_this_user(LoginRequiredMixin, View):
@@ -283,6 +286,7 @@ class load_blog_this_user(LoginRequiredMixin, View):
 		user = Account.objects.get(pk=user_id)
 		blogs = Blog.objects.filter(author=user)
 		context["blogs"] = blogs
+		context["user"] = user
 		
 		return render(request, 'account/snippets/account_list_blog.html', context)
 
@@ -292,7 +296,7 @@ class load_qask_this_user(LoginRequiredMixin, View):
 		user = Account.objects.get(pk=user_id)
 		qasks = ForumPost.objects.filter(author=user)
 		context["results"] = qasks
-		
+		context["user"] = user
 		return render(request, 'account/snippets/account_list_qask.html', context)
 
 class load_qrep_this_user(LoginRequiredMixin, View):
@@ -301,7 +305,7 @@ class load_qrep_this_user(LoginRequiredMixin, View):
 		user = Account.objects.get(pk=user_id)
 		qreps = ForumReply.objects.filter(author=user)
 		context["results"] = qreps
-		
+		context["user"] = user
 		return render(request, 'account/snippets/account_list_qrep.html', context)
 
 class load_post_this_user(LoginRequiredMixin, View):
@@ -310,7 +314,7 @@ class load_post_this_user(LoginRequiredMixin, View):
 		user = Account.objects.get(pk=user_id)
 		posts   = Post.objects.filter(author=user).order_by('-created_on')
 		context["results"] = posts
-		
+		context["user"] = user
 		return render(request, 'account/snippets/account_list_post.html', context)
 
 class load_like_this_user(LoginRequiredMixin, View):

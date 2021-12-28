@@ -1,0 +1,220 @@
+{% load humanize %}
+{% load custom_tags %}
+
+{% for result in posts %}
+
+{% if forloop.last %}
+<div class="tweet-wrap" hx-get="{% url 'account:view' user_id=result.author.profile.pk %}?page=2" hx-trigger="revealed" hx-swap="afterend" hx-target="this">
+{% else %}
+<div class="tweet-wrap">
+{% endif %}
+    <article style="padding-right: 18px; padding-left: 18px; overflow: hidden; flex-direction: row; display: flex; font-size: 20px;">
+        <div class="css-1dbjc4n r-1awozwy r-1hwvwag r-18kxxzh r-1b7u577">
+        <a href="{% url 'account:view' user_id=result.author.profile.pk %}">
+            <img class="mr-3 circle-rounded avator" style="float: left;margin-right: 1rem;" width="50" height="50" src="{{ result.author.profile_image.url }}" />
+        </a>
+        </div>
+        <div class="css-1dbjc4n r-1iusvr4 r-16y2uox r-1777fci r-kzbkwu">
+        <!-- User -->
+        <div class="css-1dbjc4n">
+            <div class="css-1dbjc4n r-zl2h9q">
+            <div class="css-1dbjc4n r-k4xj1c r-18u37iz r-1wtj0ep">
+                <div class="css-1dbjc4n r-1d09ksm r-18u37iz r-1wbh5a2">
+                <div class="css-1dbjc4n r-1wbh5a2 r-dnmrzs">
+                    <a href="{% url 'account:view' user_id=result.author.profile.pk %}" 
+                    class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1loqt21 r-1wbh5a2 r-dnmrzs r-1ny4l3l">
+                    <span class="post-name-color"><strong>{{result.author.profile.fullname}}</strong>
+                        <span style="color:#657786;"> @{{ result.author }} </span>
+                    </span>
+                    </a>
+                </div>
+                
+                <span style="color:#657786;">&nbsp;&nbsp; {{ result.created_on|naturaltime|shorten_naturaltime }}</span>
+                </div>
+                <div class="css-1dbjc4n r-1joea0r">
+                <!-- OPTIONS MARKER -->
+                </div>
+            </div>
+            </div>
+            <div></div>
+        </div>
+
+        <!-- Body -->
+        <div style="position: relative;" >
+            <a href="{% url 'post:post-detail' result.pk %}" style="text-decoration: none;">
+            <span style="position: absolute;width: 100%;height: 100%;top: 0;left: 0;z-index: 1;"></span> 
+            </a>
+            <p id="body-p-{{results.pk}}" class="post-name-color">{{ result.body|safe }}</p>
+        </div>
+        {% if result.image.count == 1 %}
+            <div class="css-1dbjc4n">
+            <div class="css-1dbjc4n" style="margin-top: 12px; overflow: hidden; border-radius: 16px;">
+                <div class="css-1dbjc4n r-1kqtdi0 r-1867qdf r-1phboty r-rs99b7 r-1ny4l3l r-1udh08x r-o7ynqc r-6416eg">
+                <img src="{{ result.image.all.0.image.url }}" class="css-9pa8cd" />
+                
+                </div>
+            </div>
+            </div>
+        {% endif %}
+        {% if result.image.count == 2 %}
+            <div class="css-1dbjc4n">
+            <div class="css-1dbjc4n" style="margin-top: 12px; overflow: hidden; border-radius: 16px;">
+                <div class="css-1dbjc4n r-18u37iz r-1pi2tsx r-13qz1uu">
+                <div class="css-1dbjc4n r-1iusvr4 r-16y2uox r-a5pmau r-bnwqim">
+                    <img src="{{ result.image.all.0.image.url }}" class="css-9pa8cd" />
+                </div>
+                <div class="css-1dbjc4n r-1iusvr4 r-16y2uox r-bnwqim">
+                    <img src="{{ result.image.all.1.image.url }}" class="css-9pa8cd" />
+                </div>
+                </div>
+            </div>
+            </div>
+        {% endif %}
+        {% if result.image.count == 3 %}
+            <div class="css-1dbjc4n">
+            <div class="css-1dbjc4n" style="margin-top: 12px; overflow: hidden; border-radius: 16px;">
+                <div class="css-1dbjc4n r-18u37iz r-1pi2tsx r-13qz1uu">
+                <!-- Left Part -->
+                <div class="css-1dbjc4n r-1iusvr4 r-16y2uox r-a5pmau r-bnwqim">
+                    <img src="{{ result.image.all.0.image.url }}" class="css-9pa8cd" />
+                </div>
+                <!-- Right Part -->
+                <div class="css-1dbjc4n r-1iusvr4 r-eqz5dr r-16y2uox">
+                    <div class="css-1dbjc4n r-1iusvr4 r-16y2uox r-zl2h9q r-bnwqim">
+                    <div class="css-1dbjc4n r-1p0dtai r-1d2f490 r-1udh08x r-u8s1d r-zchlnj r-ipm5af">
+                        <div class="css-1dbjc4n r-1p0dtai r-1mlwlqe r-1d2f490 r-p1pxzi r-11wrixw r-61z16t r-1udh08x r-u8s1d r-zchlnj r-ipm5af r-417010">
+                        <img src="{{ result.image.all.1.image.url }}" class="css-9pa8cd" />
+                        </div>
+                    </div>
+                    </div>
+                    <div class="css-1dbjc4n r-1iusvr4 r-16y2uox r-bnwqim">
+                    <div class="css-1dbjc4n r-1p0dtai r-1d2f490 r-1udh08x r-u8s1d r-zchlnj r-ipm5af">
+                        <div class="css-1dbjc4n r-1p0dtai r-1mlwlqe r-1d2f490 r-p1pxzi r-11wrixw r-61z16t r-1udh08x r-u8s1d r-zchlnj r-ipm5af r-417010">
+                        <img src="{{ result.image.all.2.image.url }}" class="css-9pa8cd" />
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+        {% endif %}
+        {% if result.image.count == 4 %}
+            <div class="css-1dbjc4n">
+            <div aria-labelledby="id__rvxauwc65jg id__yvu8doqubr" class="css-1dbjc4n" id="id__2fl5t0jgzmb">
+                <div class="css-1dbjc4n r-1s2bzr4">
+                <div class="css-1dbjc4n r-1kqtdi0 r-1867qdf r-1phboty r-rs99b7 r-1ny4l3l r-1udh08x r-o7ynqc r-6416eg">
+                    <div class="css-1dbjc4n">
+                        <div class="css-1dbjc4n r-1adg3ll r-1udh08x">
+                            <div class="r-1adg3ll r-13qz1uu" style="padding-bottom: 56.25%;"></div>
+                            <div class="r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-ipm5af r-13qz1uu">
+                            <div class="css-1dbjc4n r-18u37iz r-1pi2tsx r-13qz1uu">
+                                <div class="css-1dbjc4n r-1iusvr4 r-eqz5dr r-16y2uox r-a5pmau">
+                                    <div class="css-1dbjc4n r-1iusvr4 r-16y2uox r-zl2h9q r-bnwqim">
+                                        <a href="#" role="link" class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1loqt21 r-1pi2tsx r-1ny4l3l">
+                                        <div class="css-1dbjc4n r-1p0dtai r-1d2f490 r-1udh08x r-u8s1d r-zchlnj r-ipm5af" style="">
+                                            <div aria-label="Gambar" class="css-1dbjc4n r-1p0dtai r-1mlwlqe r-1d2f490 r-p1pxzi r-11wrixw r-61z16t r-1udh08x r-u8s1d r-zchlnj r-ipm5af r-417010" style="margin-top: 0px;" data-testid="tweetPhoto">
+                                                <div class="css-1dbjc4n r-1niwhzg r-vvn4in r-u6sd8q r-4gszlv r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-zchlnj r-ipm5af r-13qz1uu r-1wyyakw" style="background-image: url(&quot;{{ result.image.all.0.image.url }}&quot;);"></div>
+                                                <img alt="Gambar" draggable="true" src="{{ result.image.all.0.image.url }}" class="css-9pa8cd">
+                                            </div>
+                                        </div>
+                                        </a>
+                                    </div>
+                                    <div class="css-1dbjc4n r-1iusvr4 r-16y2uox r-bnwqim">
+                                        <a href="#" role="link" class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1loqt21 r-1pi2tsx r-1ny4l3l">
+                                        <div class="css-1dbjc4n r-1p0dtai r-1d2f490 r-1udh08x r-u8s1d r-zchlnj r-ipm5af" style="">
+                                            <div aria-label="Gambar" class="css-1dbjc4n r-1p0dtai r-1mlwlqe r-1d2f490 r-p1pxzi r-11wrixw r-61z16t r-1udh08x r-u8s1d r-zchlnj r-ipm5af r-417010" style="margin-top: 0px;" data-testid="tweetPhoto">
+                                                <div class="css-1dbjc4n r-1niwhzg r-vvn4in r-u6sd8q r-4gszlv r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-zchlnj r-ipm5af r-13qz1uu r-1wyyakw" style="background-image: url(&quot;{{ result.image.all.1.image.url }}&quot;);"></div>
+                                                <img alt="Gambar" draggable="true" src="{{ result.image.all.1.image.url }}" class="css-9pa8cd">
+                                            </div>
+                                        </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="css-1dbjc4n r-1iusvr4 r-eqz5dr r-16y2uox">
+                                    <div class="css-1dbjc4n r-1iusvr4 r-16y2uox r-zl2h9q r-bnwqim">
+                                        <a href="#" role="link" class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1loqt21 r-1pi2tsx r-1ny4l3l">
+                                        <div class="css-1dbjc4n r-1p0dtai r-1d2f490 r-1udh08x r-u8s1d r-zchlnj r-ipm5af" style="">
+                                            <div aria-label="Gambar" class="css-1dbjc4n r-1p0dtai r-1mlwlqe r-1d2f490 r-p1pxzi r-11wrixw r-61z16t r-1udh08x r-u8s1d r-zchlnj r-ipm5af r-417010" style="margin-top: 0px;" data-testid="tweetPhoto">
+                                                <div class="css-1dbjc4n r-1niwhzg r-vvn4in r-u6sd8q r-4gszlv r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-zchlnj r-ipm5af r-13qz1uu r-1wyyakw" style="background-image: url(&quot;{{ result.image.all.2.image.url }}&quot;);"></div>
+                                                <img alt="Gambar" draggable="true" src="{{ result.image.all.2.image.url }}" class="css-9pa8cd">
+                                            </div>
+                                        </div>
+                                        </a>
+                                    </div>
+                                    <div class="css-1dbjc4n r-1iusvr4 r-16y2uox r-bnwqim">
+                                        <a href="#" role="link" class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1loqt21 r-1pi2tsx r-1ny4l3l">
+                                        <div class="css-1dbjc4n r-1p0dtai r-1d2f490 r-1udh08x r-u8s1d r-zchlnj r-ipm5af" style="">
+                                            <div aria-label="Gambar" class="css-1dbjc4n r-1p0dtai r-1mlwlqe r-1d2f490 r-p1pxzi r-11wrixw r-61z16t r-1udh08x r-u8s1d r-zchlnj r-ipm5af r-417010" style="margin-top: 0px;" data-testid="tweetPhoto">
+                                                <div class="css-1dbjc4n r-1niwhzg r-vvn4in r-u6sd8q r-4gszlv r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-zchlnj r-ipm5af r-13qz1uu r-1wyyakw" style="background-image: url(&quot;{{ result.image.all.3.image.url }}&quot;);"></div>
+                                                <img alt="Gambar" draggable="true" src="{{ result.image.all.3.image.url }}" class="css-9pa8cd">
+                                            </div>
+                                        </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+            
+        {% endif %}
+        {% if result.has_url %}
+            <div class="css-1dbjc4n" hx-get="{% url 'post:load-url-preview' result.pk %}" hx-trigger="revealed">
+            
+            </div>
+        {% endif %}
+        <!-- Count -->
+        <div class="css-1dbjc4n">
+            <div class="css-1dbjc4n r-1ta3fxp r-18u37iz r-1wtj0ep r-1s2bzr4 r-1mdbhws">
+            <div class="css-1dbjc4n r-18u37iz r-1h0z5md">
+                <div class="css-18t94o4 css-1dbjc4n r-1777fci r-bt1l66 r-1ny4l3l r-bztko3 r-lrvibr">
+                <div class="css-901oao r-1awozwy r-9ilb82 r-6koalj r-37j5jr r-a023e6 r-16dba41 r-1h0z5md r-rjixqe r-bcqeeo r-o7ynqc r-clp7b1 r-3s2u2q r-qvutc0 comment-hoverable">
+                    <div class="css-1dbjc4n r-xoduu5">
+                    <svg class="feather feather-message-circle sc-dnqmqq jxshSx r-4qtqp9 r-yyyyoo r-1xvli5t r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1hdv0qi" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                    </div>
+                    <div class="css-1dbjc4n r-xoduu5 r-1udh08x">
+                    <span style="padding-right: 12px; padding-left: 12px;">{{result.comment_parent.count}}</span>
+                    </div>
+                </div>
+                </div>
+                
+            </div>
+
+            <div class="css-1dbjc4n r-18u37iz r-1h0z5md">
+                <div class="css-18t94o4 css-1dbjc4n r-1777fci r-bt1l66 r-1ny4l3l r-bztko3 r-lrvibr">
+                <div class="css-901oao r-1awozwy r-9ilb82 r-6koalj r-37j5jr r-a023e6 r-16dba41 r-1h0z5md r-rjixqe r-bcqeeo r-o7ynqc r-clp7b1 r-3s2u2q r-qvutc0 rt-hoverable">
+                    <div class="css-1dbjc4n r-xoduu5">
+                    <svg class="feather feather-repeat sc-dnqmqq jxshSx r-4qtqp9 r-yyyyoo r-1xvli5t r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1hdv0qi" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
+                    </div>
+                    <div class="css-1dbjc4n r-xoduu5 r-1udh08x">
+                    <span id="rt-count-{{result.pk}}" style="padding-right: 12px; padding-left: 12px;">0</span>
+                    </div>
+                </div>
+                </div>
+                
+            </div>
+
+            <div class="css-1dbjc4n r-18u37iz r-1h0z5md" hx-post="{% url 'post:post-like' result.pk %}">
+                <div class="css-18t94o4 css-1dbjc4n r-1777fci r-bt1l66 r-1ny4l3l r-bztko3 r-lrvibr">
+                <div class="css-901oao r-1awozwy r-9ilb82 r-6koalj r-37j5jr r-a023e6 r-16dba41 r-1h0z5md r-rjixqe r-bcqeeo r-o7ynqc r-clp7b1 r-3s2u2q r-qvutc0 like-hoverable">
+                    <div class="css-1dbjc4n r-xoduu5">
+                    <span class="{% if request.user in result.likes.all %} heart-clicked {% else %} heart {% endif %}" id="like-button-{{result.pk}}"><i class='fas fa-heart'></i></span>
+                    </div>
+                    <div class="css-1dbjc4n r-xoduu5 r-1udh08x">
+                    <span id="likes-count-{{result.pk}}" style="padding-right: 12px; padding-left: 12px;">{{ result.likes.all.count }}</span>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+        
+    </article>
+</div>
+{% endfor %}

@@ -1,8 +1,10 @@
 {% load humanize %}
 {% load custom_tags %}
 
+{% if results %}
 {% for result in results %}
-<div class="tweet-wrap infinite-item ">
+
+<div class="tweet-wrap">
 <article style="padding-right: 18px; padding-left: 18px; overflow: hidden; flex-direction: row; display: flex; font-size: 20px;">
     <div class="css-1dbjc4n r-1awozwy r-1hwvwag r-18kxxzh r-1b7u577">
     <a href="{% url 'account:view' user_id=result.author.profile.pk %}">
@@ -216,3 +218,6 @@
 {% endif %}
 </div>
 {% endfor %}
+{% else %}
+<div hx-get="{% url 'account:load-post-header' user_id=user.pk %}" hx-target="#navTarget" hx-trigger="load">Nothing here yet</div>
+{% endif %}
