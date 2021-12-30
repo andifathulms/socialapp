@@ -79,10 +79,26 @@
                       </div>
                       <!--Follow Button-->
                       <div class="css-1dbjc4n" data-testid="placementTracking">
-                         <div class="css-1dbjc4n r-6gpygo" style="min-width: 65px;">
-                            <div aria-label="Follow" role="button" tabindex="0" class="css-18t94o4 css-1dbjc4n r-42olwf r-sdzlij r-1phboty r-rs99b7 r-2yi16 r-1qi8awa r-1ny4l3l r-ymttw5 r-o7ynqc r-6416eg r-lrvibr" style="background-color: rgb(239, 243, 244);">
-                               <div dir="auto" class="css-901oao r-1awozwy r-6koalj r-18u37iz r-16y2uox r-37j5jr r-a023e6 r-b88u0q r-1777fci r-rjixqe r-bcqeeo r-q4m81j r-qvutc0" style="color: rgb(15, 20, 25);" ><span class="css-901oao css-16my406 css-bfa6kz r-poiln3 r-a023e6 r-rjixqe r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Followed</span></span></div>
+                         <div id="btnFolTarget-{{account.pk}}" class="css-1dbjc4n r-6gpygo" style="min-width: 65px;">
+                           {% if request.user == account %}
+                           <a href="{% url 'account:edit' account.pk %}" class="css-4rbku5 css-18t94o4 css-901oao css-16my406 r-1loqt21 r-4qtqp9 r-poiln3 r-1b7u577 r-bcqeeo r-qvutc0">
+                           <div aria-label="" role="button" tabindex="0" class="css-18t94o4 css-1dbjc4n r-1niwhzg r-sdzlij r-1phboty r-rs99b7 r-15ysp7h r-4wgw6l r-1ny4l3l r-ymttw5 r-o7ynqc r-6416eg r-lrvibr" style="border-color: rgb(83, 100, 113);" data-testid="1432706855525048330-unfollow">
+                              <div dir="auto" class="css-901oao r-1awozwy r-6koalj r-18u37iz r-16y2uox r-37j5jr r-a023e6 r-b88u0q r-1777fci r-rjixqe r-bcqeeo r-q4m81j r-qvutc0" style="color: rgb(239, 243, 244);"><span class="css-901oao css-16my406 css-bfa6kz r-poiln3 r-1b43r93 r-1cwl3u0 r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Edit</span></span></div>
+                             </div>
+                           </a>
+                           {% else %}
+                           {% if request.user in account.userfollow.followers.all %}
+                           <div hx-post="{% url 'follower:follower-remove' account.pk %}" hx-target="#btnFolTarget-{{account.pk}}" aria-label="" role="button" tabindex="0" class="css-18t94o4 css-1dbjc4n r-1niwhzg r-sdzlij r-1phboty r-rs99b7 r-15ysp7h r-4wgw6l r-1ny4l3l r-ymttw5 r-o7ynqc r-6416eg r-lrvibr" style="border-color: rgb(83, 100, 113);" data-testid="1432706855525048330-unfollow">
+                            <div dir="auto" class="css-901oao r-1awozwy r-6koalj r-18u37iz r-16y2uox r-37j5jr r-a023e6 r-b88u0q r-1777fci r-rjixqe r-bcqeeo r-q4m81j r-qvutc0" style="color: rgb(239, 243, 244);"><span class="css-901oao css-16my406 css-bfa6kz r-poiln3 r-1b43r93 r-1cwl3u0 r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Followed</span></span></div>
+                           </div>
+                           {% else %}
+    
+                            <div hx-post="{% url 'follower:follower-add' account.pk %}" hx-target="#btnFolTarget-{{account.pk}}" aria-label="" role="button" tabindex="0" class="css-18t94o4 css-1dbjc4n r-42olwf r-sdzlij r-1phboty r-rs99b7 r-15ysp7h r-4wgw6l r-1ny4l3l r-ymttw5 r-o7ynqc r-6416eg r-lrvibr" style="background-color: rgb(239, 243, 244);" data-testid="1018218288294367232-follow">
+                                <div dir="auto" class="css-901oao r-1awozwy r-6koalj r-18u37iz r-16y2uox r-37j5jr r-a023e6 r-b88u0q r-1777fci r-rjixqe r-bcqeeo r-q4m81j r-qvutc0" style="color: rgb(15, 20, 25);"><span class="css-901oao css-16my406 css-bfa6kz r-poiln3 r-1b43r93 r-1cwl3u0 r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Follow</span></span></div>
                             </div>
+     
+                           {% endif %}
+                           {% endif %}
                          </div>
                       </div>
                    </div>

@@ -5,6 +5,8 @@ from follower.views import(
 	RemoveFollower,
 	followers_list_view,
 	followings_list_view,
+	FollowerListView,
+	FollowingListView,
 )
 
 app_name = 'follower'
@@ -12,6 +14,6 @@ app_name = 'follower'
 urlpatterns = [
 	path('<int:pk>/followers/add/', AddFollower.as_view(), name='follower-add'),
 	path('<int:pk>/followers/remove/', RemoveFollower.as_view(), name='follower-remove'),
-	path('list/follower/<user_id>', followers_list_view, name='follower-list'),
-	path('list/following/<user_id>', followings_list_view, name='following-list'),
+	path('list/follower/<user_id>', FollowerListView.as_view(), name='follower-list'),
+	path('list/following/<user_id>', FollowingListView.as_view(), name='following-list'),
 ]

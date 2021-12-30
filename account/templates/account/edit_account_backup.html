@@ -1,9 +1,9 @@
-{% extends 'layout-blank.html' %}
+{% extends 'personal/home.html' %}
 {% load static %}
+{% load humanize %}
+{% load custom_tags %}
 
-{% block content %}
-
-
+{% block head %}
 <style type="text/css">
 	.image-container{
 		max-width: 250px;
@@ -48,8 +48,9 @@
 	    margin-right: .5rem!important;
 	}
 </style>
+{% endblock head %}
 
-
+{% block post %}
 <div class="container">
 	<div class="main-body">
 		<div class="row">
@@ -487,4 +488,4 @@
 	}
 
 </script>
-{% endblock content %}
+{% endblock post %}

@@ -185,7 +185,6 @@ def account_view(request, *args, **kwargs):
 
 		context["account"] = account
 		context["profile"] = profile
-		
 
 		try:
 			friend_list = FriendList.objects.get(user=account)

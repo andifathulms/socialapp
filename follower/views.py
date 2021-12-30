@@ -7,35 +7,60 @@ from friend.models import FriendList
 from account.models import Account
 from account_profile.models import UserProfile
 
+from post.views import fillRightNav
+
 class AddFollower(LoginRequiredMixin, View):
 	login_url = '/login/'
 	redirect_field_name = 'redirect_to'
 	
 	def post(self, request, pk, *args, **kwargs):
-		follower_list = FollowerList.objects.get(pk=pk)
+		context = {}
+		reqUser = Account.objects.get(pk=pk)
+
+		follower_list = FollowerList.objects.get(user=reqUser)
 		follower_list.followers.add(request.user)
 
-		profile = UserProfile.objects.get(account=follower_list.user)
-
 		following_list = FollowingList.objects.get(user=request.user)
-		following_list.following.add(profile.account)
-
-		return redirect('account:view', profile.pk)
+		following_list.following.add(reqUser)
+		context["result"] = reqUser
+		return render(request, 'follower/snippets/span_btn_followed.html', context)
 
 class RemoveFollower(LoginRequiredMixin, View):
 	login_url = '/login/'
 	redirect_field_name = 'redirect_to'
 	
 	def post(self, request, pk, *args, **kwargs):
-		follower_list = FollowerList.objects.get(pk=pk)
+		context = {}
+		reqUser = Account.objects.get(pk=pk)
+		follower_list = FollowerList.objects.get(user=reqUser)
 		follower_list.followers.remove(request.user)
 
-		profile = UserProfile.objects.get(account=follower_list.user)
-
 		following_list = FollowingList.objects.get(user=request.user)
-		following_list.following.remove(profile.account)
+		following_list.following.remove(reqUser)
+		context["result"] = reqUser
+		return render(request, 'follower/snippets/span_btn_following.html', context)
 
-		return redirect('account:view', profile.pk)
+class FollowerListView(LoginRequiredMixin, View):
+	def get(self, request, *args, **kwargs):
+		user_id = kwargs.get("user_id")
+		context = {}
+		user = Account.objects.get(pk=user_id)
+		followerlist = FollowerList.objects.get(user=user)
+		# followers = followerlist.followers
+		context["followers"] = followerlist
+		fillRightNav(request,context)
+		return render(request, 'follower/follower_list_2.html', context)
+
+class FollowingListView(LoginRequiredMixin, View):
+	def get(self, request, *args, **kwargs):
+		user_id = kwargs.get("user_id")
+		context = {}
+		user = Account.objects.get(pk=user_id)
+		followerlist = FollowerList.objects.get(user=user)
+		# followers = followerlist.followers
+		context["followers"] = followerlist
+		fillRightNav(request,context)
+		return render(request, 'follower/follower_list_2.html', context)
 
 def followers_list_view(request, *args, **kwargs):
 	context = {}
