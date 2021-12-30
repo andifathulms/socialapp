@@ -58,7 +58,7 @@ class MarketplaceDetailView(LoginRequiredMixin, View):
 				break
 
 		context["is_wishlist"] = is_wishlist 
-		fillRightNav(request,context)
+		# fillRightNav(request,context)
 		print(context)
 		return render(request, 'marketplace/marketplace_detail.html', context)
 
@@ -79,7 +79,7 @@ class MarketplaceCreateView(LoginRequiredMixin, View):
 		context["conditions"] = condition
 		context["availabilities"] = availability
 		context["categories"] = categories
-		fillRightNav(request,context)
+		# fillRightNav(request,context)
 		return render(request, 'marketplace/marketplace_create.html', context)
 
 	def post(self, request, *args, **kwargs):
@@ -108,7 +108,7 @@ class MarketplaceCreateView(LoginRequiredMixin, View):
 		context["products"] = product
 		context["categories"] = category
 		context["conditions"] = condition
-		fillRightNav(request,context)
+		# fillRightNav(request,context)
 		return render(request, 'marketplace/marketplace.html', context)
 
 class MarketplaceWishlistListView(LoginRequiredMixin, View):
@@ -127,7 +127,7 @@ class MarketplaceWishlistListView(LoginRequiredMixin, View):
 		context["categories"] = category
 		context["conditions"] = condition
 		context["hide"] = True
-		fillRightNav(request,context)
+		# fillRightNav(request,context)
 		return render(request, 'marketplace/marketplace.html', context)
 
 	def post(self, request, *args, **kwargs):
@@ -148,7 +148,7 @@ class MarketplaceManageProductView(LoginRequiredMixin, View):
 		context["products"] = product
 		context["categories"] = category
 		context["conditions"] = condition
-		fillRightNav(request,context)
+		# fillRightNav(request,context)
 		return render(request, 'marketplace/marketplace.html', context)
 
 class MarketplaceDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
