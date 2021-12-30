@@ -1,128 +1,81 @@
-{% extends 'layout-blank.html' %}
+{% extends 'personal/home.html' %}
 {% load static %}
+{% load humanize %}
+{% load custom_tags %}
 
-{% block content %}
+{% block head %}
+{% include 'snippets/css/twitter_style.html' %}
+{% include 'post/snippets/tweet_style.html' %}
+{% endblock head %}
 
+{% block post %}
+{% for result in results %}
+<div class="tweet-wrap">
+    <article style="padding-right: 18px; padding-left: 18px; overflow: hidden; flex-direction: row; display: flex; font-size: 20px;">
+        <div class="css-1dbjc4n r-1awozwy r-1hwvwag r-18kxxzh r-1b7u577">
+          <a href="{% url 'account:view' user_id=result.pk %}">
+              <img class="mr-3 circle-rounded avator" style="float: left;margin-right: 1rem;" width="50" height="50" src="{{ result.profile_image.url }}" />
+          </a>
+        </div>
+        <div class="css-1dbjc4n r-1iusvr4 r-16y2uox r-1777fci r-kzbkwu">
+          <!-- User -->
+          <div class="css-1dbjc4n">
+            <div class="css-1dbjc4n r-zl2h9q">
+              <div class="css-1dbjc4n r-k4xj1c r-18u37iz r-1wtj0ep">
+                <div class="css-1dbjc4n r-1d09ksm r-18u37iz r-1wbh5a2">
+                  <div class="css-1dbjc4n r-1wbh5a2 r-dnmrzs">
+                    <a href="{% url 'account:view' user_id=result.pk %}" 
+                    class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1loqt21 r-1wbh5a2 r-dnmrzs r-1ny4l3l">
+                      <span class="post-name-color"><strong>{{result.profile.fullname}}</strong>
+                        
+                      </span>
+                    </a>
+                  </div>
+                  
+                  <!-- <span style="color:#657786;">&nbsp;&nbsp; {{ result.created_on|naturaltime|shorten_naturaltime }}</span> -->
+                </div>
+                <div class="css-1dbjc4n r-1joea0r">
+                  <!-- OPTIONS MARKER -->
+                  
+                  <div class="css-1dbjc4n" data-testid="placementTracking">
+                    <div id="btnFolTarget-{{result.pk}}" class="css-1dbjc4n" style="min-width: 65px;">
+                       {% if request.user == result %}
 
-<style type="text/css">
-	.profile-image{
-		max-height: 100px;
-		max-width: 100px;
-	}
-	.profile-image{
-		width: 77px;
-		height: 77px;
-	}
-	.card{
-		border-radius: 12px;
-	}
-	.friends-text{
-		color: #000;
-		font-weight: 500;
-	}
-	.friends-text-container{
-		border: 1px solid #cccccc;
-		border-radius: 12px;
-	}
-	.friends-btn:hover {
-		background-color: #bfbfbf;
-		border-color: #bfbfbf;
-	}
-	.dropdown-toggle::after { 
-		content: none; 
-	}
-	.profile-link{
-		color: #000;
-	}
-	.checkmark-icon{
-		color: green;
-	}
-	.cancel-icon{
-		color: red;
-	}
-	.card-friend-sign{
-		background-color: #587af5;
-	}
-	.card-not-friend-sign{
-		background-color: #f07171;
-	}
-	.card-yourself-sign{
-		background-color: #f2c53d;
-	}
-</style>
+                       {% else %}
+                       {% if request.user in result.userfollow.followers.all %}
+                       <div hx-post="{% url 'follower:follower-remove' result.pk %}" hx-target="#btnFolTarget-{{result.pk}}" aria-label="" role="button" tabindex="0" class="css-18t94o4 css-1dbjc4n r-1niwhzg r-sdzlij r-1phboty r-rs99b7 r-15ysp7h r-4wgw6l r-1ny4l3l r-ymttw5 r-o7ynqc r-6416eg r-lrvibr" style="border-color: rgb(83, 100, 113);" data-testid="1432706855525048330-unfollow">
+                        <div dir="auto" class="css-901oao r-1awozwy r-6koalj r-18u37iz r-16y2uox r-37j5jr r-a023e6 r-b88u0q r-1777fci r-rjixqe r-bcqeeo r-q4m81j r-qvutc0" style="color: rgb(239, 243, 244);"><span class="css-901oao css-16my406 css-bfa6kz r-poiln3 r-1b43r93 r-1cwl3u0 r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Followed</span></span></div>
+                       </div>
+                       {% else %}
 
-<div class="container">
-	<div class="card p-2">
+                        <div hx-post="{% url 'follower:follower-add' result.pk %}" hx-target="#btnFolTarget-{{result.pk}}" aria-label="" role="button" tabindex="0" class="css-18t94o4 css-1dbjc4n r-42olwf r-sdzlij r-1phboty r-rs99b7 r-15ysp7h r-4wgw6l r-1ny4l3l r-ymttw5 r-o7ynqc r-6416eg r-lrvibr" style="background-color: rgb(239, 243, 244);" data-testid="1018218288294367232-follow">
+                            <div dir="auto" class="css-901oao r-1awozwy r-6koalj r-18u37iz r-16y2uox r-37j5jr r-a023e6 r-b88u0q r-1777fci r-rjixqe r-bcqeeo r-q4m81j r-qvutc0" style="color: rgb(15, 20, 25);"><span class="css-901oao css-16my406 css-bfa6kz r-poiln3 r-1b43r93 r-1cwl3u0 r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Follow</span></span></div>
+                        </div>
+ 
+                       {% endif %}
+                       {% endif %}
+                    </div>
+                 </div>
+                </div>
+              </div>
+              <div>
+                <span style="color:#657786;"> @{{ result.username }} </span>
+              </div>
+            </div>
+            <div></div>
+          </div>
 
-		{% if accounts %}
-		<div class="d-flex flex-row flex-wrap">
-		{% for account in accounts %}
-		<script type="text/javascript">
-		</script>
-		<div class="card flex-row flex-grow-1 p-2 mx-2 my-2 align-items-center">
-			<a class="profile-link" href="{% url 'account:view' user_id=account.0.id %}">
-				<div class="card-image m-2">
-					<img class="img-fluid profile-image rounded-circle" src="{{account.0.profile_image.url}}" alt="">
-				</div>
-			</a>
-			<a class="profile-link" href="{% url 'account:view' user_id=account.0.id %}">
-				<div class="card-center px-2">
-					<h4 class="card-title">{{account.0.username}}</h4>
-					{% if account.1 %}
-					<p class="card-text"><a href="#" onclick="createOrReturnPrivateChat('{{account.0.id}}')">Send a Message</a></p>
-					{% endif %}
-					
-				</div>
-			</a>
-			<div class="d-flex flex-row card-right flex-grow-1 justify-content-end mx-2">
-				{% if account.1 %}
-					<div class="d-flex flex-row friends-text-container p-3 card-friend-sign">
-						<p class="friends-text m-auto">
-							Friends 
-						</p>
-						<span class="material-icons checkmark-icon m-auto pl-2">
-						check_circle_outline
-						</span>
-					</div>
-				{% else %}
-					{% if account.0 !=  request.user %}
-						<div class="d-flex flex-row friends-text-container p-3 card-not-friend-sign">
-							<p class="friends-text m-auto">
-								Not Friends 
-							</p>
-							<span class="material-icons cancel-icon m-auto pl-2">cancel</span>
-						</div>
-					{% endif %}
-				{% endif %}
-				{% if account.0 == request.user %}
-					<div class="d-flex flex-row friends-text-container p-3 card-yourself-sign">
-						<p class="friends-text m-auto">
-							This is you 
-						</p>
-						<span class="material-icons m-auto pl-2">
-						person_pin
-						</span>
-					</div>
-				{% endif %}
-			</div>
-		</div>
-		{% if forloop.counter|divisibleby:2 %}
-		<div class="d-flex flex-row flex-wrap"></div>
-		{% endif %}
-		
-		{% endfor %}
-		
-		{% else %} <!-- If no friends -->
-		<div class="d-flex flex-row flex-grow-1 justify-content-center align-items-center p-4">
-			<p>No results</p>
-		</div>
-		{% endif %}
-		</div>
-	</div>
-	
+          <!-- Body -->
+          <div style="position: relative;" >
+            <a href="{% url 'account:view' user_id=result.pk %}" style="text-decoration: none;">
+              <span style="position: absolute;width: 100%;height: 100%;top: 0;left: 0;z-index: 1;"></span> 
+            </a>
+            <p><span style="color:#657786;"> Joined {{result.date_joined|date:"F Y"}} </span></p>
+            <p class="post-name-color">{{ result.profile.bio }}</p>
+          </div>
+        </div>
+        
+      </article>
 </div>
-
-
-{%  include 'chat/snippets/create_or_return_private_chat.html' %}
-
-{% endblock content %}
+{% endfor %}
+{% endblock post %}

@@ -56,9 +56,10 @@ class FollowingListView(LoginRequiredMixin, View):
 		user_id = kwargs.get("user_id")
 		context = {}
 		user = Account.objects.get(pk=user_id)
-		followerlist = FollowerList.objects.get(user=user)
+		followinglist = FollowingList.objects.get(user=user)
+		print(followinglist)
 		# followers = followerlist.followers
-		context["followers"] = followerlist
+		context["followings"] = followinglist
 		fillRightNav(request,context)
 		return render(request, 'follower/follower_list_2.html', context)
 

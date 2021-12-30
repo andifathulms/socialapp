@@ -9,7 +9,7 @@ class ProfileUpdateForm(forms.ModelForm):
         model = UserProfile
         fields = ('fullname', 'bio', 'phone', 'hobby','birth_date', 'birth_place', 'location', 'accWebsite',
         'accGithub', 'accTwitter', 'accInsta', 'accFacebook', 'schoolSD', 'schoolSMP', 'schoolSMA',
-        'status', 'nobp', 'prodi' )
+        'nobp', 'occupation', 'jurusan' )
 
     """ add to filter
     def clean_email(self):
@@ -37,9 +37,9 @@ class ProfileUpdateForm(forms.ModelForm):
         profile.schoolSD = self.cleaned_data['schoolSD']
         profile.schoolSMP = self.cleaned_data['schoolSMP']
         profile.schoolSMA = self.cleaned_data['schoolSMA']
-        profile.status = self.cleaned_data['status']
         profile.nobp = self.cleaned_data['nobp']
-        profile.prodi = self.cleaned_data['prodi']
+        profile.occupation = self.cleaned_data['occupation']
+        profile.jurusan = self.cleaned_data['jurusan']
 
         if commit:
             profile.save()

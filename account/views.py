@@ -22,7 +22,7 @@ import requests
 from account.forms import RegistrationForm, AccountAuthenticationForm, AccountUpdateForm
 from account.models import Account
 
-from account_profile.models import UserProfile
+from account_profile.models import UserProfile, Occupation, Prodi
 from account_profile.forms import ProfileUpdateForm
 
 from post.models import Post
@@ -35,6 +35,10 @@ from follower.models import FollowerList, FollowingList
 
 from blog.models import Blog
 from forum.models import ForumPost, ForumReply
+
+from itertools import chain
+from operator import attrgetter
+from django.db.models import Q
 
 from post.views import fillRightNav
 
@@ -355,57 +359,15 @@ def account_search_view(request, *args, **kwargs):
 	print("View")
 	context = {}
 	if request.method == "GET":
-		print("View")
+		
 		search_query = request.GET.get("q")
 		if len(search_query) > 0:
-			search_results = Account.objects.filter(email__icontains=search_query).filter(username__icontains=search_query).distinct()
-			user = request.user
-			accounts = [] # [(account1, True), (account2, False), ...]
-			if user.is_authenticated:
-				# get the authenticated users friend list
-				auth_user_friend_list = FriendList.objects.get(user=user)
-				for account in search_results:
-					profile = UserProfile.objects.get(account=account)
-
-					#get all of the follower friends
-					try:
-						friend_list = FriendList.objects.get(user=account)
-					except FriendList.DoesNotExist:
-						friend_list = FriendList(user=account)
-						friend_list.save()
-					friends = friend_list.friends.all()
-
-					#get all of the follower followers
-					try:
-						followers_list_sec = FollowerList.objects.get(user=account)
-					except FollowerList.DoesNotExist:
-						followers_list_sec = FollowerList(user=account)
-						followers_list_sec.save()
-					followers_sec = followers_list_sec.followers.all()
-
-					#get all of the follower followings
-					try:
-						following_list_sec = FollowingList.objects.get(user=account)
-					except FollowingList.DoesNotExist:
-						following_list_sec = FollowingList(user=account)
-						following_list_sec.save()
-					followings_sec = following_list_sec.following.all()
-					
-					accounts.append((account, auth_user_friend_list.is_mutual_friend(account),profile,friends, followers_sec, followings_sec))
-				context['accounts'] = accounts
-			else:
-				for account in search_results:
-					profile = UserProfile.objects.get(account=account)
-					try:
-						friend_list = FriendList.objects.get(user=account)
-					except FriendList.DoesNotExist:
-						friend_list = FriendList(user=account)
-						friend_list.save()
-					friends = friend_list.friends.all()
-					accounts.append((account, False, profile,friends))
-				context['accounts'] = accounts
+			search_username = Account.objects.filter(Q(username__icontains=search_query) | Q(profile__fullname__icontains=search_query)).distinct()
+			
+			context["results"] = search_username
 				
-	return render(request, "account/search_results_backup.html", context)
+	fillRightNav(request,context)
+	return render(request, 'account/search_results.html', context)
 
 @login_required
 def edit_account_view(request, *args, **kwargs):
@@ -422,7 +384,7 @@ def edit_account_view(request, *args, **kwargs):
 		form = AccountUpdateForm(request.POST, request.FILES, instance=request.user)
 		
 		if form.is_valid():
-			account.profile_image.delete()
+			#account.profile_image.delete()
 			form.save()
 			new_username = form.cleaned_data['username']
 			return redirect("account:view", user_id=account.pk)
@@ -438,24 +400,7 @@ def edit_account_view(request, *args, **kwargs):
 			)
 			context['form'] = form
 
-			context['fullname'] = profile.fullname
-			context['bio'] = profile.bio
-			context['phone'] = profile.phone
-			context['hobby'] = profile.hobby
-			context['birth_date'] = profile.birth_date
-			context['birth_place'] = profile.birth_place
-			context['location'] = profile.location
-			context['accWebsite'] = profile.accWebsite
-			context['accGithub'] = profile.accGithub
-			context['accTwitter'] = profile.accTwitter
-			context['accInsta'] = profile.accInsta
-			context['accFacebook'] = profile.accFacebook
-			context['schoolSD'] = profile.schoolSD
-			context['schoolSMP'] = profile.schoolSMP
-			context['schoolSMA'] = profile.schoolSMA
-			context['status'] = profile.status
-			context['nobp'] = profile.nobp
-			context['prodi'] = profile.prodi
+			context['profile'] = profile
 
 	elif request.POST and 'btn-profile' in request.POST:
 		form = ProfileUpdateForm(request.POST, instance=profile)
@@ -476,25 +421,11 @@ def edit_account_view(request, *args, **kwargs):
 			)
 		context['form'] = form
 
-		context['fullname'] = profile.fullname
-		context['bio'] = profile.bio
-		context['phone'] = profile.phone
-		context['hobby'] = profile.hobby
-		context['birth_date'] = profile.birth_date
-		context['birth_place'] = profile.birth_place
-		context['location'] = profile.location
-		context['accWebsite'] = profile.accWebsite
-		context['accGithub'] = profile.accGithub
-		context['accTwitter'] = profile.accTwitter
-		context['accInsta'] = profile.accInsta
-		context['accFacebook'] = profile.accFacebook
-		context['schoolSD'] = profile.schoolSD
-		context['schoolSMP'] = profile.schoolSMP
-		context['schoolSMA'] = profile.schoolSMA
-		context['status'] = profile.status
-		context['nobp'] = profile.nobp
-		context['prodi'] = profile.prodi
-	context['DATA_UPLOAD_MAX_MEMORY_SIZE'] = settings.DATA_UPLOAD_MAX_MEMORY_SIZE
+		context['profile'] = profile
+		context['DATA_UPLOAD_MAX_MEMORY_SIZE'] = settings.DATA_UPLOAD_MAX_MEMORY_SIZE
+	context["occupations"] = Occupation.objects.all()
+	context["prodis"] = Prodi.objects.all()
+	fillRightNav(request,context)
 	return render(request, "account/edit_account_backup.html", context)
 
 def save_temp_profile_image_from_base64String(imageString, user):
@@ -542,7 +473,7 @@ def crop_image(request, *args, **kwargs):
 			cv2.imwrite(url, crop_img)
 
 			# delete the old image
-			user.profile_image.delete()
+			#user.profile_image.delete() #problem with IAM permission
 
 			# Save the cropped image to user model
 			user.profile_image.save("profile_image.png", files.File(open(url, 'rb')))

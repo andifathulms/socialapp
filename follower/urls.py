@@ -3,8 +3,6 @@ from django.urls import path
 from follower.views import(
 	AddFollower,
 	RemoveFollower,
-	followers_list_view,
-	followings_list_view,
 	FollowerListView,
 	FollowingListView,
 )

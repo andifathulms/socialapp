@@ -176,7 +176,28 @@
                          </svg>
                          <span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Joined {{account.date_joined|date:"F Y"}}</span>
                       </span>
+                      {% if profile.birth_date %}
+                      <span dir="ltr" role="presentation" class="css-901oao css-16my406 r-9ilb82 r-4qtqp9 r-poiln3 r-1b7u577 r-bcqeeo r-qvutc0">
+                        <i class="fas fa-birthday-cake"></i>
+                        <span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">{{profile.birth_date|date:"d M Y"}}</span>
+                     </span>
+                      {% endif %}
+                      
                    </div>
+                   <div dir="auto" class="css-901oao r-1fmj7o5 r-37j5jr r-a023e6 r-16dba41 r-56xrmm r-bcqeeo r-qvutc0" data-testid="UserProfileHeader_Items" style="white-space: nowrap !important;">
+                     {% if profile.occupation %}
+                      <span dir="ltr" role="presentation" class="css-901oao css-16my406 r-9ilb82 r-4qtqp9 r-poiln3 r-1b7u577 r-bcqeeo r-qvutc0">
+                        <i class="fas fa-user-md"></i>
+                        <span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">{{profile.occupation}}</span>
+                     </span>
+                      {% endif %}
+                      {% if profile.jurusan %}
+                      <span dir="ltr" role="presentation" class="css-901oao css-16my406 r-9ilb82 r-4qtqp9 r-poiln3 r-1b7u577 r-bcqeeo r-qvutc0">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">{{profile.jurusan}}</span>
+                     </span>
+                      {% endif %}
+                  </div>
                 </div>
                 <div class="css-1dbjc4n r-13awgt0 r-18u37iz r-1w6e6rj">
                    <div class="css-1dbjc4n r-1mf7evn"><a href="{% url 'follower:following-list' user_id=account.id %}" dir="auto" role="link" class="css-4rbku5 css-18t94o4 css-901oao r-1fmj7o5 r-1loqt21 r-37j5jr r-a023e6 r-16dba41 r-rjixqe r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-1fmj7o5 r-poiln3 r-b88u0q r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0" style="color: cornsilk;">{{account.followers.all.count}}</span></span> <span class="css-901oao css-16my406 r-9ilb82 r-poiln3 r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Following</span></span></a></div>

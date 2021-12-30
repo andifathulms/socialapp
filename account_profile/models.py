@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.base import Model
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
@@ -25,11 +26,24 @@ class UserProfile(models.Model):
 	status		= models.CharField(max_length=50, blank=True, null=True)
 	nobp		= models.CharField(max_length=20, blank=True, null=True)
 	prodi		= models.CharField(max_length=50, blank=True, null=True)
+	occupation  = models.ForeignKey('Occupation',blank=True,null=True,on_delete=models.DO_NOTHING)
+	jurusan     = models.ForeignKey('Prodi',blank=True,null=True,on_delete=models.DO_NOTHING)
 
 class UserSavedPost(models.Model):
 	account        = models.OneToOneField(Account, primary_key=True, on_delete=models.CASCADE, related_name='user_wish')
 	products_saved = models.ManyToManyField(Product, blank=True)
 
+class Occupation(models.Model):
+	name = models.CharField(max_length=100)
+
+	def __str__(self):
+		return self.name
+
+class Prodi(models.Model):
+	name = models.CharField(max_length=100)
+
+	def __str__(self):
+		return self.name
 
 @receiver(post_save, sender=Account)
 def create_user_profile(sender, instance, created, **kwargs):

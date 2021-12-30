@@ -54,7 +54,7 @@
 <div class="container">
 	<div class="main-body">
 		<div class="row">
-			<div class="col-lg-4">
+			<div class="col-lg-12">
 				<div class="card">
 					<div class="card-body">
 						<div class="d-flex flex-column justify-content-center p-4">
@@ -71,7 +71,7 @@
 					  		<form class="form-signin" method="post" enctype="multipart/form-data">{% csrf_token %}
 					  			<input class="d-none" type="file" name="profile_image" id="id_profile_image" onchange="readURL(this)">
 						  		<h6 class="mt-4 field-heading">Email</h6>
-						  		<input type="email" name="email" id="id_input_email" class="form-control" placeholder="Email address" required autofocus value={{form.initial.email}}>
+						  		<input type="email" name="email" id="id_input_email" class="form-control" placeholder="Email address" required autofocus value={{form.initial.email}} disabled>
 						  		<h6 class="mt-4 field-heading">Username</h6>
 						  		<input type="text" name="username" id="id_input_username" class="form-control" placeholder="Username" required
 								value="{{form.initial.username}}">
@@ -108,7 +108,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-8">
+			<div class="col-lg-12">
 				<div class="card">
 					<div class="card-body">
 						<form method="post" enctype="multipart/form-data">{% csrf_token %}
@@ -117,7 +117,8 @@
 									<h6 class="mb-0">Full Name</h6>
 								</div>
 								<div class="col-sm-9 text-secondary">
-									<input type="text" name = "fullname" class="form-control" value="{{fullname}}">
+									<input type="text" name = "fullname" class="form-control" 
+									{% if profile.fullname %}value="{{profile.fullname}}"{% else %}value=""{% endif %}>
 								</div>
 							</div>
 							<div class="row mb-3">
@@ -125,23 +126,40 @@
 									<h6 class="mb-0">Status</h6>
 								</div>
 								<div class="col-sm-9 text-secondary">
-									<input type="text" name = "status" class="form-control" value="{{status}}">
+									<select name="occupation" id="" class="form-control">
+										<option value=""></option>
+										{% for occupation in occupations %}
+										<option value="{{occupation.pk}}"
+										{% if profile.occupation == occupation %} selected {% endif %}>
+											{{occupation.name}}
+										</option>
+										{% endfor %}
+									</select>	
 								</div>
 							</div>
-							<div class="row mb-3">
+							<!-- <div class="row mb-3">
 								<div class="col-sm-3">
 									<h6 class="mb-0">No BP</h6>
 								</div>
 								<div class="col-sm-9 text-secondary">
-									<input type="text" name = "nobp" class="form-control" value="{{nobp}}">
+									<input type="text" name = "nobp" class="form-control"
+									{% if profile.nobp %}value="{{profile.nobp}}"{% else %}value=""{% endif %}>
 								</div>
-							</div>
+							</div> -->
 							<div class="row mb-3">
 								<div class="col-sm-3">
 									<h6 class="mb-0">Prodi</h6>
 								</div>
 								<div class="col-sm-9 text-secondary">
-									<input type="text" name = "prodi" class="form-control" value="{{prodi}}">
+									<select name="jurusan" id="" class="form-control">
+										<option value=""></option>
+										{% for prodi in prodis %}
+										<option value="{{prodi.pk}}"
+										{% if profile.jurusan == prodi %} selected {% endif %}>
+											{{prodi.name}}
+										</option>
+										{% endfor %}
+									</select>
 								</div>
 							</div>
 							<div class="row mb-3">
@@ -149,7 +167,7 @@
 									<h6 class="mb-0">Bio</h6>
 								</div>
 								<div class="col-sm-9 text-secondary">
-									<textarea class="form-control" name="bio" cols="3" rows="5">{{bio}}</textarea>
+									<textarea class="form-control" name="bio" cols="3" rows="5">{{profile.bio}}</textarea>
 								</div>
 							</div>
 							<div class="row mb-3">
@@ -157,7 +175,8 @@
 									<h6 class="mb-0">Phone</h6>
 								</div>
 								<div class="col-sm-9 text-secondary">
-									<input type="text" class="form-control" name="phone" value="{{phone}}">
+									<input type="text" class="form-control" name="phone"
+									{% if profile.phone %}value="{{profile.phone}}"{% else %}value=""{% endif %}>
 								</div>
 							</div>
 							<div class="row mb-3">
@@ -165,7 +184,8 @@
 									<h6 class="mb-0">Hobby</h6>
 								</div>
 								<div class="col-sm-9 text-secondary">
-									<input type="text" class="form-control" name="hobby" value="{{hobby}}">
+									<input type="text" class="form-control" name="hobby"
+									{% if profile.hobby %}value="{{profile.hobby}}"{% else %}value=""{% endif %}>
 								</div>
 							</div>
 							<div class="row mb-3">
@@ -173,7 +193,8 @@
 									<h6 class="mb-0">Birth Date</h6>
 								</div>
 								<div class="col-sm-9 text-secondary">
-									<input type="text" class="form-control" name="birth_date" value="{{birth_date}}">
+									<input type="date" class="form-control" name="birth_date"
+									{% if profile.birth_date %}value="{{profile.birth_date|date:'Y-m-d'}}"{% else %}value=""{% endif %}>
 								</div>
 							</div>
 							<div class="row mb-3">
@@ -181,7 +202,8 @@
 									<h6 class="mb-0">Birth Place</h6>
 								</div>
 								<div class="col-sm-9 text-secondary">
-									<input type="text" class="form-control" name="birth_place" value="{{birth_place}}">
+									<input type="text" class="form-control" name="birth_place"
+									{% if profile.birth_place %}value="{{profile.birth_place}}"{% else %}value=""{% endif %}>
 								</div>
 							</div>
 							<div class="row mb-3">
@@ -189,7 +211,8 @@
 									<h6 class="mb-0">Location</h6>
 								</div>
 								<div class="col-sm-9 text-secondary">
-									<input type="text" class="form-control" name="location" value="{{location}}">
+									<input type="text" class="form-control" name="location"
+									{% if profile.location %}value="{{profile.location}}"{% else %}value=""{% endif %}>
 								</div>
 							</div>
 							<hr class="my-4">
@@ -198,7 +221,8 @@
 									<h6 class="mb-0">Website</h6>
 								</div>
 								<div class="col-sm-9 text-secondary">
-									<input type="text" class="form-control" name="accWebsite" value="{{accWebsite}}">
+									<input type="text" class="form-control" name="accWebsite"
+									{% if profile.accWebsite %}value="{{profile.accWebsite}}"{% else %}value=""{% endif %}>
 								</div>
 							</div>
 							<div class="row mb-3">
@@ -206,7 +230,8 @@
 									<h6 class="mb-0">Github</h6>
 								</div>
 								<div class="col-sm-9 text-secondary">
-									<input type="text" class="form-control" name="accGithub" value="{{accGithub}}">
+									<input type="text" class="form-control" name="accGithub"
+									{% if profile.accGithub %}value="{{profile.accGithub}}"{% else %}value=""{% endif %}>
 								</div>
 							</div>
 							<div class="row mb-3">
@@ -214,7 +239,8 @@
 									<h6 class="mb-0">Twitter</h6>
 								</div>
 								<div class="col-sm-9 text-secondary">
-									<input type="text" class="form-control" name="accTwitter" value="{{accTwitter}}">
+									<input type="text" class="form-control" name="accTwitter"
+									{% if profile.accTwitter %}value="{{profile.accTwitter}}"{% else %}value=""{% endif %}>
 								</div>
 							</div>
 							<div class="row mb-3">
@@ -222,7 +248,8 @@
 									<h6 class="mb-0">Instagram</h6>
 								</div>
 								<div class="col-sm-9 text-secondary">
-									<input type="text" class="form-control" name="accInsta" value="{{accInsta}}">
+									<input type="text" class="form-control" name="accInsta"
+									{% if profile.accInsta %}value="{{profile.accInsta}}"{% else %}value=""{% endif %}>
 								</div>
 							</div>
 							<div class="row mb-3">
@@ -230,7 +257,8 @@
 									<h6 class="mb-0">Facebook</h6>
 								</div>
 								<div class="col-sm-9 text-secondary">
-									<input type="text" class="form-control" name="accFacebook" value="{{accFacebook}}">
+									<input type="text" class="form-control" name="accFacebook"
+									{% if profile.accFacebook %}value="{{profile.accFacebook}}"{% else %}value=""{% endif %}>
 								</div>
 							</div>
 							<hr class="my-4">
@@ -239,7 +267,8 @@
 									<h6 class="mb-0">Sekolah (SD)</h6>
 								</div>
 								<div class="col-sm-9 text-secondary">
-									<input type="text" class="form-control" name="schoolSD" value="{{schoolSD}}">
+									<input type="text" class="form-control" name="schoolSD"
+									{% if profile.schoolSD %}value="{{profile.schoolSD}}"{% else %}value=""{% endif %}>
 								</div>
 							</div>
 							<div class="row mb-3">
@@ -247,7 +276,8 @@
 									<h6 class="mb-0">Sekolah (SMP)</h6>
 								</div>
 								<div class="col-sm-9 text-secondary">
-									<input type="text" class="form-control" name="schoolSMP" value="{{schoolSMP}}">
+									<input type="text" class="form-control" name="schoolSMP"
+									{% if profile.schoolSMP %}value="{{profile.schoolSMP}}"{% else %}value=""{% endif %}>
 								</div>
 							</div>
 							<div class="row mb-3">
@@ -255,7 +285,8 @@
 									<h6 class="mb-0">Sekolah (SMA)</h6>
 								</div>
 								<div class="col-sm-9 text-secondary">
-									<input type="text" class="form-control" name="schoolSMA" value="{{schoolSMA}}">
+									<input type="text" class="form-control" name="schoolSMA"
+									{% if profile.schoolSMA %}value="{{profile.schoolSMA}}"{% else %}value=""{% endif %}>
 								</div>
 							</div>
 							
