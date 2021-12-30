@@ -86,6 +86,24 @@ def login_view(request, *args, **kwargs):
 	destination = get_redirect_if_exists(request)
 	print("destination: " + str(destination))
 
+	if request.POST and 'btnRegis' in request.POST :
+		
+		form = RegistrationForm(request.POST)
+		if form.is_valid():
+			print("valid")
+			form.save()
+			email = form.cleaned_data.get('email').lower()
+			raw_password = form.cleaned_data.get('password1')
+			account = authenticate(email=email, password=raw_password)
+			login(request, account)
+			destination = kwargs.get("next")
+			if destination:
+				return redirect(destination)
+			return redirect('home')
+		else:
+			print(form.errors)
+			context['registration_form'] = form
+	
 	if request.POST:
 		form = AccountAuthenticationForm(request.POST)
 		if form.is_valid():
@@ -101,10 +119,11 @@ def login_view(request, *args, **kwargs):
 
 	else:
 		form = AccountAuthenticationForm()
-
+	
 	context['login_form'] = form
-
-	return render(request, "account/login.html", context)
+	if request.htmx:
+		return render(request, 'account/login.html', context)
+	return render(request, "base_2.html", context)
 
 def lock_view(request):
 	context = {}

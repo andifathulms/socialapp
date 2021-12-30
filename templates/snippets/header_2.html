@@ -74,7 +74,7 @@
         </div>
         <div class="header-right">
             <ul class="clearfix">
-                <li class="icons dropdown">
+                <li class="icons dropdown  d-none d-md-flex">
                     <div class="d-flex notifications-icon-container rounded-circle align-items-center mr-3" id="id_chat_notification_dropdown_toggle" data-toggle="dropdown">
                         <span id="id_chat_notifications_count" class="notify-badge"></span>
                         <span class="d-flex material-icons notifications-material-icon m-auto align-items-center">chat</span>
@@ -83,7 +83,7 @@
                         </div>
                     </div>
                 </li>
-                <li class="icons dropdown">
+                <li class="icons dropdown d-none d-md-flex">
                     <div class="d-flex notifications-icon-container rounded-circle align-items-center mr-3" id="id_notification_dropdown_toggle" data-toggle="dropdown" onclick="setGeneralNotificationsAsRead()">
                         <span id="id_general_notifications_count" class="badge badge-pill gradient-2 badge-primary"></span>
                         <span class="d-flex material-icons notifications-material-icon m-auto align-items-center">notifications_none</span>
@@ -100,13 +100,15 @@
                         <div class="dropdown-content-body">
                             <ul>
                                 <li>
-                                    <a href="{% url 'account:view' user_id=request.user.id %}" ><i class="icon-user"></i> <span>Profile</span></a>
+                                    <a href="{% url 'account:view' user_id=request.user.id %}" style="text-decoration: none;"><i class="far fa-user"></i> <span>Profile</span></a>
                                 </li>
                                 <li>
                                     <!-- BIG WARNING, EDIT IN PRODUCTION -->
-                                    <a href="http://127.0.0.1:8000/lock/?next={{request.path}}"><i class="icon-lock"></i> <span>Lock Screen</span></a>
+                                    <a href="http://127.0.0.1:8000/lock/?next={{request.path}} " style="text-decoration: none;"><i class="fas fa-key"></i><span>Lock Screen</span></a>
                                 </li>
-                                <li><a href="{% url 'logout' %}"><i class="icon-key"></i> <span>Logout</span></a></li>
+                                <li>
+                                    <a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt" style="text-decoration: none;"></i><span>Logout</span></a>
+                                </li>
                             </ul>
                         </div>
                     </div>

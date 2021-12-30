@@ -25,12 +25,12 @@
     #accordian {
         background: #000;
         width: 100%;
-        padding: 10px;
+        /* padding: 10px; */
         float: left;
         height: 100vh;
         overflow-x: hidden;
-        border-radius: 10px;
-        box-shadow: 0.1rem 0.1rem 0.1rem var(--greyLight-2), -0.1rem -0.1rem 0.8rem var(--white);
+        /* border-radius: 10px;
+        box-shadow: 0.1rem 0.1rem 0.1rem var(--greyLight-2), -0.1rem -0.1rem 0.8rem var(--white); */
     }
 
 
