@@ -43,12 +43,12 @@
         </li>
         <li class="nav-label">Profile</li>
         <li>
-            <a href="#" aria-expanded="false">
+            <a href="{% url 'account:view' request.user.pk %}" aria-expanded="false">
                 <i class="far fa-user"></i><span class="nav-text">Account</span>
             </a>
         </li>
         <li>
-            <a href="{% url 'friend:list' user_id=request.user.id %}" aria-expanded="false">
+            <a href="#" aria-expanded="false">
                 <i class="fas fa-user-friends"></i><span class="nav-text">Friends</span>
             </a>
         </li>
