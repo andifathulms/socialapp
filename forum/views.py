@@ -137,7 +137,8 @@ class ForumListView(LoginRequiredMixin, View):
 			is_downvote = False
 
 		context["subject"] = subject
-		context["posts"] = p_list
+		context["posts"] = post
+		context["type"] = "content"
 		fillRightNav(request,context)
 		return render(request, 'forum/forum_content.html', context)
 
