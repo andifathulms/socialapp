@@ -12,6 +12,9 @@ from django.views.generic import ListView, UpdateView, DeleteView
 import json
 import re
 
+import boto3
+from django.conf import settings
+
 from .models import Blog
 from .forms import BlogForm
 
@@ -183,10 +186,34 @@ class AddClaps(LoginRequiredMixin, View):
 @requires_csrf_token
 def uploadi(request):
     f=request.FILES['image']
-    fs=FileSystemStorage()
     filename=str(f).split('.')[0]
-    file= fs.save(filename,f)
-    fileurl=fs.url(file)
+    cloudFilename = 'blog/' + filename
+    s3 = boto3.resource('s3', aws_access_key_id=settings.AWS_ACCESS_KEY_ID, aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY)
+    bucket = s3.Bucket('django-pnp-talk')
+    bucket.put_object(Key=cloudFilename, Body=f)
+    print("FINISH1")
+    bucket_location = boto3.client('s3').get_bucket_location(Bucket='django-pnp-talk')
+    # object_url = "https://s3-{0}.amazonaws.com/{1}/{2}".format(
+    #     bucket_location['LocationConstraint'],
+    #     'django-pnp-talk',
+    #     cloudFilename)
+    print("FINISH2")
+    #https://s3-ap-southeast-1.amazonaws.com/django-pnp-talk/blog/3
+    #https://django-pnp-talk.s3.ap-southeast-1.amazonaws.com/blog/3
+    object_url = "https://{0}.s3.{1}.amazonaws.com/{2}".format('django-pnp-talk',
+        bucket_location['LocationConstraint'],
+        cloudFilename)
+    # session = boto3.session.Session(aws_access_key_id=settings.AWS_ACCESS_KEY_ID, aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY)
+    # s3 = session.resource('s3')
+    # s3.Bucket(AWS_BUCKET_NAME).put_object(Key=cloudFilename, Body=fileToUpload)
+
+
+    #fs=FileSystemStorage()
+    #filename=str(f).split('.')[0]
+    #file= fs.save(filename,f)
+    #fileurl=fs.url(file)
+    fileurl = object_url
+    print("FINISH3")
     return JsonResponse({'success':1,'file':{'url':fileurl}})
 
 @requires_csrf_token

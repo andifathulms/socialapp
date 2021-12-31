@@ -49,7 +49,7 @@ class MarketplaceDetailView(LoginRequiredMixin, View):
 			'product': product,
 		}
 
-		user_products_saved = UserSavedPost.objects.get(account=request.user)
+		#user_products_saved = UserSavedPost.objects.get(account=request.user)
 
 		is_wishlist = False
 		for prod in user_products_saved.products_saved.all():
