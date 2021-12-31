@@ -26,9 +26,15 @@ class ProductImage(models.Model):
 class ProductCategory(models.Model):
 	name = models.CharField(max_length=100)
 
+	def __str__(self):
+		return self.name
+
 class ProductSubCategory(models.Model):
 	category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
 	name = models.CharField(max_length=100)
+
+	def __str__(self):
+		return self.name + " " + self.category.name
 
 class ProductCondition(models.Model):
 	name = models.CharField(max_length=100)

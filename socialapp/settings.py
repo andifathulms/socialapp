@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'mptt',
     'django_editorjs',
     'django_htmx',
+    'corsheaders',
 
     'personal',
     'account',
@@ -88,6 +89,7 @@ REST_FRAMEWORK = {
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -239,7 +241,10 @@ DATE_INPUT_FORMATS = [
     '%B %d %Y', '%B %d, %Y',            # 'October 25 2006', 'October 25, 2006'
     '%d %B %Y', '%d %B, %Y',            # '25 October 2006', '25 October, 2006'
 ]
-
+CORS_ALLOWED_ORIGINS = [
+    "https://pnptalk.herokuapp.com",
+    "http://127.0.0.1"
+]
 LOGIN_URL = '/login'
 
 AWS_ACCESS_KEY_ID="AKIAXSGIDQGEESDBZHGJ"

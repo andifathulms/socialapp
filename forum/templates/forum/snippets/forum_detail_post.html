@@ -31,9 +31,9 @@
                 <span style="color: whitesmoke;">Viewed</span><span style="color: cornsilk;"> {{post.view}} times</span><span style="color: whitesmoke;">  |  Total Answer</span><span style="color: cornsilk;"> {{replies|length}}</span>
                 <hr>
                 <div class="mt-3 font-size-sm">
-                    {% autoescape off %}
-                    <p style="text-align: justify;text-justify: inter-word; color: whitesmoke;">{{post.body}}</p>
-                    {% endautoescape %}
+                    
+                    <p style="text-align: justify;text-justify: inter-word; color: whitesmoke;">{{post.body|striptags}}</p>
+                    
                 </div>
             </div>
         </div>
