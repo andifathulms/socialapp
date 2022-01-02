@@ -94,7 +94,7 @@
             {% csrf_token %}
             <div class="col-md-6 border-end">
                 <div class="d-flex flex-column justify-content-center">
-                    <div class="main_image"> <img src="https://django-pnp-talk.s3.amazonaws.com/uploads/marketplace_photos/placeholder-image.png?AWSAccessKeyId=AKIAXSGIDQGEESDBZHGJ&Signature=6T72w2RR91zH%2FkH98P8Nlrq7ypo%3D&Expires=1635234454" id="main_product_image" width="350"> </div>
+                    <div class="main_image"> <img src="https://www.arraymedical.com/wp-content/uploads/2018/12/product-image-placeholder.jpg" id="main_product_image" width="350"> </div>
                     <div class="thumbnail_images">
                         <ul id="thumbnail">
                             
@@ -179,11 +179,10 @@
 {% block javascript %}
 <script>
     $("#category").change(function () {
-      //var url = $("#formdata").attr("data-marketplace-url");  // get the url of the `load_cities` view
       var category = $(this).val(); 
 
-      $.ajax({                       // initialize an AJAX request
-        url: 'http://127.0.0.1:8000/marketplace/ajax/load-cat/', // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+      $.ajax({  
+        url: "{% url 'marketplace:ajax_load_subcat' %}",
         data: {
           'category': category 
         },

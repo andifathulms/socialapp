@@ -136,6 +136,24 @@
     .bottom button:hover{
       background: #0d8bd9;
     }
+    .thumbnail_images ul {
+        list-style: none;
+        justify-content: center;
+        display: flex;
+        align-items: center;
+        margin-top: 10px
+    }
+
+    .thumbnail_images ul li {
+        margin: 5px;
+        padding: 10px;
+        cursor: pointer;
+        transition: all 0.5s
+    }
+
+    .thumbnail_images ul li:hover {
+        border: 2px solid #eee
+    }
 </style>
 {% endblock head %}
 
@@ -147,6 +165,11 @@
         <textarea name="body" id="hiddenTextarea" cols="30" rows="10" style="display: none;"></textarea>
         <div class="input editable" contenteditable="true" spellcheck="false" id="tweet-box"></div>
         <div class="input readonly" contenteditable="true" spellcheck="false"></div>
+        <div class="thumbnail_images">
+          <ul id="thumbnail">
+              
+          </ul>
+       </div>
       </div>
       <div class="privacy">
         <i class="fas fa-globe-asia"></i>
@@ -167,7 +190,7 @@
         <li><i class="far fa-user"></i></li>
       </ul>
       <div class="content">
-        <span class="counter">100</span>
+        <span class="counter">250</span>
         <button>Tweet</button>
       </div>
     </div>
