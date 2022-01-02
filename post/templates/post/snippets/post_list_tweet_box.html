@@ -158,7 +158,7 @@
 {% endblock head %}
 
 <div class="wrapper mb-2"> 
-    <form onsubmit='return copyContent()' method= "post" hx-encoding="multipart/form-data" hx-post= "{% url 'home' %}" hx-swap="innerHTML" hx-target = "#post-content">
+    <form onsubmit='return copyContent()' method= "post" hx-encoding="multipart/form-data" hx-post= "{% url 'home' %}" hx-swap="innerHTML" hx-target = "#post-content" hx-indicator="#spinner">
     <div class="input-box">
       <div class="tweet-area">
         <span class="placeholder">What's happening?</span>
@@ -192,6 +192,7 @@
       <div class="content">
         <span class="counter">250</span>
         <button>Tweet</button>
+        <!-- <img  id="spinner" class="htmx-indicator" src="https://i1.wp.com/www.cssscript.com/wp-content/uploads/2014/10/iOS-OS-X-Style-Pure-CSS-Loading-Spinner.jpg?fit=400,300&ssl=1"/> -->
       </div>
     </div>
     </form>

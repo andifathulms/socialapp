@@ -1,0 +1,108 @@
+<style>
+    /* ==========================Font========================== */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+    section.preloader {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* background: #240229; */
+        min-height: 100vh;
+        z-index: -1;
+        position: absolute;
+        margin-left: auto;
+        margin-right: auto;
+        top: 10px;
+        left: 0;
+        right: 0;
+        text-align: center;
+    }
+
+    .loader-htmx {
+        position: relative;
+        width: 200px;
+        height: 200px;
+        border: 4px solid #240229;
+        overflow: hidden;
+        border-radius: 50%;
+        box-shadow: -5px -5px 5px rgba(255, 255, 255, .1),
+            10px 10px 10px rgba(0, 0, 0, .4),
+            inset -5px -5px 5px rgba(255, 255, 255, .2),
+            inset 10px 10px 10px rgba(0, 0, 0, .4);
+    }
+    .htmx-request .htmx-indicator{
+        z-index: 15;
+    }
+    .htmx-request.htmx-indicator{
+        z-index: 15;
+    }
+    .loader-htmx .text {
+        /* content: "Loading"; */
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        top: 25px;
+        left: 25px;
+        right: 25px;
+        bottom: 25px;
+        z-index: 2;
+        background: #240229;
+        border-radius: 50%;
+        border: 2px solid #240229;
+        box-shadow: inset -2px -2px 5px rgba(255, 255, 255, .2),
+            inset 3px 3px 5px rgba(0, 0, 0, .5);
+    }
+
+    .loader-htmx .text h6 {
+        font-weight: 300;
+        font-size: 0.9em;
+        letter-spacing: 1px;
+        animation: fade 1.5s ease-in-out infinite;
+    }
+
+    .loader-htmx span {
+        position: absolute;
+        z-index: -1;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: linear-gradient(#14ffe9, #ffeb3b, #ff00e0);
+        animation: rotate .5s linear infinite;
+    }
+
+    @keyframes rotate {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    @keyframes fade {
+        0% {
+            opacity: 0;
+        }
+
+        50% {
+            opacity: 1;
+        }
+
+        100% {
+            opacity: 0;
+        }
+    }
+</style>
+
+<section id="spinner" class="preloader htmx-indicator">
+    <div class="loader-htmx">
+        <div class="text">
+            <h6>Please wait...</h6>
+        </div>
+        <span></span>
+        <span></span>
+    </div>
+</section>
