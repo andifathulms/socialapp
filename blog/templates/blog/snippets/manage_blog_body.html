@@ -25,7 +25,7 @@
                     <span style="position: absolute;width: 100%;height: 100%;top: 0;left: 0;z-index: 1;"></span> 
                   </a>
                   <div class="col-md-9 p-2">
-                    <div class="border-end" style="color: white;">
+                    <div>
                       <p><strong>{{ result.title|safe }}</strong></p>
                       <p id="blog-body-{{result.pk}}"></p>
                       <script>
@@ -51,7 +51,7 @@
                           let blocks = body.blocks;
                           let imageFlag = false;
                           let textBody = "";
-                          postBody.style = "color: white";
+                          postBody.style = "color: black";
                           for (let index = 0; index <= blocks.length; index++) {
                             switch (blocks[index].type) {
                               case "Header":
@@ -110,7 +110,7 @@
           
 
         </div>
-        <div class="tweet-info-counts" style="color: white;">
+        <div class="tweet-info-counts" style="color: black;">
           <span class="mr-4">{{ result.created_on|date:"F d, Y" }} </span>
           <span class="mr-4"><span id="blog-min-read-{{result.pk}}"></span> min read </span>
           <button class="btn btn-transparent p-0 mr-2" type="submit" onclick="sentAJAX_readList({{result.pk}})">
@@ -148,7 +148,7 @@
                     <span style="position: absolute;width: 100%;height: 100%;top: 0;left: 0;z-index: 1;"></span> 
                   </a>
                   <div class="col-md-9 p-2">
-                    <div class="border-end" style="color: white;">
+                    <div>
                       <p><strong>{{ result.title|safe }}</strong></p>
                       <p id="blog-body-{{result.pk}}"></p>
                       <script>
@@ -174,7 +174,7 @@
                           let blocks = body.blocks;
                           let imageFlag = false;
                           let textBody = "";
-                          postBody.style = "color: white";
+                          postBody.style = "color: black";
                           for (let index = 0; index <= blocks.length; index++) {
                             switch (blocks[index].type) {
                               case "Header":
@@ -233,7 +233,7 @@
           
 
         </div>
-        <div class="tweet-info-counts" style="color: white;">
+        <div class="tweet-info-counts" >
           <span class="mr-4">{{ result.created_on|date:"F d, Y" }} </span>
           <span class="mr-4"><span id="blog-min-read-{{result.pk}}"></span> min read </span>
           <button class="btn btn-transparent p-0 mr-2" type="submit" onclick="sentAJAX_readList({{result.pk}})">

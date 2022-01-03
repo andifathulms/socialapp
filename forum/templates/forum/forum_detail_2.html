@@ -162,7 +162,6 @@
       position: relative;
       display:block;
       padding: 2px 0;
-      color: floralwhite;
     }
 </style>
 {% include 'forum/snippets/css/tweet_box_css.html' %}
@@ -251,10 +250,12 @@
             score.innerText = score_count + 1
           }
         }
+        var url = '{% url "forum:forum-upvote" 0 %}'.replace('0', pk);  
         $.ajax({
           type: "POST",
           headers: {'X-CSRFToken': csrftoken},
-          url: 'http://127.0.0.1:8000/forum/'+pk+'/upvote', 
+          // url: 'https://pnptalk.herokuapp.com/forum/'+pk+'/upvote',
+          url: url,
           data: {
             'pk': pk
           },
@@ -286,10 +287,12 @@
             score.innerText = score_count - 1
           }
         }
+        var url = '{% url "forum:forum-downvote" 0 %}'.replace('0', pk);  
         $.ajax({
           type: "POST",
           headers: {'X-CSRFToken': csrftoken},
-          url: 'http://127.0.0.1:8000/forum/'+pk+'/downvote', 
+          // url: 'https://pnptalk.herokuapp.com/forum/'+pk+'/downvote',
+          url: url,
           data: {
             'pk': pk
           },
@@ -340,10 +343,12 @@
             score.innerText = score_count + 1
           }
         }
+        var url = '{% url "forum:reply-upvote" 0 1 %}'.replace('0', post_pk).replace('1',pk);  
         $.ajax({
           type: "POST",
           headers: {'X-CSRFToken': csrftoken},
-          url: 'http://127.0.0.1:8000/forum/'+post_pk+'/reply/'+pk+'/upvote', 
+          // url: 'https://pnptalk.herokuapp.com/forum/'+post_pk+'/reply/'+pk+'/upvote', 
+          url: url,
           data: {
             'pk': pk
           },
@@ -394,10 +399,12 @@
             score.innerText = score_count - 1
           }
         }
+        var url = '{% url "forum:reply-downvote" 0 1 %}'.replace('0', post_pk).replace('1',pk); 
         $.ajax({
           type: "POST",
           headers: {'X-CSRFToken': csrftoken},
-          url: 'http://127.0.0.1:8000/forum/'+post_pk+'/reply/'+pk+'/downvote', 
+          // url: 'https://pnptalk.herokuapp.com/forum/'+post_pk+'/reply/'+pk+'/downvote', 
+          url: url,
           data: {
             'pk': pk
           },

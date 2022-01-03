@@ -3,20 +3,16 @@
 {% load humanize %}
 {% block post %}
 <style>
-    h3{
-        color: ghostwhite;
-    }
+   
     p{
         font-size: 20px;
     }
-    .fw-bold{
-        color: lightgoldenrodyellow;
-    }
+    
     .card {
-        border: 2px solid antiquewhite !important;
+        border: 2px solid floralwhite !important;
         overflow: hidden;
-        background-color: #000 !important;
-        color: floralwhite;
+        background-color: #fff !important;
+        /* color: floralwhite; */
     }
 
     .thumbnail_images ul {
@@ -143,7 +139,7 @@
                         <p>Joined PNP Social since {{product.author.date_joined|naturaltime}}</p>
                     </div>
                     <hr>
-                    <a href="{% url 'marketplace:marketplace-home' %}" class="btn mb-1 mr-1 btn-outline-light">Back to marketplace <span class="btn-icon-right"><i class="fas fa-sign-out-alt"></i></span></a>
+                    <a href="{% url 'marketplace:marketplace-home' %}" class="btn mb-1 mr-1 btn-outline-dark">Back to marketplace <span class="btn-icon-right"><i class="fas fa-sign-out-alt"></i></span></a>
                     {% if product.author == request.user %}
                     <a href="{% url 'marketplace:marketplace-edit' product.pk %}" class="btn mb-1 mr-1 btn-outline-warning">Edit <span class="btn-icon-right"><i class="far fa-edit"></i></span></a>
                     <button type="button" class="btn mb-1 btn-outline-danger" data-toggle="modal" data-target="#deleteModal">Delete <span class="btn-icon-right"><i class="fas fa-trash-alt"></i></span></button>

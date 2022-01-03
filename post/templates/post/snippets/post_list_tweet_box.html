@@ -9,11 +9,11 @@
       background: #1da1f2;
     }
     .wrapper{
-      background: #000;
+      background: #fff;
       width: 100%;
       border-radius: 15px;
       padding: 25px 25px 15px 25px;
-      box-shadow: 0.1rem 0.1rem 0.1rem var(--greyLight-2), -0.1rem -0.1rem 0.8rem var(--white);
+      box-shadow: 0 0 0.1rem var(--greyLight-2), 0 0 0.8rem var(--white);
     }
     .input-box{
       padding-top: 10px;
@@ -41,7 +41,7 @@
       min-height: inherit;
       word-wrap: break-word;
       word-break: break-all;
-      color: white;
+      color: black;
     }
     .tweet-area .editable{
       position: relative;
@@ -178,16 +178,17 @@
     </div>
     <div class="bottom">
       <ul class="icons">
-        <li><i class="uil uil-capture"></i></li>
         <li>
-            <label for="id_image">
-              <i class="far fa-file-image"></i>
-            </label>
-            <input type="file" id="id_image" class="clearablefileinput" name="image" multiple="" accept="image/*" style="display: none;">
+          <label for="id_image">
+            <i class="far fa-file-image"></i>
+          </label>
+          <input type="file" id="id_image" class="clearablefileinput" name="image" multiple="" accept="image/*" style="display: none;">
         </li>
+        <!-- <li><i class="uil uil-capture"></i></li>
+        
         <li><i class="fas fa-map-marker-alt"></i></li>
         <li><i class="far fa-grin"></i></li>
-        <li><i class="far fa-user"></i></li>
+        <li><i class="far fa-user"></i></li> -->
       </ul>
       <div class="content">
         <span class="counter">250</span>

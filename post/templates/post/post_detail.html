@@ -16,6 +16,7 @@
 
 {% block post %}
 <div class="container">
+    {% include 'snippets/htmx_indicator.html' %}
     {% include 'post/snippets/post_detail_header.html' %}
     <div id="post-detail-tweet">
         {% include 'post/snippets/post_detail_tweet.html' %}
@@ -233,4 +234,5 @@
     });
 
 </script>
+{% include 'post/snippets/js/showImgPreview.html' %}
 {% endblock javascript %}

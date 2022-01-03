@@ -21,7 +21,7 @@
                <div class="r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-ipm5af r-13qz1uu">
                   <div aria-label="" class="css-1dbjc4n r-1p0dtai r-1mlwlqe r-1d2f490 r-1udh08x r-u8s1d r-zchlnj r-ipm5af r-417010">
                      <div class="css-1dbjc4n r-1niwhzg r-vvn4in r-u6sd8q r-4gszlv r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-zchlnj r-ipm5af r-13qz1uu r-1wyyakw" style="background-image: url(&quot;https://pbs.twimg.com/profile_banners/19583545/1640358203/1080x360&quot;);"></div>
-                     <img alt="" draggable="true" src="https://pbs.twimg.com/profile_banners/19583545/1640358203/1080x360" class="css-9pa8cd">
+                     <img alt="" draggable="true" src="https://wallpapercave.com/wp/wp7802875.jpg" class="css-9pa8cd">
                   </div>
                </div>
             </div>
@@ -38,12 +38,12 @@
                                <div class="css-1dbjc4n r-sdzlij r-ggadg3 r-1udh08x r-u8s1d r-8jfcpp" style="height: calc(100% + 4px); width: calc(100% + 4px);">
                                   <a href="{{account.profile_image.url}}" role="link" class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1niwhzg r-1loqt21 r-1pi2tsx r-1ny4l3l r-o7ynqc r-6416eg r-13qz1uu">
                                      <div class="css-1dbjc4n r-sdzlij r-1wyvozj r-1udh08x r-633pao r-u8s1d r-1v2oles r-desppf" style="height: calc(100% - 4px); width: calc(100% - 4px);">
-                                        <div class="css-1dbjc4n r-kemksi r-1pi2tsx r-13qz1uu"></div>
+                                        <div class="css-1dbjc4n r-14lw9ot r-1pi2tsx r-13qz1uu"></div>
                                      </div>
                                      <div class="css-1dbjc4n r-sdzlij r-1wyvozj r-1udh08x r-633pao r-u8s1d r-1v2oles r-desppf" style="height: calc(100% - 12px); width: calc(100% - 12px);">
-                                        <div class="css-1dbjc4n r-kemksi r-1pi2tsx r-13qz1uu"></div>
+                                        <div class="css-1dbjc4n r-14lw9ot r-1pi2tsx r-13qz1uu"></div>
                                      </div>
-                                     <div class="css-1dbjc4n r-kemksi r-sdzlij r-1wyvozj r-1udh08x r-633pao r-u8s1d r-1v2oles r-desppf" style="height: calc(100% - 12px); width: calc(100% - 12px);">
+                                     <div class="css-1dbjc4n r-14lw9ot r-sdzlij r-1wyvozj r-1udh08x r-633pao r-u8s1d r-1v2oles r-desppf" style="height: calc(100% - 12px); width: calc(100% - 12px);">
                                         <div class="css-1dbjc4n r-1adg3ll r-1udh08x" style="">
                                            <div class="r-1adg3ll r-13qz1uu" style="padding-bottom: 100%;"></div>
                                            <div class="r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-ipm5af r-13qz1uu">
@@ -83,13 +83,13 @@
                            {% if request.user == account %}
                            <a href="{% url 'account:edit' account.pk %}" class="css-4rbku5 css-18t94o4 css-901oao css-16my406 r-1loqt21 r-4qtqp9 r-poiln3 r-1b7u577 r-bcqeeo r-qvutc0">
                            <div aria-label="" role="button" tabindex="0" class="css-18t94o4 css-1dbjc4n r-1niwhzg r-sdzlij r-1phboty r-rs99b7 r-15ysp7h r-4wgw6l r-1ny4l3l r-ymttw5 r-o7ynqc r-6416eg r-lrvibr" style="border-color: rgb(83, 100, 113);" data-testid="1432706855525048330-unfollow">
-                              <div dir="auto" class="css-901oao r-1awozwy r-6koalj r-18u37iz r-16y2uox r-37j5jr r-a023e6 r-b88u0q r-1777fci r-rjixqe r-bcqeeo r-q4m81j r-qvutc0" style="color: rgb(239, 243, 244);"><span class="css-901oao css-16my406 css-bfa6kz r-poiln3 r-1b43r93 r-1cwl3u0 r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Edit</span></span></div>
+                              <div dir="auto" class="css-901oao r-1awozwy r-6koalj r-18u37iz r-16y2uox r-37j5jr r-a023e6 r-b88u0q r-1777fci r-rjixqe r-bcqeeo r-q4m81j r-qvutc0" ><span class="css-901oao css-16my406 css-bfa6kz r-poiln3 r-1b43r93 r-1cwl3u0 r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Edit</span></span></div>
                              </div>
                            </a>
                            {% else %}
                            {% if request.user in account.userfollow.followers.all %}
                            <div hx-post="{% url 'follower:follower-remove' account.pk %}" hx-target="#btnFolTarget-{{account.pk}}" aria-label="" role="button" tabindex="0" class="css-18t94o4 css-1dbjc4n r-1niwhzg r-sdzlij r-1phboty r-rs99b7 r-15ysp7h r-4wgw6l r-1ny4l3l r-ymttw5 r-o7ynqc r-6416eg r-lrvibr" style="border-color: rgb(83, 100, 113);" data-testid="1432706855525048330-unfollow">
-                            <div dir="auto" class="css-901oao r-1awozwy r-6koalj r-18u37iz r-16y2uox r-37j5jr r-a023e6 r-b88u0q r-1777fci r-rjixqe r-bcqeeo r-q4m81j r-qvutc0" style="color: rgb(239, 243, 244);"><span class="css-901oao css-16my406 css-bfa6kz r-poiln3 r-1b43r93 r-1cwl3u0 r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Followed</span></span></div>
+                            <div dir="auto" class="css-901oao r-1awozwy r-6koalj r-18u37iz r-16y2uox r-37j5jr r-a023e6 r-b88u0q r-1777fci r-rjixqe r-bcqeeo r-q4m81j r-qvutc0" ><span class="css-901oao css-16my406 css-bfa6kz r-poiln3 r-1b43r93 r-1cwl3u0 r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Followed</span></span></div>
                            </div>
                            {% else %}
     
@@ -107,13 +107,13 @@
                    <div class="css-1dbjc4n r-1wbh5a2 r-dnmrzs r-1ny4l3l">
                       <div class="css-1dbjc4n r-1wbh5a2 r-dnmrzs r-1ny4l3l">
                          <div class="css-1dbjc4n r-1awozwy r-18u37iz r-dnmrzs">
-                            <div dir="auto" class="css-901oao r-1awozwy r-1fmj7o5 r-6koalj r-37j5jr r-adyw6z r-1vr29t4 r-135wba7 r-bcqeeo r-1udh08x r-qvutc0">
+                            <div dir="auto" class="css-901oao r-1awozwy r-18jsvk2 r-6koalj r-37j5jr r-adyw6z r-1vr29t4 r-135wba7 r-bcqeeo r-1udh08x r-qvutc0">
                                <span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">{{profile.fullname}}</span></span>
                                <!-- Verif Icon -->
                                <span class="css-901oao css-16my406 r-xoduu5 r-18u37iz r-1q142lx r-poiln3 r-adyw6z r-135wba7 r-bcqeeo r-qvutc0">
                                   <div class="css-1dbjc4n r-xoduu5">
                                      <div aria-label="Memberikan detail tentang akun terverifikasi." role="button" tabindex="0" class="css-18t94o4 css-1dbjc4n r-6koalj r-9cviqr r-1ny4l3l r-o7ynqc r-6416eg">
-                                        <svg viewBox="0 0 24 24" aria-label="Akun terverifikasi" class="r-1fmj7o5 r-4qtqp9 r-yyyyoo r-1xvli5t r-f9ja8p r-og9te1 r-bnwqim r-1plcrui r-lrvibr">
+                                        <svg viewBox="0 0 24 24" aria-label="Akun terverifikasi" class="r-18jsvk2 r-4qtqp9 r-yyyyoo r-1xvli5t r-f9ja8p r-og9te1 r-bnwqim r-1plcrui r-lrvibr">
                                            <g>
                                               <path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.818-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.437 2.25c-.415-.165-.866-.25-1.336-.25-2.11 0-3.818 1.79-3.818 4 0 .494.083.964.237 1.4-1.272.65-2.147 2.018-2.147 3.6 0 1.495.782 2.798 1.942 3.486-.02.17-.032.34-.032.514 0 2.21 1.708 4 3.818 4 .47 0 .92-.086 1.335-.25.62 1.334 1.926 2.25 3.437 2.25 1.512 0 2.818-.916 3.437-2.25.415.163.865.248 1.336.248 2.11 0 3.818-1.79 3.818-4 0-.174-.012-.344-.033-.513 1.158-.687 1.943-1.99 1.943-3.484zm-6.616-3.334l-4.334 6.5c-.145.217-.382.334-.625.334-.143 0-.288-.04-.416-.126l-.115-.094-2.415-2.415c-.293-.293-.293-.768 0-1.06s.768-.294 1.06 0l1.77 1.767 3.825-5.74c.23-.345.696-.436 1.04-.207.346.23.44.696.21 1.04z"></path>
                                            </g>
@@ -131,14 +131,14 @@
                 </div>
                 <div class="css-1dbjc4n r-1adg3ll r-6gpygo">
                    <div class="css-1dbjc4n">
-                      <div dir="auto" class="css-901oao r-1fmj7o5 r-37j5jr r-a023e6 r-16dba41 r-rjixqe r-bcqeeo r-qvutc0" data-testid="UserDescription"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">{{profile.bio}}</span></div>
+                      <div dir="auto" class="css-901oao r-18jsvk2 r-37j5jr r-a023e6 r-16dba41 r-rjixqe r-bcqeeo r-qvutc0" data-testid="UserDescription"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">{{profile.bio}}</span></div>
                      <!-- Terjemahkan -->
                      <!-- <div dir="auto" aria-expanded="false" role="button" tabindex="0" class="css-18t94o4 css-901oao r-6koalj r-1w6e6rj r-37j5jr r-n6v787 r-16dba41 r-1cwl3u0 r-14gqq1x r-bcqeeo r-qvutc0" style="color: rgb(0, 186, 124);"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Terjemahkan bio</span></div> -->
                    </div>
                 </div>
                 <div class="css-1dbjc4n r-1adg3ll r-6gpygo">
                    
-                   <div dir="auto" class="css-901oao r-1fmj7o5 r-37j5jr r-a023e6 r-16dba41 r-56xrmm r-bcqeeo r-qvutc0" data-testid="UserProfileHeader_Items" style="white-space: nowrap !important;">
+                   <div dir="auto" class="css-901oao r-18jsvk2 r-37j5jr r-a023e6 r-16dba41 r-56xrmm r-bcqeeo r-qvutc0" data-testid="UserProfileHeader_Items" style="white-space: nowrap !important;">
                      {% if profile.location %} 
                      <span dir="ltr" role="presentation" class="css-901oao css-16my406 r-9ilb82 r-4qtqp9 r-poiln3 r-1b7u577 r-bcqeeo r-qvutc0" data-testid="UserLocation">
                          <svg viewBox="0 0 24 24" aria-hidden="true" class="r-9ilb82 r-4qtqp9 r-yyyyoo r-1xvli5t r-1d4mawv r-dnmrzs r-bnwqim r-1plcrui r-lrvibr">
@@ -184,7 +184,7 @@
                       {% endif %}
                       
                    </div>
-                   <div dir="auto" class="css-901oao r-1fmj7o5 r-37j5jr r-a023e6 r-16dba41 r-56xrmm r-bcqeeo r-qvutc0" data-testid="UserProfileHeader_Items" style="white-space: nowrap !important;">
+                   <div dir="auto" class="css-901oao r-18jsvk2 r-37j5jr r-a023e6 r-16dba41 r-56xrmm r-bcqeeo r-qvutc0" data-testid="UserProfileHeader_Items" style="white-space: nowrap !important;">
                      {% if profile.occupation %}
                       <span dir="ltr" role="presentation" class="css-901oao css-16my406 r-9ilb82 r-4qtqp9 r-poiln3 r-1b7u577 r-bcqeeo r-qvutc0">
                         <i class="fas fa-user-md"></i>
@@ -200,8 +200,8 @@
                   </div>
                 </div>
                 <div class="css-1dbjc4n r-13awgt0 r-18u37iz r-1w6e6rj">
-                   <div class="css-1dbjc4n r-1mf7evn"><a href="{% url 'follower:following-list' user_id=account.id %}" dir="auto" role="link" class="css-4rbku5 css-18t94o4 css-901oao r-1fmj7o5 r-1loqt21 r-37j5jr r-a023e6 r-16dba41 r-rjixqe r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-1fmj7o5 r-poiln3 r-b88u0q r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0" style="color: cornsilk;">{{account.followers.all.count}}</span></span> <span class="css-901oao css-16my406 r-9ilb82 r-poiln3 r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Following</span></span></a></div>
-                   <div class="css-1dbjc4n"><a href="{% url 'follower:follower-list' user_id=account.id %}" dir="auto" role="link" class="css-4rbku5 css-18t94o4 css-901oao r-1fmj7o5 r-1loqt21 r-37j5jr r-a023e6 r-16dba41 r-rjixqe r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-1fmj7o5 r-poiln3 r-b88u0q r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0" style="color: cornsilk;">{{account.following.all.count}}</span></span> <span class="css-901oao css-16my406 r-9ilb82 r-poiln3 r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Followers</span></span></a></div>
+                   <div class="css-1dbjc4n r-1mf7evn"><a href="{% url 'follower:following-list' user_id=account.id %}" dir="auto" role="link" class="css-4rbku5 css-18t94o4 css-901oao r-18jsvk2 r-1loqt21 r-37j5jr r-a023e6 r-16dba41 r-rjixqe r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-18jsvk2 r-poiln3 r-b88u0q r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">{{account.followers.all.count}}</span></span> <span class="css-901oao css-16my406 r-9ilb82 r-poiln3 r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Following</span></span></a></div>
+                   <div class="css-1dbjc4n"><a href="{% url 'follower:follower-list' user_id=account.id %}" dir="auto" role="link" class="css-4rbku5 css-18t94o4 css-901oao r-18jsvk2 r-1loqt21 r-37j5jr r-a023e6 r-16dba41 r-rjixqe r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-18jsvk2 r-poiln3 r-b88u0q r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">{{account.following.all.count}}</span></span> <span class="css-901oao css-16my406 r-9ilb82 r-poiln3 r-bcqeeo r-qvutc0"><span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Followers</span></span></a></div>
                 </div>
                 <!-- <div class="css-1dbjc4n r-1s2bzr4">
                    <div class="css-1dbjc4n r-bt1l66">
@@ -340,7 +340,7 @@
                   <div id="navTarget" role="tablist" class="css-1dbjc4n r-18u37iz r-16y2uox r-1wbh5a2 r-tzz3ar r-1pi2tsx r-lltvgl r-buy8e9 r-mfh4gg r-2eszeu r-hbs49y" data-testid="ScrollSnap-List" style="scroll-padding: 0px 36px;">
                      <div role="presentation" class="css-1dbjc4n r-16y2uox r-6b64d0 r-cpa5s6">
                         <a hx-get="{% url 'account:load-post-this-user' user_id=account.pk %}" hx-target="#contentTarget" aria-selected="true" role="tab" class="css-4rbku5 css-18t94o4 css-1dbjc4n r-1awozwy r-1loqt21 r-6koalj r-eqz5dr r-16y2uox r-1h3ijdo r-1777fci r-s8bhmr r-1ny4l3l r-1qhn6m8 r-i023vh r-o7ynqc r-6416eg">
-                           <div dir="auto" class="css-901oao r-1fmj7o5 r-6koalj r-eqz5dr r-37j5jr r-a023e6 r-b88u0q r-1pi2tsx r-rjixqe r-bcqeeo r-1l7z4oj r-95jzfe r-bnwqim r-qvutc0">
+                           <div dir="auto" class="css-901oao r-18jsvk2 r-6koalj r-eqz5dr r-37j5jr r-a023e6 r-b88u0q r-1pi2tsx r-rjixqe r-bcqeeo r-1l7z4oj r-95jzfe r-bnwqim r-qvutc0">
                               <span class="css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0">Post</span>
                               <div class="css-1dbjc4n r-1kihuf0 r-s224ru r-sdzlij r-1p0dtai r-xoduu5 r-hdaws3 r-s8bhmr r-u8s1d r-13qz1uu"></div>
                            </div>

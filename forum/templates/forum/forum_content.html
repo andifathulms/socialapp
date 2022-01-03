@@ -280,10 +280,12 @@
             score.innerText = score_count + 1
           }
         }
+        var url = '{% url "forum:forum-upvote" 0 %}'.replace('0', pk);  
         $.ajax({
           type: "POST",
           headers: {'X-CSRFToken': csrftoken},
-          url: 'http://127.0.0.1:8000/forum/'+pk+'/upvote', 
+          // url: 'https://pnptalk.herokuapp.com/forum/'+pk+'/upvote', 
+          url: url,
           data: {
             'pk': pk
           },
@@ -315,10 +317,12 @@
             score.innerText = score_count - 1
           }
         }
+        var url = '{% url "forum:forum-downvote" 0 %}'.replace('0', pk);  
         $.ajax({
           type: "POST",
           headers: {'X-CSRFToken': csrftoken},
-          url: 'http://127.0.0.1:8000/forum/'+pk+'/downvote', 
+          // url: 'https://pnptalk.herokuapp.com/forum/'+pk+'/downvote', 
+          url: url,
           data: {
             'pk': pk
           },

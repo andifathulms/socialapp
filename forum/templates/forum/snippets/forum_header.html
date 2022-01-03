@@ -1,10 +1,10 @@
-<div class="ibox-content m-b-sm border-bottom" style="margin-bottom: 1px; border-radius: 10px; background-color: #000; box-shadow: 0.1rem 0.1rem 0.1rem var(--greyLight-2), -0.1rem -0.1rem 0.8rem var(--white);"">
+<div class="ibox-content m-b-sm border-bottom" style="margin-bottom: 1px; border-radius: 10px; background-color: #fff; box-shadow: 0 0 0.1rem var(--greyLight-2), 0 0 0.8rem var(--white);"">
     <div class="forum-icon">
         <img class="mr-3 circle-rounded avator" style="float: left;margin-right: 2rem;" width="70" height="70" src="{{ subject.image.url }}" />
     </div>
     <div class="p-xs">
-        <h2 style="color: lightyellow;">{{subject.title}}</h2>
-        <span style="color: mintcream;">{{subject.description}}</span>
+        <h2>{{subject.title}}</h2>
+        <span>{{subject.description}}</span>
         {% if request.user in subject.subscriber.all %}
         <button type="button" class="btn mb-1 btn-success" id="btn-join-{{subject.pk}}" onclick="myFunction({{subject.pk}}) " style="float: right;">Joined</button>
         {% else %}
