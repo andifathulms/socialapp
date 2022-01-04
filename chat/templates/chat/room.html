@@ -506,7 +506,7 @@
 		profileImage.classList.add("profile-image")
 		profileImage.classList.add("rounded-circle")
 		profileImage.classList.add("img-fluid")
-		profileImage.src = "{% static 'codingwithmitch/dummy_image.png' %}"
+		profileImage.src = "{% static 'img/dummy_image.png' %}"
 		var profile_image_id = "id_profile_image_" + msg_id
 		profileImage.id = profile_image_id
 		newMessageDiv.appendChild(profileImage)
@@ -621,7 +621,7 @@
 
 		// clear the profile image and username of current chat
 		document.getElementById("id_other_user_profile_image").classList.add("d-none")
-		document.getElementById("id_other_user_profile_image").src = "{% static 'codingwithmitch/dummy_image.png' %}"
+		document.getElementById("id_other_user_profile_image").src = "{% static 'img/dummy_image.png' %}"
 		document.getElementById("id_other_username").innerHTML = ""
 	}
 
