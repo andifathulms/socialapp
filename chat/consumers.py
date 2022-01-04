@@ -338,7 +338,8 @@ def get_room_or_error(room_id, user):
 	friend_list = FriendList.objects.get(user=user).friends.all()
 	if not room.user1 in friend_list:
 		if not room.user2 in friend_list:
-			raise ClientError("ROOM_ACCESS_DENIED", "You must be friends to chat.")
+			pass
+			#raise ClientError("ROOM_ACCESS_DENIED", "You must be friends to chat.")
 	return room
 
 
