@@ -43,6 +43,13 @@ class FollowerList(models.Model):
 			if not chat.is_active:
 				chat.is_active = True
 				chat.save()
+	
+	@property
+	def get_cname(self):
+		"""
+		For determining what kind of object is associated with a Notification
+		"""
+		return "FollowerList"
 
 class FollowingList(models.Model):
 
@@ -76,6 +83,13 @@ class FollowingList(models.Model):
 			if not chat.is_active:
 				chat.is_active = True
 				chat.save()
+	
+	@property
+	def get_cname(self):
+		"""
+		For determining what kind of object is associated with a Notification
+		"""
+		return "FollowingList"
 
 
 
