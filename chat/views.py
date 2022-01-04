@@ -18,8 +18,6 @@ from account.models import Account
 from chat.models import PrivateChatRoom, RoomChatMessage
 from chat.utils import find_or_create_private_chat
 
-from post.views import fillRightNav
-
 DEBUG = False
 
 @login_required
@@ -41,8 +39,7 @@ def private_chat_room_view(request, *args, **kwargs):
 		context["room_id"] = room_id
 	context['debug'] = DEBUG
 	context['debug_mode'] = settings.DEBUG
-	fillRightNav(request,context)
-	return render(request, "chat/room_backup.html", context)
+	return render(request, "chat/room.html", context)
 
 def get_recent_chatroom_messages(user):
 	"""
@@ -66,9 +63,12 @@ def get_recent_chatroom_messages(user):
 
 		# confirm you are even friends (in case chat is left active somehow)
 		friend_list = FriendList.objects.get(user=user)
-		if not friend_list.is_mutual_friend(friend):
+		
+		#if not friend_list.is_mutual_friend(friend):
+		if False:
 			chat = find_or_create_private_chat(user, friend)
-			chat.is_active = False
+			#chat.is_active = False #The workaround
+			chat.is_active = True
 			chat.save()
 		else:	
 			# find newest msg from that friend in the chat room
@@ -95,6 +95,8 @@ def get_recent_chatroom_messages(user):
 				'message': message,
 				'friend': friend
 			})
+
+			print(m_and_f)
 
 	return sorted(m_and_f, key=lambda x: x['message'].timestamp, reverse=True)
 

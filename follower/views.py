@@ -18,10 +18,12 @@ class AddFollower(LoginRequiredMixin, View):
 		reqUser = Account.objects.get(pk=pk)
 
 		follower_list = FollowerList.objects.get(user=reqUser)
-		follower_list.followers.add(request.user)
+		#follower_list.followers.add(request.user)
+		follower_list.add_follower(request.user)
 
 		following_list = FollowingList.objects.get(user=request.user)
-		following_list.following.add(reqUser)
+		#following_list.following.add(reqUser)
+		following_list.add_following(reqUser)
 		context["result"] = reqUser
 		return render(request, 'follower/snippets/span_btn_followed.html', context)
 
