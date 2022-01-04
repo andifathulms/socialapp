@@ -143,7 +143,7 @@
 			var ws_path = ws_scheme + '://' + window.location.host + ":8001/public_chat/{{room_id}}/"; // production
 		{% endif %}
 		var public_chat_socket = new WebSocket(ws_path);
-
+		
 		// Handle incoming messages
 		public_chat_socket.onmessage = function(message) {
 			console.log("Got chat websocket message " + message.data);
@@ -221,6 +221,7 @@
 	    document.getElementById('id_chat_message_submit').onclick = function(e) {
 			const messageInputDom = document.getElementById('id_chat_message_input');
 			const message = messageInputDom.value;
+			if (!isOpen(public_chat_socket)) return;
 			public_chat_socket.send(JSON.stringify({
 				"command": "send",
 				"message": message,
@@ -228,7 +229,7 @@
 			}));
 			messageInputDom.value = '';
 		};
-
+		function isOpen(ws) { return ws.readyState === ws.OPEN }
 		function appendChatMessage(data, maintainPosition, isNewMessage){
 			message = data['message']
 			msg_id = data['msg_id']
