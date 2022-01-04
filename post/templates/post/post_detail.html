@@ -3,14 +3,6 @@
 {% load static %}
 
 {% block head %}
-<style>
-    .child-comment{
-        margin-left: 2rem;
-    }
-    .body-post a {
-        text-decoration: none;
-    }
-</style>
 {% include 'post/snippets/tweet_style.html' %}
 {% endblock head %}
 
@@ -160,10 +152,11 @@
             like.classList.add('heart');
             count.innerText = like_count - 1
         }
+        var url = '{% url "post:post-like" 0 %}'.replace('0', pk); 
        $.ajax({
         type: "POST",
         headers: {'X-CSRFToken': csrftoken},
-        url: 'http://127.0.0.1:8000/post/'+pk+'/like', // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+        url: url, // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
         data: {
           'pk': pk
         },
@@ -189,10 +182,11 @@
             like.classList.add('heart');
             count.innerText = like_count - 1
         }
+        var url = '{% url "post:comment-like" 0 1 %}'.replace('0', post_pk).replace('1', pk); 
        $.ajax({
         type: "POST",
         headers: {'X-CSRFToken': csrftoken},
-        url: 'http://127.0.0.1:8000/post/'+post_pk+'/comment/'+pk+'/like', 
+        url: url, 
         data: {
           'pk': pk
         },

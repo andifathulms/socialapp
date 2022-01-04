@@ -195,7 +195,7 @@
             sweetAlert("Oops...", "Item dihapus dari wishlist", "error")
         }
         $.ajax({                       // initialize an AJAX request
-            url: 'http://127.0.0.1:8000/marketplace/ajax/wishlist/', // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+            url: "{% url 'marketplace:ajax_wishlist' %}", // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
             data: {
               'pk': {{ product.pk }} 
             },

@@ -310,7 +310,7 @@ class AddDislike(LoginRequiredMixin, View):
         return HttpResponseRedirect(next)
 
 class AddCommentLike(LoginRequiredMixin, View):
-    def post(self, request, pk, *args, **kwargs):
+    def post(self, request, post_pk, pk, *args, **kwargs):
         comment = Comment.objects.get(pk=pk)
 
         is_dislike = False
@@ -336,8 +336,11 @@ class AddCommentLike(LoginRequiredMixin, View):
         if is_like:
             comment.likes.remove(request.user)
 
-        next = request.POST.get('next', '/')
-        return HttpResponseRedirect(next)
+        post = Post.objects.get(pk=post_pk)
+        context={}
+        context["result"] = comment
+        
+        return render(request, 'post/snippets/comment_like.html', context)
 
 class AddCommentDislike(LoginRequiredMixin, View):
     def post(self, request, pk, *args, **kwargs):

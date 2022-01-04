@@ -35,25 +35,8 @@
 {% endblock post %}
 
 {%  block javascript %}
-<!-- Waypoints -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-<script src="{% static 'quixlab/js/jquery.waypoints.js' %}"></script>
-<script src="{% static 'quixlab/js/infinite.min.js' %}"></script>
 
 <script>
-    var infinite = new Waypoint.Infinite({
-        element: $('.infinite-container')[0],
-        offset: 'bottom-in-view',
-        onBeforePageLoad: function(){
-            $('.loading').show();
-        },
-        onAfterPageLoad: function(){
-            $('.loading').hide();
-            formatTags();
-            onClickedImage();
-        }
-    })
-
     function shareToggle(parent_id) {
         const row = document.getElementById(parent_id);
         console.log(parent_id)
@@ -105,10 +88,11 @@
             like.classList.add('heart');
             count.innerText = like_count - 1
         }
+        var url = '{% url "post:post-like" 0 %}'.replace('0', pk); 
        $.ajax({
         type: "POST",
         headers: {'X-CSRFToken': csrftoken},
-        url: 'http://127.0.0.1:8000/post/'+pk+'/like',
+        url: url,
         data: {
           'pk': pk
         },
@@ -129,10 +113,11 @@
             read_list.classList.remove('heart-clicked');
             read_list.classList.add('heart');
         }
+        var url = '{% url "blog:blog-readlist-add" 0 %}'.replace('0', pk); 
        $.ajax({
         type: "POST",
         headers: {'X-CSRFToken': csrftoken},
-        url: 'http://127.0.0.1:8000/blog/'+pk+'/read-list', 
+        url: url, 
         data: {
           'pk': pk
         },
@@ -143,10 +128,6 @@
       });
     }
     
-    var tweet = document.getElementById("post-content");
-    tweet.addEventListener('htmx:afterSwap', function(){
-        
-    });
 </script>
 
 <script>
