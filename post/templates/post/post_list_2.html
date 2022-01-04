@@ -102,31 +102,6 @@
         }
       });
     }
-
-    function sentAJAX_readList(pk){
-        var id = "read-list-button-"+pk
-        var read_list = document.getElementById(id)
-        if(read_list.classList.contains('heart')){
-            read_list.classList.remove('heart');
-            read_list.classList.add('heart-clicked');
-        }else{
-            read_list.classList.remove('heart-clicked');
-            read_list.classList.add('heart');
-        }
-        var url = '{% url "blog:blog-readlist-add" 0 %}'.replace('0', pk); 
-       $.ajax({
-        type: "POST",
-        headers: {'X-CSRFToken': csrftoken},
-        url: url, 
-        data: {
-          'pk': pk
-        },
-        success: function (data) {
-          
-          //console.log(data)
-        }
-      });
-    }
     
 </script>
 

@@ -9,10 +9,11 @@
 	        read_list.classList.remove('heart-clicked');
 	        read_list.classList.add('heart');
 	    }
+		var url = '{% url "blog:blog-readlist-add" 0 %}'.replace('0', pk); 
 	   $.ajax({
 	    type: "POST",
 	    headers: {'X-CSRFToken': csrftoken},
-	    url: 'http://127.0.0.1:8000/blog/'+pk+'/read-list', 
+	    url: url, 
 	    data: {
 	      'pk': pk
 	    },
@@ -38,10 +39,11 @@
 	        claps.classList.add('heart');
 	        count.innerText = like_count - 1
 	    }
+		var url = '{% url "blog:blog-claps" 0 %}'.replace('0', pk); 
 	   $.ajax({
 	    type: "POST",
 	    headers: {'X-CSRFToken': csrftoken},
-	    url: 'http://127.0.0.1:8000/blog/'+pk+'/claps', 
+	    url: url, 
 	    data: {
 	      'pk': pk
 	    },
