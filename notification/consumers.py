@@ -10,6 +10,7 @@ from datetime import datetime
 
 from chat.models import UnreadChatRoomMessages
 from friend.models import FriendRequest, FriendList
+from follower.models import FollowerList, FollowingList
 from notification.models import Notification
 from notification.utils import LazyNotificationEncoder
 from notification.constants import *
@@ -273,7 +274,9 @@ def get_general_notifications(user, page_number):
 	if user.is_authenticated:
 		friend_request_ct = ContentType.objects.get_for_model(FriendRequest)
 		friend_list_ct = ContentType.objects.get_for_model(FriendList)
-		notifications = Notification.objects.filter(target=user, content_type__in=[friend_request_ct, friend_list_ct]).order_by('-timestamp')
+		follower_ct = ContentType.objects.get_for_model(FollowerList)
+		following_ct = ContentType.objects.get_for_model(FollowingList)
+		notifications = Notification.objects.filter(target=user, content_type__in=[friend_request_ct, friend_list_ct, follower_ct, following_ct]).order_by('-timestamp')
 		p = Paginator(notifications, DEFAULT_NOTIFICATION_PAGE_SIZE)
 
 		payload = {}

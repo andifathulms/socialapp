@@ -179,7 +179,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media_cdn')  #DEV
 TEMP = os.path.join(BASE_DIR, 'media_cdn/temp')  #DEV
 #TEMP = os.path.join(BASE_DIR, 'temp')  #PROD
 
-BASE_URL = "http://127.0.0.1:8000"
+#BASE_URL = "http://127.0.0.1:8000"
+BASE_URL = "https://pnptalk.herokuapp.com/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

@@ -192,6 +192,18 @@
 				card = createFriendListElement(notification)
 				notificationContainer.insertBefore(card, notificationContainer.childNodes[0]);
 				break;
+			
+			case "FollowerList":
+				notificationContainer = document.getElementById("id_general_notifications_container")
+				card = createFollowerListElement(notification)
+				notificationContainer.insertBefore(card, notificationContainer.childNodes[0]);
+				break;
+			
+			case "FollowingList":
+				notificationContainer = document.getElementById("id_general_notifications_container")
+				card = createFollowingListElement(notification)
+				notificationContainer.insertBefore(card, notificationContainer.childNodes[0]);
+				break;
 
 			default:
 				// code block
@@ -216,6 +228,18 @@
 			case "FriendList":
 				notificationContainer = document.getElementById("id_general_notifications_container")
 				card = createFriendListElement(notification)
+				notificationContainer.appendChild(card)
+				break;
+			
+			case "FollowerList":
+				notificationContainer = document.getElementById("id_general_notifications_container")
+				card = createFollowerListElement(notification)
+				notificationContainer.appendChild(card)
+				break;
+			
+			case "FollowingList":
+				notificationContainer = document.getElementById("id_general_notifications_container")
+				card = createFollowingListElement(notification)
 				notificationContainer.appendChild(card)
 				break;
 
@@ -283,6 +307,66 @@
 	}
 
 	function createFriendListElement(notification){
+		card = createGeneralNotificationCard()
+		card.id = assignGeneralCardId(notification)
+		card.addEventListener("click", function(){
+			generalRedirect(notification['actions']['redirect_url'])
+		})
+
+		var div1 = document.createElement("div")
+		div1.classList.add("d-flex", "flex-row", "align-items-start")
+		div1.id = assignGeneralDiv1Id(notification)
+
+		img = createGeneralProfileImageThumbnail(notification)
+		div1.appendChild(img)
+
+		span = document.createElement("span")
+		span.classList.add("align-items-start", "pt-1", "m-auto")
+		if(notification['verb'].length > 50){
+			span.innerHTML = notification['verb'].slice(0, 50) + "..."
+		}
+		else{
+			span.innerHTML = notification['verb']
+		}
+		span.id = assignGeneralVerbId(notification)
+		div1.appendChild(span)
+		card.appendChild(div1)
+		card.appendChild(createGeneralTimestampElement(notification))
+
+		return card
+	}
+
+	function createFollowerListElement(notification){
+		card = createGeneralNotificationCard()
+		card.id = assignGeneralCardId(notification)
+		card.addEventListener("click", function(){
+			generalRedirect(notification['actions']['redirect_url'])
+		})
+
+		var div1 = document.createElement("div")
+		div1.classList.add("d-flex", "flex-row", "align-items-start")
+		div1.id = assignGeneralDiv1Id(notification)
+
+		img = createGeneralProfileImageThumbnail(notification)
+		div1.appendChild(img)
+
+		span = document.createElement("span")
+		span.classList.add("align-items-start", "pt-1", "m-auto")
+		if(notification['verb'].length > 50){
+			span.innerHTML = notification['verb'].slice(0, 50) + "..."
+		}
+		else{
+			span.innerHTML = notification['verb']
+		}
+		span.id = assignGeneralVerbId(notification)
+		div1.appendChild(span)
+		card.appendChild(div1)
+		card.appendChild(createGeneralTimestampElement(notification))
+
+		return card
+	}
+
+	function createFollowingListElement(notification){
 		card = createGeneralNotificationCard()
 		card.id = assignGeneralCardId(notification)
 		card.addEventListener("click", function(){
