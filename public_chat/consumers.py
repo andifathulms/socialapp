@@ -153,7 +153,7 @@ class PublicChatConsumer(AsyncJsonWebsocketConsumer):
 			"join": str(room.id)
 		})
 		
-		"""
+		
 		# send the new user count to the room
 		num_connected_users = get_num_connected_users(room)
 		await self.channel_layer.group_send(
@@ -162,7 +162,7 @@ class PublicChatConsumer(AsyncJsonWebsocketConsumer):
 				"type": "connected.user.count",
 				"connected_user_count": num_connected_users,
 			}
-		)"""
+		)
 
 
 	async def leave_room(self, room_id):
