@@ -1,7 +1,24 @@
 from django import forms
 from django.conf import settings
+from django.db import models
 
 from .models import UserProfile
+
+class InitialProfileForm(forms.ModelForm):
+    birth_date = forms.DateField(input_formats=settings.DATE_INPUT_FORMATS)
+    class Meta:
+        model = UserProfile
+        fields = ('fullname', 'occupation', 'birth_date')
+    
+    def save(self, commit=True):
+        profile = super(InitialProfileForm, self).save(commit=False)
+        profile.fullname = self.cleaned_data['fullname']
+        profile.occupation = self.cleaned_data['occupation']
+        profile.birth_date = self.cleaned_data['birth_date']
+        if commit:
+            profile.save()
+            print("Sved")
+        return profile
 
 class ProfileUpdateForm(forms.ModelForm):
     birth_date = forms.DateField(input_formats=settings.DATE_INPUT_FORMATS)

@@ -1,0 +1,75 @@
+<style type="text/css">
+
+    .card-signin {
+        width: 100%;
+        max-width: 400px;
+        padding: 15px;
+        margin: auto;
+    }
+    
+    .form-signin input[type="email"] {
+      margin-bottom: 10px;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+    .form-signin input[type="text"] {
+      margin-bottom: 10px;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+    .form-signin input[type="password"] {
+      margin-bottom: -1px;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+  
+  
+  </style>
+  
+  <div class="container-fluid mb-4" style="font: 17px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+      <div class="row justify-content-center">
+          <div class="card card-signin">
+            <div class="card-body">
+              <form class="form-signin" method="post">{% csrf_token %}
+                  
+                  <div class="d-flex flex-column pb-3">
+                  <div class="container-fluid" style="font: 17px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+                      <h3 style="text-align: center;vertical-align: middle; ">About Yourself</h3>
+                  </div>
+                  <br>
+  
+                  <input style="width: 90%; margin: auto;" type="text" name="fullname" id="inputFullname" class="form-control mb-2" placeholder="Fullname" required>
+  
+                  <select style="width: 90%; margin: auto;" name="occupation" id="inputOccupation" class="form-control  mb-2">
+                    <option value="" disabled selected>You are ..</option>
+                    {% for occupation in occupations %}
+                    <option value="{{occupation.pk}}">
+                        {{occupation.name}}
+                    </option>
+                    {% endfor %}
+                  </select>
+
+                  <input style="width: 90%; margin: auto;" type="date" class="form-control mb-2" name="birth_date">
+
+                  {% for field in initial_form %}
+                  <p>
+                  {% for error in field.errors %}
+                  <p style="color: red">{{ error }}</p>
+                  {% endfor %}
+                  </p>
+                  {% endfor %}
+                  {% if initial_form.non_field_errors %}
+                  <div style="color: red">
+                      <p>{{initial_form.non_field_errors}}</p>
+                  </div>
+  
+                  {% endif %}
+                  
+                  <button style="width: 90%; margin: auto;" class="btn btn-lg btn-primary btn-block" type="submit" name="btnInitial">Register</button>
+                  
+                  </form>
+            </div>
+          </div>
+          
+      </div>
+  </div>

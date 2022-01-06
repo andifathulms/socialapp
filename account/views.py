@@ -23,7 +23,7 @@ from account.forms import RegistrationForm, AccountAuthenticationForm, AccountUp
 from account.models import Account
 
 from account_profile.models import UserProfile, Occupation, Prodi
-from account_profile.forms import ProfileUpdateForm
+from account_profile.forms import ProfileUpdateForm, InitialProfileForm
 
 from post.models import Post
 
@@ -42,6 +42,9 @@ from django.db.models import Q
 
 from post.views import fillRightNav
 
+import string    
+import random
+
 TEMP_PROFILE_IMAGE_NAME = "temp_profile_image.png"
 
 def register_view(request, *args, **kwargs):
@@ -56,8 +59,10 @@ def register_view(request, *args, **kwargs):
 			form.save()
 			email = form.cleaned_data.get('email').lower()
 			raw_password = form.cleaned_data.get('password1')
+
 			account = authenticate(email=email, password=raw_password)
 			login(request, account)
+
 			destination = kwargs.get("next")
 			if destination:
 				return redirect(destination)
@@ -79,23 +84,17 @@ def logout_view(request):
 def login_view(request, *args, **kwargs):
 	context = {}
 
-	user = request.user
-	if user.is_authenticated: 
-		return redirect("home")
-
-	destination = get_redirect_if_exists(request)
-	print("destination: " + str(destination))
-
-	if request.POST and 'btnRegis' in request.POST :
-		
-		form = RegistrationForm(request.POST)
+	if request.POST and 'btnInitial' in request.POST:
+		print("POST and regis")
+		form = InitialProfileForm(request.POST, instance=request.user)
+		data = request.POST
 		if form.is_valid():
-			print("valid")
-			form.save()
-			email = form.cleaned_data.get('email').lower()
-			raw_password = form.cleaned_data.get('password1')
-			account = authenticate(email=email, password=raw_password)
-			login(request, account)
+			profile = UserProfile.objects.get(account=request.user)
+			profile.fullname = data["fullname"]
+			profile.birth_date = data["birth_date"]
+			profile.occupation  = Occupation.objects.get(pk=data["occupation"])
+			profile.save()
+			print(data["fullname"])
 			destination = kwargs.get("next")
 			if destination:
 				return redirect(destination)
@@ -103,8 +102,45 @@ def login_view(request, *args, **kwargs):
 		else:
 			print(form.errors)
 			context['registration_form'] = form
+			context['initial_form'] = form
 	
+	user = request.user
+	if user.is_authenticated: 
+		return redirect("home")
+	
+	destination = get_redirect_if_exists(request)
+	print("destination: " + str(destination))
+
+	if request.htmx:
+		print("htmx")
+		form = RegistrationForm(request.POST)
+		if form.is_valid():
+			form.save()
+			email = form.cleaned_data.get('email').lower()
+			raw_password = form.cleaned_data.get('password1')
+			account = authenticate(email=email, password=raw_password)
+			login(request, account)
+			
+			#Assign random fullname for the first time
+			profile = UserProfile.objects.get(account=account)
+			S = 10
+			ran = ''.join(random.choices(string.ascii_uppercase + string.digits, k = S))
+			profile.fullname = "user-" + str(ran)
+			profile.save()
+
+			# destination = kwargs.get("next")
+			# if destination:
+			# 	return redirect(destination)
+			# return redirect('home')
+			context["occupations"] = Occupation.objects.all()
+			return render(request, "account/initial_profile.html", context)
+		else:
+			print(form.errors)
+			context['registration_form'] = form
+			return render(request, 'account/login.html', context)
+
 	if request.POST:
+		print("POST only")
 		form = AccountAuthenticationForm(request.POST)
 		if form.is_valid():
 			email = request.POST['email']
@@ -118,11 +154,13 @@ def login_view(request, *args, **kwargs):
 				return redirect("home")
 
 	else:
+		print("else POST only")
 		form = AccountAuthenticationForm()
 	
 	context['login_form'] = form
-	if request.htmx:
-		return render(request, 'account/login.html', context)
+	# if request.htmx:
+	# 	return render(request, 'account/login.html', context)
+	print("Overflow")
 	return render(request, "base_2.html", context)
 
 def lock_view(request):
