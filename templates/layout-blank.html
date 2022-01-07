@@ -9,15 +9,12 @@
     <title>PNP Social Media</title>
 
     <link rel="stylesheet" href="{% static 'quixlab/css/style.css' %}">
-    <!-- ALL PREVIOUS BASE.HTML STYLE -->
-    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
     
     <!-- Cropperjs -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.css" integrity="sha512-+VDbDxc9zesADd49pfvz7CgsOl2xREI/7gnzcdyA9XjuTxLXrdpuz21VVIqc5HPfZji2CypSbxx1lgD7BgBK5g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="{% static 'cropperjs/dist/cropper.min.css' %}">
     
     <!-- Material Icon -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
@@ -274,23 +271,21 @@
         }
 
         formatTags();
-    </script>
-    <script>
         function getCookie(name) {
-              let cookieValue = null;
-              if (document.cookie && document.cookie !== '') {
-                  const cookies = document.cookie.split(';');
-                  for (let i = 0; i < cookies.length; i++) {
-                      const cookie = cookies[i].trim();
-                      // Does this cookie string begin with the name we want?
-                      if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                          break;
-                      }
-                  }
-              }
-              return cookieValue;
-          }
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
     </script>
     {% include 'snippets/js/sidebar.js' %}
     {% block javascript %}{% endblock %}

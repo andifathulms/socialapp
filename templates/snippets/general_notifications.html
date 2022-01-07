@@ -362,8 +362,8 @@
 
 		span = document.createElement("span")
 		span.classList.add("align-items-start", "pt-1", "m-auto")
-		if(notification['verb'].length > 50){
-			span.innerHTML = notification['verb'].slice(0, 50) + "..."
+		if(notification['verb'].length > 100){
+			span.innerHTML = notification['verb'].slice(0, 100) + "..."
 		}
 		else{
 			span.innerHTML = notification['verb']

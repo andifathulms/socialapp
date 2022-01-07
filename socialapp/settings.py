@@ -255,6 +255,12 @@ AWS_STORAGE_BUCKET_NAME="django-pnp-talk"
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
 
+AWS_HEADERS = {
+    'Cache-Control': 'max-age=86400',
+}
+# By default don't protect s3 urls and handle that in the model
+AWS_QUERYSTRING_AUTH = False
+
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 django_heroku.settings(locals())
