@@ -37,7 +37,7 @@ class FollowerList(models.Model):
 				content_type=content_type,
 			)
 			self.save()
-			print("Add Follower")
+			
 			chat = find_or_create_private_chat(self.user, account)
 			print(chat)
 			if not chat.is_active:

@@ -204,6 +204,12 @@
 				card = createFollowingListElement(notification)
 				notificationContainer.insertBefore(card, notificationContainer.childNodes[0]);
 				break;
+			
+			case "UserProfile":
+				notificationContainer = document.getElementById("id_general_notifications_container")
+				card = createFollowerListElement(notification)
+				notificationContainer.insertBefore(card, notificationContainer.childNodes[0]);
+				break;
 
 			default:
 				// code block
@@ -242,7 +248,11 @@
 				card = createFollowingListElement(notification)
 				notificationContainer.appendChild(card)
 				break;
-
+			case "UserProfile":
+				notificationContainer = document.getElementById("id_general_notifications_container")
+				card = createFollowerListElement(notification)
+				notificationContainer.insertBefore(card, notificationContainer.childNodes[0]);
+				break;
 			default:
 				// code block
 		}

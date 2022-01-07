@@ -1,4 +1,5 @@
 from django.conf import settings
+from account_profile.models import UserProfile
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from django.core.paginator import Paginator
 from django.core.serializers import serialize
@@ -276,7 +277,8 @@ def get_general_notifications(user, page_number):
 		friend_list_ct = ContentType.objects.get_for_model(FriendList)
 		follower_ct = ContentType.objects.get_for_model(FollowerList)
 		following_ct = ContentType.objects.get_for_model(FollowingList)
-		notifications = Notification.objects.filter(target=user, content_type__in=[friend_request_ct, friend_list_ct, follower_ct, following_ct]).order_by('-timestamp')
+		profile_ct = ContentType.objects.get_for_model(UserProfile)
+		notifications = Notification.objects.filter(target=user, content_type__in=[friend_request_ct, friend_list_ct, follower_ct, following_ct, profile_ct]).order_by('-timestamp')
 		p = Paginator(notifications, DEFAULT_NOTIFICATION_PAGE_SIZE)
 
 		payload = {}
@@ -366,7 +368,8 @@ def refresh_general_notifications(user, oldest_timestamp, newest_timestamp):
 		friend_list_ct = ContentType.objects.get_for_model(FriendList)
 		follower_ct = ContentType.objects.get_for_model(FollowerList)
 		following_ct = ContentType.objects.get_for_model(FollowingList)
-		notifications = Notification.objects.filter(target=user, content_type__in=[friend_request_ct, friend_list_ct, follower_ct, following_ct], timestamp__gte=oldest_ts, timestamp__lte=newest_ts).order_by('-timestamp')
+		profile_ct = ContentType.objects.get_for_model(UserProfile)
+		notifications = Notification.objects.filter(target=user, content_type__in=[friend_request_ct, friend_list_ct, follower_ct, following_ct, profile_ct], timestamp__gte=oldest_ts, timestamp__lte=newest_ts).order_by('-timestamp')
 
 		s = LazyNotificationEncoder()
 		payload['notifications'] = s.serialize(notifications)
@@ -389,7 +392,8 @@ def get_new_general_notifications(user, newest_timestamp):
 		friend_list_ct = ContentType.objects.get_for_model(FriendList)
 		follower_ct = ContentType.objects.get_for_model(FollowerList)
 		following_ct = ContentType.objects.get_for_model(FollowingList)
-		notifications = Notification.objects.filter(target=user, content_type__in=[friend_request_ct, friend_list_ct, follower_ct, following_ct], timestamp__gt=timestamp, read=False).order_by('-timestamp')
+		profile_ct = ContentType.objects.get_for_model(UserProfile)
+		notifications = Notification.objects.filter(target=user, content_type__in=[friend_request_ct, friend_list_ct, follower_ct, following_ct, profile_ct], timestamp__gt=timestamp, read=False).order_by('-timestamp')
 		s = LazyNotificationEncoder()
 		payload['notifications'] = s.serialize(notifications)
 	else:
@@ -407,7 +411,8 @@ def get_unread_general_notification_count(user):
 		friend_list_ct = ContentType.objects.get_for_model(FriendList)
 		follower_ct = ContentType.objects.get_for_model(FollowerList)
 		following_ct = ContentType.objects.get_for_model(FollowingList)
-		notifications = Notification.objects.filter(target=user, content_type__in=[friend_request_ct, friend_list_ct, follower_ct, following_ct])
+		profile_ct = ContentType.objects.get_for_model(UserProfile)
+		notifications = Notification.objects.filter(target=user, content_type__in=[friend_request_ct, friend_list_ct, follower_ct, following_ct, profile_ct])
 
 		unread_count = 0
 		if notifications:

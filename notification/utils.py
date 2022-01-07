@@ -43,7 +43,7 @@ class LazyNotificationEncoder(Serializer):
 					"image_url": str(obj.from_user.profile_image.url)
 				}
 			})
-		if obj.get_content_object_type() in ["FollowerList","FollowingList"] :
+		if obj.get_content_object_type() in ["FollowerList","FollowingList","UserProfile"] :
 			dump_object.update({'notification_type': obj.get_content_object_type()})
 			dump_object.update({'notification_id': str(obj.pk)})
 			dump_object.update({'verb': obj.verb})

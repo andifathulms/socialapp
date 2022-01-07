@@ -31,7 +31,7 @@
                         <a href="{% url 'account:view' user_id=reply.author.profile.pk %}" style="text-decoration: none; color: black;" class="comment-author">{{reply.author.username}}</a>
                         <span style="color: cadetblue;">replied {{ reply.created|naturaltime }} </span>
                         {% with point=reply.upvote.all.count|sub:reply.downvote.all.count %}
-                        <p id="score-{{reply.pk}}" class="points {% if point > 0 %}up{% endif %} {% if point < 0 %}down{% endif %}"><span id="score-reply-{{reply.pk}}" style="color: azure;">{{point}}</span><span style="color: azure;"> points</span></p>
+                        <p id="score-{{reply.pk}}" class="points {% if point > 0 %}up{% endif %} {% if point < 0 %}down{% endif %}"><span id="score-reply-{{reply.pk}}">{{point}}</span><span> points</span></p>
                         {% endwith %}
                     </div>
                 </div>

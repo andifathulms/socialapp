@@ -1,15 +1,13 @@
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models.signals import post_save
 
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-from django.core.files.storage import FileSystemStorage
-from django.conf import settings
 
 from django.dispatch import receiver
 
 from friend.models import FriendList
 
-import os
 
 class MyAccountManager(BaseUserManager):
 	def create_user(self, email, username, password=None):

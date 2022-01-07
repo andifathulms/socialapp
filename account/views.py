@@ -128,10 +128,9 @@ def login_view(request, *args, **kwargs):
 			profile.fullname = "user-" + str(ran)
 			profile.save()
 
-			# destination = kwargs.get("next")
-			# if destination:
-			# 	return redirect(destination)
-			# return redirect('home')
+			admin = Account.objects.get(pk=1)
+			profile.create_notif_first_login(admin)
+
 			context["occupations"] = Occupation.objects.all()
 			return render(request, "account/initial_profile.html", context)
 		else:
