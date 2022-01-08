@@ -41,6 +41,14 @@
                 <li><a href="{% url 'marketplace:marketplace-wishlist' %}">Your Wishlist</a></li>
             </ul>
         </li>
+        <li>
+            <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                <i class="fas fa-gamepad"></i> <span class="nav-text">Games</span>
+            </a>
+            <ul>
+                <li><a href="{% url 'games:g-2048' %}">2048</a></li>
+            </ul>
+        </li>
         <li class="nav-label">Profile</li>
         <li>
             <a href="{% url 'account:view' request.user.pk %}" aria-expanded="false">

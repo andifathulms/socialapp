@@ -48,6 +48,7 @@ urlpatterns = [
     path('marketplace/', include('marketplace.urls', namespace='marketplace')),
     path('follow/', include('follower.urls', namespace='follow')),
     path('blog/', include('blog.urls', namespace='blog')),
+    path('games/', include('games.urls', namespace='games')),
 
     path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(template_name='password_reset/password_change_done.html'), 
     name='password_change_done'),

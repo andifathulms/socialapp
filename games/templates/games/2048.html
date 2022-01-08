@@ -1,0 +1,25 @@
+{% extends 'personal/home.html' %}
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js"></script>
+{% include 'games/css/2048_css.html' %}
+{% endblock head %}
+
+{% block post %}
+<div class="container-games">
+    <h1 id="title-games">2048</h1>
+    <div id="score-container">
+        <div id="score-title">Score</div>
+        <div id="score"></div>
+    </div>
+    <p id="instructions">Klik tombol panah untuk menggeser ubin dan mencapai <span id="span-2048">2048</span> ubin!</p>
+    <div id="canvas">
+    </div>
+    <button id="btnRestart" class="d-none btn btn-lg btn-primary btn-block mt-3" onclick="setup()">Play Again</button>
+    <a href="{% url 'games:g-2048-leaderboard' %}" id="btnLeaderboard" class="d-none btn btn-lg btn-warning btn-block mt-3">See Leaderboard</a>
+
+</div>
+{% endblock post %}
+
+{% block javascript %}
+{% include 'games/js/2048_js.html' %}
+{% endblock javascript %}

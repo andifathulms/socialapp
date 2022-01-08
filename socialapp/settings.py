@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'forum',
     'marketplace',
     'blog',
+    'games',
 ]
 
 REST_FRAMEWORK = {
